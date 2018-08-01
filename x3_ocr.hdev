@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-970847916">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'E:/320生产线/C1/C1_339.bmp')</l>
+<l>dots_image (Image, DotImage, 3, 'dark', 2)</l>
+<l>threshold (DotImage, Regions, 200, 255)</l>
+<c></c>
+<l>closing_circle (Regions, RegionClosing5, 34)</l>
+<l>connection (RegionClosing5, ConnectedRegions6)</l>
+<c></c>
+<l>select_shape (ConnectedRegions6, SelectedRegions7, ['width','height'], 'and', [169.28,81.96], [312.23,180])</l>
+<c></c>
+<c></c>
+<c></c>
+<l>select_shape_std (SelectedRegions7, SelectedRegions5, 'max_area', 70)</l>
+<c></c>
+<l>smallest_rectangle2 (SelectedRegions5, Row, Column, Phi, Length1, Length2)</l>
+<l>tuple_deg (Phi, Deg)</l>
+<l>rotate_image (Image, rotateImage, -Deg, 'constant')</l>
+<l>dots_image (rotateImage, DotImage1, 3, 'dark', 2)</l>
+<l>threshold (DotImage1, Region, 100, 255)</l>
+<c></c>
+<l>connection (Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 2, 576)</l>
+<l>union1 (SelectedRegions, RegionUnion)</l>
+<l>closing_rectangle1 (RegionUnion, RegionClosing, 70, 7)</l>
+<c></c>
+<l>closing_circle (RegionUnion, RegionClosing7, 38)</l>
+<l>intersection (RegionClosing7, RegionClosing, RegionIntersection6)</l>
+<c></c>
+<l>connection (RegionIntersection6, ConnectedRegions1)</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, ['height','area'], 'and', [20,3000], [90,99999])</l>
+<c></c>
+<l>union1 (SelectedRegions1, RegionUnion1)</l>
+<l>intersection (RegionUnion1, RegionUnion, RegionIntersection)</l>
+<c></c>
+<l>smallest_rectangle1 (RegionUnion1, RowChar1, ColumnChar1, RowChar2, ColumnChar2)</l>
+<l>gen_rectangle1 (RectChar1, RowChar1, ColumnChar1, (RowChar1+RowChar2)/2, ColumnChar2)</l>
+<l>gen_rectangle1 (RectChar2, (RowChar1+RowChar2)/2, ColumnChar1, RowChar2, ColumnChar2)</l>
+<c></c>
+<l>intersection (RegionIntersection, RectChar1, RegionIntersection2)</l>
+<l>closing_rectangle1 (RegionIntersection2, RegionClosing3, 5, 50)</l>
+<l>closing_circle (RegionClosing3, RegionClosing1, 6.5)</l>
+<c></c>
+<l>connection (RegionClosing1, ConnectedRegions4)</l>
+<l>shape_trans (ConnectedRegions4, RegionTrans, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans, Partitioned, 33, 38)</l>
+<l>select_shape (Partitioned, SelectedRegions3, 'height', 'and', 32, 44)</l>
+<l>intersection (SelectedRegions3, RegionIntersection2, RegionIntersection3)</l>
+<c></c>
+<l>sort_region (RegionIntersection3, SortedRegions, 'character', 'true', 'row')</l>
+<l>count_obj (SortedRegions, Number1)</l>
+<l>read_ocr_class_mlp ('E:/程序资料temp/图像处理/雪帝喷码/18.04.28双字母/双字母/Beer_ocr.omc', OCRHandle)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions, rotateImage, OCRHandle, Class, Confidence)</l>
+<c></c>
+<l>intersection (RegionIntersection, RectChar2, RegionIntersection4)</l>
+<c></c>
+<l>connection (RegionIntersection4, ConnectedRegions3)</l>
+<c></c>
+<l>select_shape (ConnectedRegions3, SelectedRegions8, 'area', 'and', 2, 99999)</l>
+<l>closing_circle (RegionIntersection4, RegionClosing2, 6.5)</l>
+<l>closing_rectangle1 (RegionClosing2, RegionClosing4, 4, 50)</l>
+<c></c>
+<l>connection (RegionClosing4, ConnectedRegions2)</l>
+<c></c>
+<l>select_shape (RegionClosing4, SelectedRegions2, 'area', 'and', 50, 99999)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>connection (RegionClosing4, ConnectedRegions5)</l>
+<c></c>
+<l>shape_trans (ConnectedRegions5, RegionTrans1, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 33, 38)</l>
+<l>select_shape (Partitioned1, SelectedRegions4, 'height', 'and', 32, 44)</l>
+<c></c>
+<l>sort_region (SelectedRegions4, SortedRegions2, 'character', 'false', 'row')</l>
+<l>select_obj (SortedRegions2, ObjectSelected, 1)</l>
+<l>select_obj (SortedRegions2, ObjectSelected1, 2)</l>
+<l>union2 (ObjectSelected, ObjectSelected1, RegionUnion2)</l>
+<c></c>
+<l>intersection (SelectedRegions4, RegionIntersection, RegionIntersection5)</l>
+<c></c>
+<l>intersection (RegionIntersection5,  RegionUnion2, RegionIntersection1)</l>
+<c></c>
+<l>sort_region (RegionIntersection1, SortedRegions1, 'character', 'true', 'row')</l>
+<c></c>
+<l>select_shape (RegionIntersection5, SelectedRegions6, 'height', 'and',32, 44)</l>
+<l>count_obj (SelectedRegions6, Number2)</l>
+<c></c>
+<l>do_ocr_multi_class_mlp (SortedRegions1, rotateImage, OCRHandle, Class1, Confidence1)</l>
+<l> T1 := '' </l>
+<l> T2 := ''</l>
+<l>for i := 0 to |Class| - 1 by 1</l>
+<l>    T1 := T1 + Class[i]</l>
+<l>endfor</l>
+<l>for i := 0 to |Class1| - 1 by 1</l>
+<l>    T2 := T2 + Class1[i]</l>
+<l>endfor</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_display (rotateImage)</l>
+<l>dev_display (SortedRegions)</l>
+<l>dev_display (SortedRegions1)</l>
+<l>dev_set_color ('green')</l>
+<l>dev_set_line_width (1)</l>
+<l>dev_set_shape ('rectangle1')</l>
+<l>dev_display (SortedRegions)</l>
+<l>dev_display (SortedRegions1)</l>
+<c></c>
+<l>clear_ocr_class_mlp (OCRHandle)</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

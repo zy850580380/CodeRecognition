@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="246852226">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="703009048">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/github/CodeRecognition/1.jpg')</l>
+<l>read_image (Image, 'D:/github/CodeRecognition/C1_195.bmp')</l>
 <l>emphasize (Image, ImageEmphasize, 7, 7, 5)</l>
 <l>threshold (ImageEmphasize, Region, 128, 255)</l>
 <l>area_center (Region, Area, Row, Column)</l>
@@ -11,10 +11,14 @@
 <c>*选择中心区域</c>
 <l>reduce_domain (ImageEmphasize, Rectangle, ImageReduced)</l>
 <l>invert_image (ImageReduced, ImageInvert)</l>
-<l>threshold (ImageInvert, Region1, 250, 255)</l>
+<l>threshold (ImageInvert, Region3, 250, 255)</l>
+<l>closing_rectangle1 (Region3, RegionClosing1, 20, 20)</l>
+<l>connection (RegionClosing1, ConnectedRegions2)</l>
+<l>select_shape (ConnectedRegions2, SelectedRegions2, 'area', 'and', 500, 99999)</l>
 <c>*旋转图像</c>
-<l>text_line_orientation (Region1, ImageInvert, 50, -1.57, 1.57, OrientationAngle)</l>
-<l>rotate_image (Image, ImageRotate, -OrientationAngle*46.3, 'constant')</l>
+<l>smallest_rectangle2 (SelectedRegions2, Row3, Column3, Phi, Length1, Length2)</l>
+<l>tuple_deg (Phi, Deg)</l>
+<l>rotate_image (Image, ImageRotate, -Deg, 'constant')</l>
 <c>*处理旋转后的图像</c>
 <l>emphasize (ImageRotate, ImageEmphasize, 7, 7, 5)</l>
 <l>threshold (ImageEmphasize, Region, 128, 255)</l>
@@ -23,10 +27,10 @@
 <c>*选择中心区域</c>
 <l>reduce_domain (ImageEmphasize, Rectangle, ImageReduced)</l>
 <l>invert_image (ImageReduced, ImageInvert)</l>
-<l>threshold (ImageInvert, Region1, 250, 255)</l>
-<l>closing_rectangle1 (Region1, RegionClosing, 15, 30)</l>
+<l>threshold (ImageInvert, Region1, 120, 255)</l>
+<l>closing_rectangle1 (Region1, RegionClosing, 20, 10)</l>
 <l>connection (RegionClosing, ConnectedRegions)</l>
-<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 2, 99999)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 150, 99999)</l>
 <l>area_center (SelectedRegions, Area1, Row1, Column1)</l>
 <l>gen_rectangle2 (Rectangle1, Row1, Column1, 0, 56, 28)</l>
 <c>*选择字符区域</c>
