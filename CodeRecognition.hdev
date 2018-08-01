@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="773514999">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="246852226">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'C:/Users/Dell/Desktop/0731/C1_195.bmp')</l>
+<l>read_image (Image, 'D:/github/CodeRecognition/1.jpg')</l>
 <l>emphasize (Image, ImageEmphasize, 7, 7, 5)</l>
 <l>threshold (ImageEmphasize, Region, 128, 255)</l>
 <l>area_center (Region, Area, Row, Column)</l>
-<l>gen_rectangle2 (Rectangle, Row, Column, 0, 150, 140)</l>
+<l>gen_rectangle2 (Rectangle, Row, Column, 0, 140, 130)</l>
+<c>*选择中心区域</c>
+<l>reduce_domain (ImageEmphasize, Rectangle, ImageReduced)</l>
+<l>invert_image (ImageReduced, ImageInvert)</l>
+<l>threshold (ImageInvert, Region1, 250, 255)</l>
+<c>*旋转图像</c>
+<l>text_line_orientation (Region1, ImageInvert, 50, -1.57, 1.57, OrientationAngle)</l>
+<l>rotate_image (Image, ImageRotate, -OrientationAngle*46.3, 'constant')</l>
+<c>*处理旋转后的图像</c>
+<l>emphasize (ImageRotate, ImageEmphasize, 7, 7, 5)</l>
+<l>threshold (ImageEmphasize, Region, 128, 255)</l>
+<l>area_center (Region, Area, Row, Column)</l>
+<l>gen_rectangle2 (Rectangle, Row, Column, 0, 140, 130)</l>
 <c>*选择中心区域</c>
 <l>reduce_domain (ImageEmphasize, Rectangle, ImageReduced)</l>
 <l>invert_image (ImageReduced, ImageInvert)</l>
@@ -29,7 +41,7 @@
 <l>area_center (SortedRegions, Area2, Row2, Column2)</l>
 <l>FontName:='DotPrint.omc'</l>
 <l>read_ocr_class_mlp(FontName, OCRHandle)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions, Image, OCRHandle, RecNum, Confidence)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions, ImageRotate, OCRHandle, RecNum, Confidence)</l>
 <l>set_display_font (3600, 27, 'mono', 'true', 'false')</l>
 <l>for i := 0 to |RecNum| - 1 by 1</l>
 <l>    disp_message (3600, RecNum[i], 'image', Row2[i],Column2[i], 'white', 'false')</l>
