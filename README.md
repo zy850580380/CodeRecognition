@@ -1,0 +1,2 @@
+# CodeRecognition
+基于HALCON的易拉罐罐底喷码识别项目
