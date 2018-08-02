@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-941804951">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="2468879">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'E:/程序资料temp/图像处理/雪帝喷码/18.04.28双字母/双字母/18.05,31/x/C1_294.bmp')</l>
-<l>dots_image (Image, DotImage, 3, 'dark', 2)</l>
+<l>read_image (Image, 'D:/实习/图片/x/C1_294.bmp')</l>
+<c>*增强图像中的圆点</c>
+<l>dots_image (Image, DotImage, 3, 'dark', 2) </l>
 <l>threshold (DotImage, Regions, 100, 255)</l>
 <c></c>
 <l>closing_circle (Regions, RegionClosing5, 33.5)</l>
@@ -24,6 +25,7 @@
 <l>gen_rectangle2 (Rectangle, Row, Column, Phi, Length1, Length2)</l>
 <l>tuple_deg (Phi, Deg)</l>
 <l>rotate_image (Image, rotateImage, -Deg, 'constant')</l>
+<c>*以上是旋转图片</c>
 <l>dots_image (rotateImage, DotImage1, 3, 'dark', 2)</l>
 <l>threshold (DotImage1, Region, 100, 255)</l>
 <c></c>
@@ -40,11 +42,11 @@
 <c></c>
 <l>union1 (SelectedRegions1, RegionUnion1)</l>
 <l>intersection (RegionUnion1, RegionUnion, RegionIntersection)</l>
-<c></c>
+<c>*以上是获取整个字符区域</c>
 <l>smallest_rectangle1 (RegionUnion1, RowChar1, ColumnChar1, RowChar2, ColumnChar2)</l>
 <l>gen_rectangle1 (RectChar1, RowChar1, ColumnChar1, (RowChar1+RowChar2)/2, ColumnChar2)</l>
 <l>gen_rectangle1 (RectChar2, (RowChar1+RowChar2)/2, ColumnChar1, RowChar2, ColumnChar2)</l>
-<c></c>
+<c>*每一行生成一个矩形</c>
 <l>intersection (RegionIntersection, RectChar1, RegionIntersection2)</l>
 <l>closing_rectangle1 (RegionIntersection2, RegionClosing3, 4, 50)</l>
 <l>closing_circle (RegionClosing3, RegionClosing1, 6.5)</l>
@@ -54,14 +56,14 @@
 <l>partition_rectangle (RegionTrans, Partitioned, 33, 38)</l>
 <l>select_shape (Partitioned, SelectedRegions3, 'height', 'and', 32, 44)</l>
 <l>intersection (SelectedRegions3, RegionIntersection2, RegionIntersection3)</l>
-<c></c>
+<c>*以上是分割第一行字符</c>
 <l>sort_region (RegionIntersection3, SortedRegions, 'character', 'true', 'row')</l>
 <l>count_obj (SortedRegions, Number1)</l>
 <l>read_ocr_class_mlp ('E:/程序资料temp/图像处理/雪帝喷码/18.04.28双字母/双字母/Beer_ocr.omc', OCRHandle)</l>
 <l>do_ocr_multi_class_mlp (SortedRegions, rotateImage, OCRHandle, Class, Confidence)</l>
-<c></c>
+<c>*ocr识别第一行字符</c>
 <l>intersection (RegionIntersection, RectChar2, RegionIntersection4)</l>
-<c></c>
+<c>*获取第二行字符区域</c>
 <c></c>
 <l>closing_circle (RegionIntersection4, RegionClosing4, 6.5)</l>
 <l>closing_rectangle1 (RegionClosing4, RegionClosing2, 4, 50)</l>
