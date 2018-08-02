@@ -1,61 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="723603443">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="279304532">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/github/CodeRecognition/1.jpg')</l>
-<l>threshold (Image, Region, 100, 255)</l>
-<l>connection (Region, ConnectedRegions3)</l>
-<l>select_shape (ConnectedRegions3, SelectedRegions3, 'inner_radius', 'and', 50, 99999)</l>
-<l>area_center (SelectedRegions3, Area, Row, Column)</l>
-<l>gen_rectangle2 (Rectangle, Row, Column, 0, 140, 130)</l>
-<c>*选择中心区域</c>
-<l>reduce_domain (Image, Rectangle, ImageReduced)</l>
-<l>emphasize (ImageReduced, ImageEmphasize2, 7, 7, 5)</l>
-<l>median_image (ImageEmphasize2, ImageMedian1, 'circle', 1, 'mirrored')</l>
-<l>invert_image (ImageMedian1, ImageInvert1)</l>
-<l>threshold (ImageInvert1, Region3, 150, 255)</l>
-<l>closing_circle (Region3, RegionOpening, 10)</l>
-<l>connection (RegionOpening, ConnectedRegions2)</l>
-<l>select_shape (ConnectedRegions2, SelectedRegions2, 'area', 'and', 1000, 99999)</l>
-<l>intersection (SelectedRegions2, Region3, RegionIntersection)</l>
+<l>read_image (Image, 'D:/github/CodeRecognition/7.jpg')</l>
+<l>emphasize (Image, ImageEmphasize, 7, 7, 5)</l>
+<l>median_image (ImageEmphasize, ImageMedian, 'circle', 1, 'mirrored')</l>
+<l>invert_image (ImageMedian, ImageInvert)</l>
+<l>threshold (ImageInvert, Region, 150, 255)</l>
+<l>closing_circle (Region, RegionOpening, 10)</l>
+<l>connection (RegionOpening, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 1000, 8000)</l>
+<l>intersection (SelectedRegions, Region, RegionIntersection)</l>
 <c>*旋转图像</c>
-<l>smallest_rectangle2 (RegionIntersection, Row3, Column3, Phi, Length1, Length2)</l>
+<l>smallest_rectangle2 (RegionIntersection, Row, Column, Phi, Length1, Length2)</l>
 <l>tuple_deg (Phi, Deg)</l>
 <l>rotate_image (Image, ImageRotate, -Deg-1.5, 'constant')</l>
 <c>*处理旋转后的图像</c>
-<l>threshold (Image, Region, 100, 255)</l>
-<l>connection (Region, ConnectedRegions3)</l>
-<l>select_shape (ConnectedRegions3, SelectedRegions3, 'inner_radius', 'and', 50, 99999)</l>
-<l>area_center (SelectedRegions3, Area, Row, Column)</l>
-<l>gen_rectangle2 (Rectangle, Row, Column, 0, 140, 130)</l>
-<c>*选择中心区域</c>
-<l>reduce_domain (ImageRotate, Rectangle, ImageReduced)</l>
-<l>emphasize (ImageReduced, ImageEmphasize2, 7, 7, 5)</l>
-<l>median_image (ImageEmphasize2, ImageMedian, 'circle', 1, 'mirrored')</l>
+<l>emphasize (ImageRotate, ImageEmphasize, 7, 7, 5)</l>
+<l>median_image (ImageEmphasize, ImageMedian, 'circle', 1, 'mirrored')</l>
 <l>invert_image (ImageMedian, ImageInvert)</l>
-<l>threshold (ImageInvert, Region1, 128, 255)</l>
-<l>closing_rectangle1 (Region1, RegionClosing, 15, 15)</l>
+<l>threshold (ImageInvert, Region, 150, 255)</l>
+<l>closing_circle (Region, RegionClosing, 10)</l>
 <l>connection (RegionClosing, ConnectedRegions)</l>
-<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 3000, 99999)</l>
-<l>area_center (SelectedRegions, Area1, Row1, Column1)</l>
-<l>gen_rectangle2 (Rectangle1, Row1, Column1, 0, 56, 28)</l>
-<c>*选择字符区域</c>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 1000, 8000)</l>
+<l>intersection (SelectedRegions, Region, RegionIntersection)</l>
+<l>smallest_rectangle2 (RegionIntersection, Row, Column, Phi, Length1, Length2)</l>
+<c>*第一行****************************</c>
+<l>gen_rectangle2 (Rectangle1, Row-Length2/2, Column, 0, Length1+2, Length2/2)</l>
 <l>reduce_domain (ImageInvert, Rectangle1, ImageReduced1)</l>
-<l>emphasize (ImageReduced1, ImageEmphasize1, 7, 7, 5)</l>
-<l>threshold (ImageReduced1, Region2, 60, 255)</l>
-<l>connection (Region2, ConnectedRegions1)</l>
+<l>threshold (ImageReduced1, Region1, 80, 255)</l>
+<l>connection (Region1, ConnectedRegions1)</l>
 <c>*选中字符</c>
-<l>select_shape (ConnectedRegions1, SelectedRegions1, 'area', 'and', 30, 99999)</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, 'height', 'and', 18, 30)</l>
 <c>*排序</c>
-<l>sort_region (SelectedRegions1, SortedRegions, 'first_point', 'true', 'row')</l>
-<l>area_center (SortedRegions, Area2, Row2, Column2)</l>
+<l>sort_region (SelectedRegions1, SortedRegions1, 'first_point', 'true', 'row')</l>
+<l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
 <l>FontName:='DotPrint.omc'</l>
-<l>read_ocr_class_mlp(FontName, OCRHandle)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions, ImageRotate, OCRHandle, RecNum, Confidence)</l>
+<l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate, OCRHandle1, RecNum1, Confidence1)</l>
+<c>*第二行***********************</c>
+<l>gen_rectangle2 (Rectangle2, Row+Length2/2, Column, 0, Length1+2, Length2/2)</l>
+<l>reduce_domain (ImageInvert, Rectangle2, ImageReduced2)</l>
+<l>threshold (ImageReduced2, Region2, 80, 255)</l>
+<l>connection (Region2, ConnectedRegions2)</l>
+<c>*选中字符</c>
+<l>select_shape (ConnectedRegions2, SelectedRegions2, 'height', 'and', 18, 30)</l>
+<c>*排序</c>
+<l>sort_region (SelectedRegions2, SortedRegions2, 'first_point', 'true', 'row')</l>
+<l>area_center (SortedRegions2, Area2, Row2, Column2)</l>
+<l>FontName:='DotPrint.omc'</l>
+<l>read_ocr_class_mlp(FontName, OCRHandle2)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions2, ImageRotate, OCRHandle2, RecNum2, Confidence2)</l>
+<c>*显示识别结果</c>
 <l>set_display_font (3600, 27, 'mono', 'true', 'false')</l>
-<l>for i := 0 to |RecNum| - 1 by 1</l>
-<l>    disp_message (3600, RecNum[i], 'image', Row2[i],Column2[i], 'white', 'false')</l>
+<l>for i := 0 to |RecNum1| - 1 by 1</l>
+<l>    disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'white', 'false')</l>
+<l>endfor</l>
+<l>for i := 0 to |RecNum2| - 1 by 1</l>
+<l>    disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'white', 'false')</l>
 <l>endfor</l>
 </body>
 <docu id="main">
