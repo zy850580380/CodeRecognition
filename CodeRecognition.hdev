@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="730209135">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="319468913">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_0.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_10.bmp')</l>
 <l>emphasize (Image, ImageEmphasize, 7, 7, 5)</l>
 <l>median_image (ImageEmphasize, ImageMedian, 'circle', 1, 'mirrored')</l>
 <l>invert_image (ImageMedian, ImageInvert)</l>
@@ -28,7 +28,7 @@
 <l>intersection (SelectedRegions, Region, RegionIntersection)</l>
 <l>smallest_rectangle2 (RegionIntersection, Row, Column, Phi, Length1, Length2)</l>
 <c>*第一行****************************</c>
-<l>gen_rectangle2 (Rectangle1, Row-Length2/2-1, Column+Length1/2-28, 0, 58, 13)</l>
+<l>gen_rectangle2 (Rectangle1, Row-Length2/2-1, Column+Length1/2-28, 0, 62, 14)</l>
 <l>reduce_domain (ImageInvert, Rectangle1, ImageReduced1)</l>
 <l>threshold (ImageReduced1, Region1, 80, 255)</l>
 <l>connection (Region1, ConnectedRegions1)</l>
@@ -41,7 +41,7 @@
 <l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
 <l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate, OCRHandle1, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
-<l>gen_rectangle2 (Rectangle2, Row+Length2/2, Column+Length1/2-28, 0, 58, 13)</l>
+<l>gen_rectangle2 (Rectangle2, Row+Length2/2, Column+Length1/2-28, 0, 62, 14)</l>
 <l>reduce_domain (ImageInvert, Rectangle2, ImageReduced2)</l>
 <l>threshold (ImageReduced2, Region2, 60, 255)</l>
 <l>connection (Region2, ConnectedRegions2)</l>
