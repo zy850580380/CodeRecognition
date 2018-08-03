@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="976638925">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="167581802">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_81 (2).bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_8.bmp')</l>
 <l>emphasize (Image, ImageEmphasize, 7, 7, 5)</l>
 <l>median_image (ImageEmphasize, ImageMedian, 'circle', 1, 'mirrored')</l>
 <l>invert_image (ImageMedian, ImageInvert)</l>
@@ -42,10 +42,12 @@
 <c>*第一行****************************</c>
 <l>gen_rectangle2 (Rectangle1, Row-Length2/2-1, Column, 0, Length1, Length2/2)</l>
 <l>reduce_domain (ImageReduced, Rectangle1, ImageReduced1)</l>
-<l>threshold (ImageReduced1, Region1, 80, 255)</l>
+<l>mean_image (ImageReduced1, ImageMean1, 5, 5)</l>
+<l>dyn_threshold (ImageReduced1, ImageMean1, Region1, 40, 'light')</l>
+<l>*threshold (ImageReduced1, Region1, 80, 255)</l>
 <l>connection (Region1, ConnectedRegions1)</l>
 <c>*选中字符</c>
-<l>select_shape (ConnectedRegions1, SelectedRegions1, ['area','height'], 'and', [50,18], [180,30])</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, ['area','height'], 'and', [35,18], [180,30])</l>
 <c>*排序</c>
 <l>sort_region (SelectedRegions1, SortedRegions1, 'first_point', 'true', 'row')</l>
 <l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
@@ -55,10 +57,12 @@
 <c>*第二行***********************</c>
 <l>gen_rectangle2 (Rectangle2, Row+Length2/2, Column, 0, Length1, Length2/2)</l>
 <l>reduce_domain (ImageInvert, Rectangle2, ImageReduced2)</l>
-<l>threshold (ImageReduced2, Region2, 80, 255)</l>
+<l>mean_image (ImageReduced2, ImageMean2, 5, 5)</l>
+<l>dyn_threshold (ImageReduced2, ImageMean2, Region2, 40, 'light')</l>
+<l>*threshold (ImageReduced2, Region2, 80, 255)</l>
 <l>connection (Region2, ConnectedRegions2)</l>
 <c>*选中字符</c>
-<l>select_shape (ConnectedRegions2, SelectedRegions2, ['area','height'], 'and', [50,18], [180,30])</l>
+<l>select_shape (ConnectedRegions2, SelectedRegions2, ['area','height'], 'and', [35,18], [180,30])</l>
 <c>*排序</c>
 <l>sort_region (SelectedRegions2, SortedRegions2, 'first_point', 'true', 'row')</l>
 <l>area_center (SortedRegions2, Area2, Row2, Column2)</l>
