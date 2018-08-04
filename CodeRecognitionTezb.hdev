@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-711878130">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-893460746">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/特种兵/C1_71.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/特种兵/C1_102.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomia0, 5, 5)</l>
 <l>*median_image (ImageEmphasize0, ImageMedian0, 'circle', 1, 'mirrored')</l>
@@ -11,8 +11,7 @@
 <l>*dyn_threshold (ImageEmphasize0, ImageMean, Region, 120, 'light')</l>
 <l>threshold (ImageBinomia0, Region0, 120, 255)</l>
 <l>closing_rectangle1 (Region0, RegionClosing0, 20, 10)</l>
-<l>closing_circle (RegionClosing0, RegionClosing01, 5)</l>
-<l>*closing_circle (Region0, RegionClosing0, 10)</l>
+<l>closing_circle (RegionClosing0, RegionClosing01, 10)</l>
 <l>connection (RegionClosing01, ConnectedRegions0)</l>
 <l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [160,25], [250,60])</l>
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
@@ -28,11 +27,11 @@
 <l>*mean_image (ImageRotate, ImageMean, 3, 3)</l>
 <l>*dyn_threshold (ImageInvert, ImageMean, Region, 30, 'light')</l>
 <l>threshold (ImageBinomial01, Region01, 120, 255)</l>
-<l>closing_rectangle1 (Region01, RegionClosing01, 20, 10)</l>
-<l>closing_circle (RegionClosing01, RegionClosing02, 5)</l>
+<l>closing_rectangle1 (Region01, RegionClosing011, 20, 10)</l>
+<l>closing_circle (RegionClosing011, RegionClosing012, 10)</l>
 <l>*closing_circle (Region01, RegionClosing01, 10)</l>
 <l>*opening_circle (RegionClosing01, RegionOpening01, 5)</l>
-<l>connection (RegionClosing02, ConnectedRegions01)</l>
+<l>connection (RegionClosing012, ConnectedRegions01)</l>
 <l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [160,25], [250,60])</l>
 <l>select_shape_std (SelectedRegions01, SelectedRegionsStd01, 'max_area', 70)</l>
 <l>intersection (SelectedRegionsStd01, Region01, RegionIntersection01)</l>
@@ -44,7 +43,7 @@
 <l>reduce_domain (ImageBinomial01, Rectangle1, ImageReduced1)</l>
 <l>*mean_image (ImageReduced1, ImageMean1, 5, 5)</l>
 <l>*dyn_threshold (ImageReduced1, ImageMean1, Region1, 50, 'light')</l>
-<l>threshold (ImageReduced1, Region1, 100, 255)</l>
+<l>threshold (ImageReduced1, Region1, 90, 255)</l>
 <l>closing_rectangle1 (Region1, RegionClosing1, 2, 40)</l>
 <l>closing_circle (RegionClosing1, RegionClosing11, 3)</l>
 <l>connection (RegionClosing11, ConnectedRegions1)</l>

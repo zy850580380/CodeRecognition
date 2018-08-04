@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="587392395">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="1005812597">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_43 (2).bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_128 (2).bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
-<l>median_image (ImageEmphasize0, ImageMedian0, 'circle', 1, 'mirrored')</l>
-<l>invert_image (ImageMedian0, ImageInvert0)</l>
+<l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
 <l>*dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
 <l>threshold (ImageInvert0, Region0, 150, 255)</l>
@@ -21,8 +20,7 @@
 <l>rotate_image (Image, ImageRotate0, -Deg0-1.5, 'constant')</l>
 <c>*处理旋转后的图像</c>
 <l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
-<l>median_image (ImageEmphasize01, ImageMedian01, 'circle', 1, 'mirrored')</l>
-<l>invert_image (ImageMedian01, ImageInvert01)</l>
+<l>invert_image (ImageEmphasize01, ImageInvert01)</l>
 <l>*mean_image (ImageRotate, ImageMean, 3, 3)</l>
 <l>*dyn_threshold (ImageInvert, ImageMean, Region, 30, 'light')</l>
 <l>threshold (ImageInvert01, Region01, 140, 255)</l>
@@ -34,11 +32,11 @@
 <l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
 <l>RegionPriorWidth:=74</l>
 <l>RegionPriorHeight:=30</l>
+<c>*62,26</c>
 <l>gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2, 0, RegionPriorWidth, RegionPriorHeight)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>median_image (ImageReduced01, ImageMedian02, 'circle', 2, 'mirrored')</l>
-<l>threshold (ImageMedian02, Region02, 100, 255)</l>
+<l>threshold (ImageReduced01, Region02, 100, 255)</l>
 <l>closing_circle (Region02, RegionClosing02, 20)</l>
 <l>opening_circle (RegionClosing02, RegionOpening02, 5)</l>
 <l>connection (RegionOpening02, ConnectedRegions02)</l>
@@ -55,7 +53,7 @@
 <l>connection (RegionClosing1, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans1, Partitioned1, 12, 32)</l>
-<l>select_shape (Partitioned1, SelectedRegions1, ['area','height'], 'and', [100,20], [550,40])</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,6,20], [550,20,40])</l>
 <l>intersection (SelectedRegions1, Region1, RegionIntersection1)</l>
 <c>*选中字符</c>
 <c>*排序</c>
@@ -74,7 +72,7 @@
 <l>connection (RegionClosing2, ConnectedRegions2)</l>
 <l>shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans2, Partitioned2, 12, 32)</l>
-<l>select_shape (Partitioned2, SelectedRegions2, ['area','height'], 'and', [100,20], [550,40])</l>
+<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,6,20], [550,20,40])</l>
 <l>intersection (SelectedRegions2, Region2, RegionIntersection2)</l>
 <c>*选中字符</c>
 <c>*排序</c>
