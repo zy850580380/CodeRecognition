@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="32304210">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-711878130">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/青啤/C1_47.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/特种兵/C1_71.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize0, ImageBinomia0, 9, 9)</l>
+<l>binomial_filter (ImageEmphasize0, ImageBinomia0, 5, 5)</l>
 <l>*median_image (ImageEmphasize0, ImageMedian0, 'circle', 1, 'mirrored')</l>
-<l>invert_image (ImageBinomia0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
-<l>*dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
-<l>threshold (ImageInvert0, Region0, 120, 255)</l>
-<l>closing_rectangle1 (Region0, RegionClosing0, 30, 10)</l>
-<l>opening_rectangle1 (RegionClosing0, RegionOpening0, 20, 10)</l>
-<l>closing_circle (RegionOpening0, RegionClosing01, 10)</l>
+<l>*dyn_threshold (ImageEmphasize0, ImageMean, Region, 120, 'light')</l>
+<l>threshold (ImageBinomia0, Region0, 120, 255)</l>
+<l>closing_rectangle1 (Region0, RegionClosing0, 20, 10)</l>
+<l>closing_circle (RegionClosing0, RegionClosing01, 5)</l>
 <l>*closing_circle (Region0, RegionClosing0, 10)</l>
 <l>connection (RegionClosing01, ConnectedRegions0)</l>
-<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,30], [170,110])</l>
+<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [160,25], [250,60])</l>
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>*旋转图像</c>
@@ -25,48 +23,34 @@
 <l>rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
 <c>*处理旋转后的图像</c>
 <l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize01, ImageBinomial01, 9, 9)</l>
+<l>binomial_filter (ImageEmphasize01, ImageBinomial01, 5, 5)</l>
 <l>*median_image (ImageEmphasize01, ImageMedian01, 'circle', 1, 'mirrored')</l>
-<l>invert_image (ImageBinomial01, ImageInvert01)</l>
 <l>*mean_image (ImageRotate, ImageMean, 3, 3)</l>
 <l>*dyn_threshold (ImageInvert, ImageMean, Region, 30, 'light')</l>
-<l>threshold (ImageInvert01, Region01, 120, 255)</l>
-<l>closing_rectangle1 (Region01, RegionClosing01, 30, 10)</l>
-<l>opening_rectangle1 (RegionClosing01, RegionOpening01, 20, 10)</l>
-<l>closing_circle (RegionOpening01, RegionClosing02, 5)</l>
+<l>threshold (ImageBinomial01, Region01, 120, 255)</l>
+<l>closing_rectangle1 (Region01, RegionClosing01, 20, 10)</l>
+<l>closing_circle (RegionClosing01, RegionClosing02, 5)</l>
 <l>*closing_circle (Region01, RegionClosing01, 10)</l>
 <l>*opening_circle (RegionClosing01, RegionOpening01, 5)</l>
 <l>connection (RegionClosing02, ConnectedRegions01)</l>
-<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [80,30], [170,110])</l>
+<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [160,25], [250,60])</l>
 <l>select_shape_std (SelectedRegions01, SelectedRegionsStd01, 'max_area', 70)</l>
 <l>intersection (SelectedRegionsStd01, Region01, RegionIntersection01)</l>
 <l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
-<l>RegionPriorWidth:=74</l>
-<l>RegionPriorHeight:=36</l>
-<l>gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2, 0, RegionPriorWidth, RegionPriorHeight)</l>
-<c>*缩小区域</c>
-<l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>median_image (ImageReduced01, ImageMedian02, 'circle', 2, 'mirrored')</l>
-<l>threshold (ImageMedian02, Region02, 100, 255)</l>
-<l>closing_circle (Region02, RegionClosing02, 20)</l>
-<l>opening_circle (RegionClosing02, RegionOpening02, 5)</l>
-<l>connection (RegionOpening02, ConnectedRegions02)</l>
-<l>select_shape (ConnectedRegions02, SelectedRegions02, ['width','height'], 'and', [40,30], [160,110])</l>
-<l>intersection (SelectedRegions02, Region02, RegionIntersection02)</l>
-<l>smallest_rectangle2 (RegionIntersection02, Row02, Column02, Phi02, Length021, Length022)</l>
+<l>RegionPriorWidth:=116</l>
+<l>RegionPriorHeight:=62</l>
 <c>*第一行****************************</c>
-<l>gen_rectangle2 (Rectangle1, Row02-Length022/2-1, Column02, 0, Length021+4, Length022/2)</l>
-<l>reduce_domain (ImageReduced01, Rectangle1, ImageReduced1)</l>
+<l>gen_rectangle2 (Rectangle1, Row01, Column01, 0, Length011+4, Length012+4)</l>
+<l>reduce_domain (ImageBinomial01, Rectangle1, ImageReduced1)</l>
 <l>*mean_image (ImageReduced1, ImageMean1, 5, 5)</l>
 <l>*dyn_threshold (ImageReduced1, ImageMean1, Region1, 50, 'light')</l>
 <l>threshold (ImageReduced1, Region1, 100, 255)</l>
-<l>closing_rectangle1 (Region1, RegionClosing1, 2, 50)</l>
-<l>opening_rectangle1 (RegionClosing1, RegionOpening1, 1, 5)</l>
-<l>closing_circle (RegionOpening1, RegionClosing11, 3)</l>
+<l>closing_rectangle1 (Region1, RegionClosing1, 2, 40)</l>
+<l>closing_circle (RegionClosing1, RegionClosing11, 3)</l>
 <l>connection (RegionClosing11, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
-<l>partition_rectangle (RegionTrans1, Partitioned1, 15, 32)</l>
-<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,5,20], [700,25,40])</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 22, 60)</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['width','height'], 'and', [12,35], [28,50])</l>
 <l>intersection (SelectedRegions1, Region1, RegionIntersection1)</l>
 <c>*选中字符</c>
 <c>*排序</c>
@@ -76,18 +60,17 @@
 <l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
 <l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
-<l>gen_rectangle2 (Rectangle2, Row02+Length022/2+3, Column02, 0, Length021+4, Length022/2)</l>
-<l>reduce_domain (ImageReduced01, Rectangle2, ImageReduced2)</l>
+<l>gen_rectangle2 (Rectangle2, Row01+76, Column01, 0, 116, 24)</l>
+<l>reduce_domain (ImageBinomial01, Rectangle2, ImageReduced2)</l>
 <l>*mean_image (ImageReduced2, ImageMean2, 5, 5)</l>
 <l>*dyn_threshold (ImageReduced2, ImageMean2, Region2, 50, 'light')</l>
 <l>threshold (ImageReduced2, Region2, 100, 255)</l>
-<l>closing_rectangle1 (Region2, RegionClosing2, 2, 50)</l>
-<l>opening_rectangle1 (RegionClosing2, RegionOpening2, 1, 5)</l>
-<l>closing_circle (RegionOpening2, RegionClosing21, 3.5)</l>
+<l>closing_rectangle1 (Region2, RegionClosing2, 2, 40)</l>
+<l>closing_circle (RegionClosing2, RegionClosing21, 3.5)</l>
 <l>connection (RegionClosing21, ConnectedRegions2)</l>
 <l>shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
-<l>partition_rectangle (RegionTrans2, Partitioned2, 12, 32)</l>
-<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,5,20], [550,25,40])</l>
+<l>partition_rectangle (RegionTrans2, Partitioned2, 22, 60)</l>
+<l>select_shape (Partitioned2, SelectedRegions2, ['width','height'], 'and', [12,35], [28,50])</l>
 <l>intersection (SelectedRegions2, Region2, RegionIntersection2)</l>
 <c>*选中字符</c>
 <c>*排序</c>

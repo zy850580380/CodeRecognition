@@ -13,8 +13,6 @@
 <c></c>
 <l>select_shape (ConnectedRegions6, SelectedRegions7, ['width','height'], 'and', [109.28,50.96], [342.23,113.25])</l>
 <c></c>
-<c></c>
-<c></c>
 <l>select_shape_std (SelectedRegions7, SelectedRegions5, 'max_area', 70)</l>
 <l>intersection (SelectedRegions5, Regions, RegionIntersection7)</l>
 <l>area_center (RegionIntersection7, Area, Row1, Column1)</l>
