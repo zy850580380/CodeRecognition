@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="32304138">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="940546778">
 <procedure name="main">
 <interface/>
 <body>
@@ -70,7 +70,7 @@
 <l>intersection (SelectedRegions1, Region1, RegionIntersection1)</l>
 <c>*选中字符</c>
 <c>*排序</c>
-<l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'row')</l>
+<l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
 <l>FontName:='Industrial_0-9.omc'</l>
 <l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
@@ -91,7 +91,7 @@
 <l>intersection (SelectedRegions2, Region2, RegionIntersection2)</l>
 <c>*选中字符</c>
 <c>*排序</c>
-<l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'row')</l>
+<l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'column')</l>
 <l>area_center (SortedRegions2, Area2, Row2, Column2)</l>
 <c>*识别</c>
 <l>read_ocr_class_mlp(FontName, OCRHandle2)</l>

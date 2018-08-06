@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="2468879">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="814131952">
 <procedure name="main">
 <interface/>
 <body>
@@ -57,7 +57,7 @@
 <c>*以上是分割第一行字符</c>
 <l>sort_region (RegionIntersection3, SortedRegions, 'character', 'true', 'row')</l>
 <l>count_obj (SortedRegions, Number1)</l>
-<l>read_ocr_class_mlp ('E:/程序资料temp/图像处理/雪帝喷码/18.04.28双字母/双字母/Beer_ocr.omc', OCRHandle)</l>
+<l>read_ocr_class_mlp ('DotPrint.omc', OCRHandle)</l>
 <l>do_ocr_multi_class_mlp (SortedRegions, rotateImage, OCRHandle, Class, Confidence)</l>
 <c>*ocr识别第一行字符</c>
 <l>intersection (RegionIntersection, RectChar2, RegionIntersection4)</l>

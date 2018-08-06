@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-439699299">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-577435765">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/特种兵/C1_83.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/特种兵/C1_85.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomia0, 5, 5)</l>
 <l>*median_image (ImageEmphasize0, ImageMedian0, 'circle', 1, 'mirrored')</l>
@@ -54,10 +54,6 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
-<l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
-<l>FontName:='D:/github/CodeRecognition/TezbWords.omc'</l>
-<l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
 <l>gen_rectangle2 (Rectangle2, Row01+76, Column01, 0, 116, 24)</l>
 <l>reduce_domain (ImageBinomial01, Rectangle2, ImageReduced2)</l>
@@ -74,18 +70,54 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'column')</l>
-<l>area_center (SortedRegions2, Area2, Row2, Column2)</l>
-<c>*识别</c>
-<l>read_ocr_class_mlp(FontName, OCRHandle2)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions2, ImageRotate0, OCRHandle2, RecNum2, Confidence2)</l>
-<c>*显示识别结果</c>
-<l>set_display_font (3600, 27, 'mono', 'true', 'false')</l>
-<l>for i := 0 to |RecNum1| - 1 by 1</l>
-<l>    disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'white', 'false')</l>
+<c>*训练**************</c>
+<l>count_obj (SortedRegions1, Number) </l>
+<c>*创建训练文件******</c>
+<l>words:=['2','0','1','7','1','1','2','7']</l>
+<l>*words:=['1','7','3','5','J','1']</l>
+<l>TrainFile:='D:/github/CodeRecognition/TezbWords.trf'</l>
+<l>dev_set_check('~give_error') </l>
+<l>delete_file(TrainFile) </l>
+<l>dev_set_check('~give_error')</l>
+<l>for i:=1 to Number by 1 </l>
+<l>    select_obj(SortedRegions1, SingleWord, i) </l>
+<l>    append_ocr_trainf(SingleWord,ImageRotate0,words[i-1],TrainFile) </l>
 <l>endfor</l>
-<l>for i := 0 to |RecNum2| - 1 by 1</l>
-<l>    disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'white', 'false')</l>
+<c>*训练ocr</c>
+<l>FontFile:='D:/github/CodeRecognition/TezbWords.omc'</l>
+<l>read_ocr_trainf_names(TrainFile, CharacterNames, CharacterCount)</l>
+<l>NumHidden:=400</l>
+<l>*create_ocr_class_mlp (10, 20, 'constant', 'default', CharacterNames, NumHidden, 'none', 10, 42, OCRHandle)</l>
+<l>read_ocr_class_mlp(FontFile, OCRHandle)</l>
+<l>trainf_ocr_class_mlp (OCRHandle, TrainFile, 200, 1, 0.01, Error, ErrorLog)</l>
+<l>write_ocr_class_mlp(OCRHandle, FontFile) </l>
+<l>clear_ocr_class_mlp(OCRHandle)</l>
+<c></c>
+<c>*训练**************</c>
+<l>count_obj (SortedRegions2, Number) </l>
+<c>*创建训练文件******</c>
+<l>*words:=['2','0','1','7','1','1','2','7']</l>
+<l>words:=['1','7','3','5','J','1']</l>
+<l>TrainFile:='D:/github/CodeRecognition/TezbWords.trf'</l>
+<l>dev_set_check('~give_error') </l>
+<l>delete_file(TrainFile) </l>
+<l>dev_set_check('~give_error')</l>
+<l>for i:=1 to Number by 1 </l>
+<l>    select_obj(SortedRegions2, SingleWord, i) </l>
+<l>    append_ocr_trainf(SingleWord,ImageRotate0,words[i-1],TrainFile) </l>
 <l>endfor</l>
+<c>*训练ocr</c>
+<l>FontFile:='D:/github/CodeRecognition/TezbWords.omc'</l>
+<l>read_ocr_trainf_names(TrainFile, CharacterNames, CharacterCount)</l>
+<l>NumHidden:=400</l>
+<l>*create_ocr_class_mlp (10, 20, 'constant', 'default', CharacterNames, NumHidden, 'none', 10, 42, OCRHandle)</l>
+<l>read_ocr_class_mlp(FontFile, OCRHandle)</l>
+<l>trainf_ocr_class_mlp (OCRHandle, TrainFile, 200, 1, 0.01, Error, ErrorLog)</l>
+<l>write_ocr_class_mlp(OCRHandle, FontFile) </l>
+<l>clear_ocr_class_mlp(OCRHandle)</l>
+<c></c>
+<c></c>
+<c></c>
 </body>
 <docu id="main">
 <parameters/>
