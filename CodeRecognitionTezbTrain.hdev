@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-577435765">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-33484701">
 <procedure name="main">
 <interface/>
 <body>
@@ -71,40 +71,22 @@
 <c>*排序</c>
 <l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'column')</l>
 <c>*训练**************</c>
-<l>count_obj (SortedRegions1, Number) </l>
+<l>count_obj (SortedRegions1, Number1)</l>
+<l>count_obj (SortedRegions2, Number2) </l>
 <c>*创建训练文件******</c>
-<l>words:=['2','0','1','7','1','1','2','7']</l>
-<l>*words:=['1','7','3','5','J','1']</l>
+<l>words1:=['2','0','1','7','1','1','2','7']</l>
+<l>words2:=['1','7','3','5','J','1']</l>
 <l>TrainFile:='D:/github/CodeRecognition/TezbWords.trf'</l>
 <l>dev_set_check('~give_error') </l>
 <l>delete_file(TrainFile) </l>
 <l>dev_set_check('~give_error')</l>
-<l>for i:=1 to Number by 1 </l>
+<l>for i:=1 to Number1 by 1 </l>
 <l>    select_obj(SortedRegions1, SingleWord, i) </l>
-<l>    append_ocr_trainf(SingleWord,ImageRotate0,words[i-1],TrainFile) </l>
+<l>    append_ocr_trainf(SingleWord,ImageRotate0,words1[i-1],TrainFile) </l>
 <l>endfor</l>
-<c>*训练ocr</c>
-<l>FontFile:='D:/github/CodeRecognition/TezbWords.omc'</l>
-<l>read_ocr_trainf_names(TrainFile, CharacterNames, CharacterCount)</l>
-<l>NumHidden:=400</l>
-<l>*create_ocr_class_mlp (10, 20, 'constant', 'default', CharacterNames, NumHidden, 'none', 10, 42, OCRHandle)</l>
-<l>read_ocr_class_mlp(FontFile, OCRHandle)</l>
-<l>trainf_ocr_class_mlp (OCRHandle, TrainFile, 200, 1, 0.01, Error, ErrorLog)</l>
-<l>write_ocr_class_mlp(OCRHandle, FontFile) </l>
-<l>clear_ocr_class_mlp(OCRHandle)</l>
-<c></c>
-<c>*训练**************</c>
-<l>count_obj (SortedRegions2, Number) </l>
-<c>*创建训练文件******</c>
-<l>*words:=['2','0','1','7','1','1','2','7']</l>
-<l>words:=['1','7','3','5','J','1']</l>
-<l>TrainFile:='D:/github/CodeRecognition/TezbWords.trf'</l>
-<l>dev_set_check('~give_error') </l>
-<l>delete_file(TrainFile) </l>
-<l>dev_set_check('~give_error')</l>
-<l>for i:=1 to Number by 1 </l>
+<l>for i:=1 to Number2 by 1 </l>
 <l>    select_obj(SortedRegions2, SingleWord, i) </l>
-<l>    append_ocr_trainf(SingleWord,ImageRotate0,words[i-1],TrainFile) </l>
+<l>    append_ocr_trainf(SingleWord,ImageRotate0,words2[i-1],TrainFile) </l>
 <l>endfor</l>
 <c>*训练ocr</c>
 <l>FontFile:='D:/github/CodeRecognition/TezbWords.omc'</l>
