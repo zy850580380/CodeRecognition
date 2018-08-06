@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="937088823">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="86524288">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/1.jpg')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_262.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -36,47 +36,38 @@
 <l>gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2+2, 0, RegionPriorWidth, RegionPriorHeight)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>threshold (ImageReduced01, Region02, 100, 255)</l>
-<l>closing_circle (Region02, RegionClosing02, 20)</l>
-<l>opening_circle (RegionClosing02, RegionOpening02, 5)</l>
+<l>threshold (ImageReduced01, Region02, 80, 255)</l>
+<l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
+<l>opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 3)</l>
 <l>connection (RegionOpening02, ConnectedRegions02)</l>
-<l>select_shape (ConnectedRegions02, SelectedRegions02, ['width','height'], 'and', [40,30], [160,110])</l>
-<l>intersection (SelectedRegions02, Region02, RegionIntersection02)</l>
-<l>smallest_rectangle2 (RegionIntersection02, Row02, Column02, Phi02, Length021, Length022)</l>
 <c>*第一行****************************</c>
-<l>gen_rectangle2 (Rectangle1, Row02-Length022/2-1, Column02, 0, Length021+4, Length022/2)</l>
-<l>reduce_domain (ImageReduced01, Rectangle1, ImageReduced1)</l>
-<l>*mean_image (ImageReduced1, ImageMean1, 5, 5)</l>
-<l>*dyn_threshold (ImageReduced1, ImageMean1, Region1, 50, 'light')</l>
-<l>threshold (ImageReduced1, Region1, 90, 255)</l>
-<l>closing_rectangle1 (Region1, RegionClosing1, 2, 50)</l>
+<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,15,212], [160,35,236])</l>
+<l>intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
+<l>closing_rectangle1 (RegionIntersection1, RegionClosing1, 2, 50)</l>
 <l>connection (RegionClosing1, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans1, Partitioned1, 12, 32)</l>
-<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,6,20], [550,20,40])</l>
-<l>intersection (SelectedRegions1, Region1, RegionIntersection1)</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,6,18], [550,20,40])</l>
+<l>intersection (SelectedRegions1, Region02, RegionIntersection11)</l>
 <c>*选中字符</c>
 <c>*排序</c>
-<l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'row')</l>
+<l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'row')</l>
 <l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
 <l>FontName:='Industrial_0-9.omc'</l>
 <l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
 <l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
-<l>gen_rectangle2 (Rectangle2, Row02+Length022/2, Column02, 0, Length021+4, Length022/2)</l>
-<l>reduce_domain (ImageReduced01, Rectangle2, ImageReduced2)</l>
-<l>*mean_image (ImageReduced2, ImageMean2, 5, 5)</l>
-<l>*dyn_threshold (ImageReduced2, ImageMean2, Region2, 50, 'light')</l>
-<l>threshold (ImageReduced2, Region2, 90, 255)</l>
-<l>closing_rectangle1 (Region2, RegionClosing2, 2, 50)</l>
+<l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,243], [160,35,264])</l>
+<l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
+<l>closing_rectangle1 (RegionIntersection2, RegionClosing2, 2, 50)</l>
 <l>connection (RegionClosing2, ConnectedRegions2)</l>
 <l>shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans2, Partitioned2, 12, 32)</l>
-<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,6,20], [550,20,40])</l>
-<l>intersection (SelectedRegions2, Region2, RegionIntersection2)</l>
+<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,6,18], [550,20,40])</l>
+<l>intersection (SelectedRegions2, Region02, RegionIntersection21)</l>
 <c>*选中字符</c>
 <c>*排序</c>
-<l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'row')</l>
+<l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'row')</l>
 <l>area_center (SortedRegions2, Area2, Row2, Column2)</l>
 <c>*识别</c>
 <l>read_ocr_class_mlp(FontName, OCRHandle2)</l>
