@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="495062312">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="229437807">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_157 (2).bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_41 (2).bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomial0, 9, 9)</l>
 <l>invert_image (ImageBinomial0, ImageInvert0)</l>
@@ -54,10 +54,6 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
-<l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
-<l>FontName:='D:/github/CodeRecognition/0825Words.omc'</l>
-<l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
 <l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,18,187], [160,35,208])</l>
 <l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
@@ -70,18 +66,34 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
-<l>area_center (SortedRegions2, Area2, Row2, Column2)</l>
-<c>*识别</c>
-<l>read_ocr_class_mlp(FontName, OCRHandle2)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions2, ImageRotate0, OCRHandle2, RecNum2, Confidence2)</l>
-<c>*显示识别结果</c>
-<l>set_display_font (3600, 27, 'mono', 'true', 'false')</l>
-<l>for i := 0 to |RecNum1| - 1 by 1</l>
-<l>    disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'white', 'false')</l>
+<c></c>
+<c>*训练**************</c>
+<l>count_obj (SortedRegions1, Number1)</l>
+<l>count_obj (SortedRegions2, Number2) </l>
+<c>*创建训练文件******</c>
+<l>words1:=['2','0','1','7','0','8','2','5']</l>
+<l>words2:=['3','6','2','1','7','1', '8']</l>
+<l>TrainFile:='D:/github/CodeRecognition/0825Words.trf'</l>
+<l>dev_set_check('~give_error') </l>
+<l>delete_file(TrainFile) </l>
+<l>dev_set_check('~give_error')</l>
+<l>for i:=1 to Number1 by 1 </l>
+<l>    select_obj(SortedRegions1, SingleWord, i) </l>
+<l>    append_ocr_trainf(SingleWord,ImageRotate0,words1[i-1],TrainFile) </l>
 <l>endfor</l>
-<l>for i := 0 to |RecNum2| - 1 by 1</l>
-<l>    disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'white', 'false')</l>
+<l>for i:=1 to Number2 by 1 </l>
+<l>    select_obj(SortedRegions2, SingleWord, i) </l>
+<l>    append_ocr_trainf(SingleWord,ImageRotate0,words2[i-1],TrainFile) </l>
 <l>endfor</l>
+<c>*训练ocr</c>
+<l>FontFile:='D:/github/CodeRecognition/0825Words.omc'</l>
+<l>read_ocr_trainf_names(TrainFile, CharacterNames, CharacterCount)</l>
+<l>NumHidden:=400</l>
+<l>*create_ocr_class_mlp (10, 20, 'constant', 'default', CharacterNames, NumHidden, 'none', 10, 42, OCRHandle)</l>
+<l>read_ocr_class_mlp('Industrial_0-9.omc', OCRHandle)</l>
+<l>trainf_ocr_class_mlp (OCRHandle, TrainFile, 200, 1, 0.01, Error, ErrorLog)</l>
+<l>write_ocr_class_mlp(OCRHandle, FontFile) </l>
+<l>clear_ocr_class_mlp(OCRHandle)</l>
 </body>
 <docu id="main">
 <parameters/>
