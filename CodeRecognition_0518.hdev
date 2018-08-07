@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="67023084">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="790860908">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_73.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_166.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -11,7 +11,7 @@
 <l>threshold (ImageInvert0, Region0, 150, 255)</l>
 <l>closing_circle (Region0, RegionClosing0, 10)</l>
 <l>connection (RegionClosing0, ConnectedRegions0)</l>
-<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [40,30], [180,140])</l>
+<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [70,30], [180,140])</l>
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>*旋转图像</c>
@@ -27,7 +27,7 @@
 <l>closing_circle (Region01, RegionClosing01, 10)</l>
 <l>opening_circle (RegionClosing01, RegionOpening01, 5)</l>
 <l>connection (RegionOpening01, ConnectedRegions01)</l>
-<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [40,30], [160,110])</l>
+<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,30], [140,75])</l>
 <l>intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
 <l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
 <l>RegionPriorWidth:=58</l>
@@ -49,7 +49,7 @@
 <l>connection (RegionClosing1, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans1, Partitioned1, 12, 32)</l>
-<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,6,18], [550,20,40])</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,7,18], [550,20,35])</l>
 <l>intersection (SelectedRegions1, Region02, RegionIntersection11)</l>
 <c>*选中字符</c>
 <c>*排序</c>
@@ -65,7 +65,7 @@
 <l>connection (RegionClosing2, ConnectedRegions2)</l>
 <l>shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans2, Partitioned2, 12, 32)</l>
-<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,6,18], [550,20,40])</l>
+<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,7,18], [550,20,35])</l>
 <l>intersection (SelectedRegions2, Region02, RegionIntersection21)</l>
 <c>*选中字符</c>
 <c>*排序</c>
