@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="38694140">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="702178453">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_135.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_33.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -36,7 +36,8 @@
 <l>gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2+2, 0, RegionPriorWidth, RegionPriorHeight)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>threshold (ImageReduced01, Region02, 80, 255)</l>
+<l>median_image (ImageReduced01, ImageMedian01, 'circle', 2, 'mirrored')</l>
+<l>threshold (ImageMedian01, Region02, 60, 255)</l>
 <l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
 <l>opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 3)</l>
 <l>connection (RegionOpening02, ConnectedRegions02)</l>
