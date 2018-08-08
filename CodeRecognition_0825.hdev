@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="518688259">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="1066767259">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_100 (2).bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_8.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomial0, 9, 9)</l>
 <l>invert_image (ImageBinomial0, ImageInvert0)</l>
@@ -38,18 +38,20 @@
 <l>gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2, 0, RegionPriorWidth, RegionPriorHeight)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>threshold (ImageReduced01, Region02, 110, 255)</l>
+<l>*threshold (ImageReduced01, Region02, 110, 255)</l>
+<l>mean_image (ImageReduced01, ImageMean01, 3, 3)</l>
+<l>dyn_threshold (ImageReduced01, ImageMean01, Region02, 10, 'light')</l>
 <l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
 <l>opening_rectangle1 (RegionClosing02, RegionOpening02, 5, 1)</l>
 <l>connection (RegionOpening02, ConnectedRegions02)</l>
 <c>*第一行***********************</c>
-<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,18,158], [160,35,190])</l>
+<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,18,Row01-16], [160,35,Row01])</l>
 <l>intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
 <l>closing_rectangle1 (RegionIntersection1, RegionClosing1, 2, 50)</l>
 <l>connection (RegionClosing1, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans1, Partitioned1, 14, 32)</l>
-<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [110,6,18], [600,20,40])</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,6,18], [600,20,40])</l>
 <l>intersection (SelectedRegions1, Region02, RegionIntersection11)</l>
 <c>*选中字符</c>
 <c>*排序</c>
@@ -59,13 +61,13 @@
 <l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
 <l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
-<l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,18,185], [160,35,215])</l>
+<l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,18,Row01], [160,35,Row01+16])</l>
 <l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
 <l>closing_rectangle1 (RegionIntersection2, RegionClosing2, 2, 50)</l>
 <l>connection (RegionClosing2, ConnectedRegions2)</l>
 <l>shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans2, Partitioned2, 14, 32)</l>
-<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [110,6,18], [600,20,40])</l>
+<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,6,18], [600,20,40])</l>
 <l>intersection (SelectedRegions2, Region02, RegionIntersection21)</l>
 <c>*选中字符</c>
 <c>*排序</c>

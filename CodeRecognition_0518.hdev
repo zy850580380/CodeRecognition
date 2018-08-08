@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="790860908">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="995664017">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_166.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_113.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -43,7 +43,7 @@
 <l>opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 2)</l>
 <l>connection (RegionOpening02, ConnectedRegions02)</l>
 <c>*第一行****************************</c>
-<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,15,212], [160,35,240])</l>
+<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,15,Row01-20], [160,35,Row01])</l>
 <l>intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
 <l>closing_rectangle1 (RegionIntersection1, RegionClosing1, 2, 50)</l>
 <l>connection (RegionClosing1, ConnectedRegions1)</l>
@@ -59,7 +59,7 @@
 <l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
 <l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
-<l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,243], [160,35,272])</l>
+<l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,Row01], [160,35,Row01+20])</l>
 <l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
 <l>closing_rectangle1 (RegionIntersection2, RegionClosing2, 2, 50)</l>
 <l>connection (RegionClosing2, ConnectedRegions2)</l>
