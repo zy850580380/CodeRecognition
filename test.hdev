@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="891006963">
+<procedure name="main">
+<interface/>
+<body>
+<c>*读取图片</c>
+<l>read_image (Image, 'D:/github/CodeRecognition/test.png')</l>
+<c>*反转图片，使前景为白色，便于处理</c>
+<l>invert_image (Image, ImageInvert)</l>
+<c>*使用阈值分割，提取前景</c>
+<l>threshold (ImageInvert, Region, 128, 255)</l>
+<c>*计算连通域</c>
+<l>connection (Region, ConnectedRegions)</l>
+<c>*选择符合要求的区域，即字符</c>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 150, 99999)</l>
+<c>*排序</c>
+<l>sort_region (SelectedRegions, SortedRegions, 'first_point', 'true', 'column')</l>
+<c>*训练****************</c>
+<c>*计算字符个数</c>
+<l>count_obj (SortedRegions, Number)</l>
+<c>*创建训练文件******</c>
+<c>*标签</c>
+<l>words:=['2','0','1','7']</l>
+<l>TrainFile:='D:/github/CodeRecognition/testWords.trf'</l>
+<l>dev_set_check('~give_error') </l>
+<l>delete_file(TrainFile) </l>
+<l>dev_set_check('~give_error')</l>
+<c>*生成训练文件</c>
+<l>for i:=1 to Number by 1 </l>
+<l>    select_obj(SortedRegions, SingleWord, i) </l>
+<l>    append_ocr_trainf(SingleWord,Image,words[i-1],TrainFile) </l>
+<l>endfor</l>
+<c>*训练ocr</c>
+<l>FontFile:='D:/github/CodeRecognition/testWords.omc'</l>
+<c>*读取训练文件</c>
+<l>read_ocr_trainf_names(TrainFile, CharacterNames, CharacterCount)</l>
+<l>NumHidden:=400</l>
+<c>*自己创建神经网络分类器</c>
+<l>*create_ocr_class_mlp (10, 20, 'constant', 'default', CharacterNames, NumHidden, 'none', 10, 42, OCRHandle)</l>
+<c>*这里采用halcon预训练模型；第二次及以后训练先将文件名改为FontFile，调用已训练的参数继续训练</c>
+<l>read_ocr_class_mlp('HandWritten_0-9.omc', OCRHandle)</l>
+<c>*训练</c>
+<l>trainf_ocr_class_mlp (OCRHandle, TrainFile, 200, 1, 0.01, Error, ErrorLog)</l>
+<c>*保存参数到自己命名的文件</c>
+<l>write_ocr_class_mlp(OCRHandle, FontFile) </l>
+<c>*释放内存</c>
+<l>clear_ocr_class_mlp(OCRHandle)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="691302032">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/github/CodeRecognition/test.png')</l>
+<l>invert_image (Image, ImageInvert)</l>
+<l>threshold (ImageInvert, Region, 128, 255)</l>
+<l>connection (Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 150, 99999)</l>
+<l>sort_region (SelectedRegions, SortedRegions, 'first_point', 'true', 'column')</l>
+<c>*计算每一个字符区域中心</c>
+<l>area_center (SortedRegions, Area, Row, Column)</l>
+<l>FontFile:='D:/github/CodeRecognition/testWords.omc'</l>
+<c>*读取已训练好的参数</c>
+<l>read_ocr_class_mlp(FontFile, OCRHandle)</l>
+<c>*识别</c>
+<l>do_ocr_multi_class_mlp (SortedRegions, Image, OCRHandle, RecNum, Confidence)</l>
+<c>*显示在屏幕上</c>
+<l>set_display_font (3600, 27, 'mono', 'true', 'false')</l>
+<l>for i := 0 to |RecNum| - 1 by 1</l>
+<l>    disp_message (3600, RecNum[i], 'image', Row[i],Column[i], 'white', 'false')</l>
+<l>endfor</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

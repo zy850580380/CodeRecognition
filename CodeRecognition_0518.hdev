@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="995664017">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="399240433">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_113.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_142.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -21,8 +21,8 @@
 <c>*处理旋转后的图像</c>
 <l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize01, ImageInvert01)</l>
-<l>*mean_image (ImageRotate, ImageMean, 3, 3)</l>
-<l>*dyn_threshold (ImageInvert, ImageMean, Region, 30, 'light')</l>
+<l>*mean_image (ImageRotate0, ImageMean, 3, 3)</l>
+<l>*dyn_threshold (ImageInvert01, ImageMean, Region, 30, 'light')</l>
 <l>threshold (ImageInvert01, Region01, 140, 255)</l>
 <l>closing_circle (Region01, RegionClosing01, 10)</l>
 <l>opening_circle (RegionClosing01, RegionOpening01, 5)</l>
