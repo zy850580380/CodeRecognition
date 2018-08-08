@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="313595511">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="28504230">
 <procedure name="main">
 <interface/>
 <body>
@@ -88,7 +88,7 @@
 <l>read_ocr_trainf_names(TrainFile, CharacterNames, CharacterCount)</l>
 <l>NumHidden:=400</l>
 <l>*create_ocr_class_mlp (10, 20, 'constant', 'default', CharacterNames, NumHidden, 'none', 10, 42, OCRHandle)</l>
-<l>read_ocr_class_mlp('Industrial_0-9.omc', OCRHandle)</l>
+<l>read_ocr_class_mlp(FontFile, OCRHandle)</l>
 <l>trainf_ocr_class_mlp (OCRHandle, TrainFile, 200, 1, 0.01, Error, ErrorLog)</l>
 <l>write_ocr_class_mlp(OCRHandle, FontFile) </l>
 <l>clear_ocr_class_mlp(OCRHandle)</l>
