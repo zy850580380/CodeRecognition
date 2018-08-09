@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="1036836461">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="932668346">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_58.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_500.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -70,7 +70,7 @@
 <l>count_obj (SortedRegions2, Number2) </l>
 <c>*创建训练文件******</c>
 <l>words1:=['2','0','1','7','0','5','1','8']</l>
-<l>words2:=['5','6','4','1','4','0', '5']</l>
+<l>words2:=['5','6','4','1','4','0', '6']</l>
 <l>TrainFile:='D:/github/CodeRecognition/0518Words.trf'</l>
 <l>dev_set_check('~give_error') </l>
 <l>delete_file(TrainFile) </l>
