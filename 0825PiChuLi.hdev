@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-635910121">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-862316877">
 <procedure name="main">
 <interface/>
 <body>
@@ -53,12 +53,12 @@
 <l>    reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
 <l>*    threshold (ImageReduced01, Region02, 110, 255)</l>
 <l>    mean_image (ImageReduced01, ImageMean01, 3, 3)</l>
-<l>    dyn_threshold (ImageReduced01, ImageMean01, Region02, 10, 'light')</l>
+<l>    dyn_threshold (ImageReduced01, ImageMean01, Region02, 8, 'light')</l>
 <l>    closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
 <l>    opening_rectangle1 (RegionClosing02, RegionOpening02, 5, 1)</l>
 <l>    connection (RegionOpening02, ConnectedRegions02)</l>
 <c>    *第一行***********************</c>
-<l>    select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,18,Row01-16], [160,35,Row01])</l>
+<l>    select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,18,Row01-20], [160,35,Row01])</l>
 <l>    intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
 <l>    closing_rectangle1 (RegionIntersection1, RegionClosing1, 2, 50)</l>
 <l>    closing_circle (RegionClosing1, RegionClosing11, 2)</l>

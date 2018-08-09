@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="375617937">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="685033978">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_72 (2).bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_453.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomial0, 9, 9)</l>
 <l>invert_image (ImageBinomial0, ImageInvert0)</l>
@@ -40,12 +40,12 @@
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
 <l>*threshold (ImageReduced01, Region02, 110, 255)</l>
 <l>mean_image (ImageReduced01, ImageMean01, 3, 3)</l>
-<l>dyn_threshold (ImageReduced01, ImageMean01, Region02, 10, 'light')</l>
+<l>dyn_threshold (ImageReduced01, ImageMean01, Region02, 8, 'light')</l>
 <l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
 <l>opening_rectangle1 (RegionClosing02, RegionOpening02, 5, 1)</l>
 <l>connection (RegionOpening02, ConnectedRegions02)</l>
 <c>*第一行***********************</c>
-<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,18,Row01-16], [160,35,Row01])</l>
+<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,18,Row01-20], [160,35,Row01])</l>
 <l>intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
 <l>closing_rectangle1 (RegionIntersection1, RegionClosing1, 2, 50)</l>
 <l>closing_circle (RegionClosing1, RegionClosing11, 2)</l>
@@ -76,7 +76,7 @@
 <l>count_obj (SortedRegions2, Number2) </l>
 <c>*创建训练文件******</c>
 <l>words1:=['2','0','1','7','0','8','2','5']</l>
-<l>words2:=['3','6','2','1','7','1', '9']</l>
+<l>words2:=['3','6','2','1','7','1', '8']</l>
 <l>TrainFile:='D:/github/CodeRecognition/0825Words.trf'</l>
 <l>dev_set_check('~give_error') </l>
 <l>delete_file(TrainFile) </l>
