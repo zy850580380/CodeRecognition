@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-862316877">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-851831115">
 <procedure name="main">
 <interface/>
 <body>
@@ -25,7 +25,7 @@
 <l>    threshold (ImageInvert0, Region0, 135, 255)</l>
 <l>    closing_circle (Region0, RegionClosing0, 10)</l>
 <l>    connection (RegionClosing0, ConnectedRegions0)</l>
-<l>    select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [40,30], [180,140])</l>
+<l>    select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,40], [180,140])</l>
 <l>    select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>    intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>    *旋转图像</c>
@@ -42,7 +42,7 @@
 <l>    closing_circle (Region01, RegionClosing01, 10)</l>
 <l>    opening_circle (RegionClosing01, RegionOpening01, 5)</l>
 <l>    connection (RegionOpening01, ConnectedRegions01)</l>
-<l>    select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [40,30], [160,110])</l>
+<l>    select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,30], [160,110])</l>
 <l>    intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
 <l>    smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
 <l>    RegionPriorWidth:=74</l>
