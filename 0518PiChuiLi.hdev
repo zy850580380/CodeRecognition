@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-141154529">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-469373266">
 <procedure name="main">
 <interface/>
 <body>
@@ -24,8 +24,12 @@
 <l>    threshold (ImageInvert0, Region0, 150, 255)</l>
 <l>    closing_circle (Region0, RegionClosing0, 10)</l>
 <l>    connection (RegionClosing0, ConnectedRegions0)</l>
-<l>    select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [70,30], [180,140])</l>
+<l>    select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,40], [180,140])</l>
 <l>    select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
+<l>    count_obj (SelectedRegionsStd0, Number0)</l>
+<l>    if (Number0 # 1)</l>
+<l>        continue</l>
+<l>    endif</l>
 <l>    intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>    *旋转图像</c>
 <l>    smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
@@ -41,6 +45,10 @@
 <l>    opening_circle (RegionClosing01, RegionOpening01, 5)</l>
 <l>    connection (RegionOpening01, ConnectedRegions01)</l>
 <l>    select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,30], [140,75])</l>
+<l>    count_obj (SelectedRegions01, Number01)</l>
+<l>    if (Number01 # 1)</l>
+<l>        continue</l>
+<l>    endif</l>
 <l>    intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
 <l>    smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
 <l>    RegionPriorWidth:=58</l>
@@ -88,12 +96,12 @@
 <l>    read_ocr_class_mlp(FontName, OCRHandle2)</l>
 <l>    do_ocr_multi_class_mlp (SortedRegions2, ImageRotate0, OCRHandle2, RecNum2, Confidence2)</l>
 <c>    *显示识别结果</c>
-<l>    set_display_font (3600, 27, 'mono', 'true', 'false')</l>
+<l>    set_display_font (3600, 18, 'mono', 'true', 'false')</l>
 <l>    for i := 0 to |RecNum1| - 1 by 1</l>
-<l>        disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'white', 'false')</l>
+<l>        disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'black', 'false')</l>
 <l>    endfor</l>
 <l>    for i := 0 to |RecNum2| - 1 by 1</l>
-<l>        disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'white', 'false')</l>
+<l>        disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'black', 'false')</l>
 <l>    endfor</l>
 <c>    </c>
 <l>    dump_window_image (Image_write, WindowHandle)</l>
