@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-54277247">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="298652416">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/新建文件夹/C1_147.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_0.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>

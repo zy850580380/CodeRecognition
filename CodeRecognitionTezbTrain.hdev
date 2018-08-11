@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-434809300">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-653855433">
 <procedure name="main">
 <interface/>
 <body>
 <l>read_image (Image, 'D:/实习/图片/特种兵/C1_101.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomia0, 5, 5)</l>
-<l>*median_image (ImageEmphasize0, ImageMedian0, 'circle', 1, 'mirrored')</l>
-<l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
-<l>*dyn_threshold (ImageEmphasize0, ImageMean, Region, 120, 'light')</l>
-<l>threshold (ImageBinomia0, Region0, 120, 255)</l>
+<l>mean_image (ImageBinomia0, ImageMean0, 5, 5)</l>
+<l>dyn_threshold (ImageBinomia0, ImageMean0, Region0, 50, 'light')</l>
+<l>*threshold (ImageBinomia0, Region0, 120, 255)</l>
 <l>closing_rectangle1 (Region0, RegionClosing00, 10, 20)</l>
 <l>closing_rectangle1 (RegionClosing00, RegionClosing0, 30, 10)</l>
 <l>closing_circle (RegionClosing0, RegionClosing01, 10)</l>
@@ -25,10 +24,9 @@
 <c>*处理旋转后的图像</c>
 <l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize01, ImageBinomial01, 5, 5)</l>
-<l>*median_image (ImageEmphasize01, ImageMedian01, 'circle', 1, 'mirrored')</l>
-<l>*mean_image (ImageRotate, ImageMean, 3, 3)</l>
-<l>*dyn_threshold (ImageInvert, ImageMean, Region, 30, 'light')</l>
-<l>threshold (ImageBinomial01, Region01, 120, 255)</l>
+<l>mean_image (ImageBinomial01, ImageMean01, 3, 3)</l>
+<l>dyn_threshold (ImageBinomial01, ImageMean01, Region01, 20, 'light')</l>
+<l>*threshold (ImageBinomial01, Region01, 120, 255)</l>
 <l>closing_rectangle1 (Region01, RegionClosing0011, 10, 30)</l>
 <l>closing_rectangle1 (RegionClosing0011, RegionClosing011, 30, 10)</l>
 <l>closing_circle (RegionClosing011, RegionClosing012, 10)</l>

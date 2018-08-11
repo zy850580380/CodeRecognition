@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="940546778">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="940546674">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/青啤/C1_52.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/青啤/C1_48.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomia0, 9, 9)</l>
 <l>*median_image (ImageEmphasize0, ImageMedian0, 'circle', 1, 'mirrored')</l>
