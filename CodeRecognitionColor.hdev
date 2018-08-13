@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="957869357">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image0, 'D:/github/CodeRecognition/ColorSample.jpg')</l>
+<l>decompose3 (Image0, ImageB, ImageG, ImageR)</l>
+<l>trans_from_rgb (ImageR, ImageG, ImageB, ImageHSV1, ImageHSV2, ImageHSV3, 'hsv')</l>
+<l>threshold (ImageHSV3, Region0, 0, 70)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

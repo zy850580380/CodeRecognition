@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-910579354">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="433936794">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/特种兵/C1_94.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/C1/C1_0.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize0, ImageBinomia0, 5, 5)</l>
+<l>read_shape_model ('D:/github/CodeRecognition/C1Model.shm', ModelID)</l>
+<l>find_shape_model (ImageEmphasize0, ModelID, -0.39, 0.78, 0.5, 1, 0.5, 'least_squares', 0, 0.9, Row, Column, Angle, Score)</l>
+<l>get_shape_model_contours (ModelContours, ModelID, 2)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>*binomial_filter (ImageEmphasize0, ImageBinomia0, 7, 7)</l>
 <l>*median_image (ImageEmphasize0, ImageMedian0, 'circle', 1, 'mirrored')</l>
-<l>mean_image (ImageBinomia0, ImageMean0, 5, 5)</l>
-<l>dyn_threshold (ImageBinomia0, ImageMean0, Region0, 50, 'light')</l>
-<l>*threshold (ImageBinomia0, Region0, 120, 255)</l>
+<l>*mean_image (ImageEmphasize0, ImageMean0, 3, 3)</l>
+<l>*dyn_threshold (ImageBinomia0, ImageMean0, Region0, 50, 'light')</l>
+<l>threshold (ImageEmphasize0, Region0, 120, 255)</l>
 <l>closing_rectangle1 (Region0, RegionClosing00, 10, 20)</l>
 <l>closing_rectangle1 (RegionClosing00, RegionClosing0, 30, 10)</l>
 <l>closing_circle (RegionClosing0, RegionClosing01, 10)</l>
