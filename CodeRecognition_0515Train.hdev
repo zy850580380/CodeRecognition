@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="900015650">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/4.jpg')</l>
+<l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
+<l>invert_image (ImageEmphasize0, ImageInvert0)</l>
+<l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
+<l>*dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
+<l>binomial_filter (ImageInvert0, ImageBinomial0, 7, 7)</l>
+<l>threshold (ImageBinomial0, Region0, 180, 255)</l>
+<l>threshold (ImageBinomial0, Region0, 105, 255)</l>
+<l>closing_circle (Region0, RegionClosing0, 10)</l>
+<l>connection (RegionClosing0, ConnectedRegions0)</l>
+<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,40], [180,140])</l>
+<l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
+<l>count_obj (SelectedRegionsStd0, Number0)</l>
+<l>if (Number0 # 1)  </l>
+<l>    return ()</l>
+<l>endif</l>
+<l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
+<c>*旋转图像</c>
+<l>smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
+<l>tuple_deg (Phi0, Deg0)</l>
+<l>rotate_image (Image, ImageRotate0, -Deg0-1.5, 'constant')</l>
+<c>*处理旋转后的图像</c>
+<l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
+<l>invert_image (ImageEmphasize01, ImageInvert01)</l>
+<l>*mean_image (ImageRotate0, ImageMean, 3, 3)</l>
+<l>*dyn_threshold (ImageInvert01, ImageMean, Region, 30, 'light')</l>
+<l>binomial_filter (ImageInvert01, ImageBinomial01, 7, 7)</l>
+<l>threshold (ImageBinomial01, Region01, 95, 255)</l>
+<l>closing_circle (Region01, RegionClosing01, 10)</l>
+<l>opening_circle (RegionClosing01, RegionOpening01, 4)</l>
+<l>connection (RegionOpening01, ConnectedRegions01)</l>
+<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,40], [140,75])</l>
+<l>count_obj (SelectedRegions01, Number01)</l>
+<l>if (Number01 # 1)  </l>
+<l>    return ()</l>
+<l>endif</l>
+<l>intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
+<l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
+<l>RegionPriorWidth:=58</l>
+<l>RegionPriorHeight:=28</l>
+<c>*62,28</c>
+<l>*gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2, 0, RegionPriorWidth, RegionPriorHeight)</l>
+<l>gen_rectangle2 (Rectangle01, Row01-1, Column01-2, 0, Length011+4, Length012+2)</l>
+<c>*缩小区域</c>
+<l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
+<l>binomial_filter (ImageReduced01, ImageBinomial02, 3, 3)</l>
+<l>threshold (ImageBinomial02, Region02, 110, 255)</l>
+<l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
+<l>*opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 2)</l>
+<l>connection (RegionClosing02, ConnectedRegions02)</l>
+<c>*第一行****************************</c>
+<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,15,Row01-20], [160,35,Row01])</l>
+<l>intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
+<l>closing_rectangle1 (RegionIntersection1, RegionClosing1, 2, 50)</l>
+<l>closing_circle (RegionClosing1, RegionClosing11, 1.5)</l>
+<l>connection (RegionClosing11, ConnectedRegions1)</l>
+<l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 12, 32)</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,7,18], [550,20,35])</l>
+<l>intersection (SelectedRegions1, Region02, RegionIntersection11)</l>
+<c>*选中字符</c>
+<c>*排序</c>
+<l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
+<c>*第二行***********************</c>
+<l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,Row01], [160,35,Row01+20])</l>
+<l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
+<l>closing_rectangle1 (RegionIntersection2, RegionClosing2, 2, 50)</l>
+<l>closing_circle (RegionClosing2, RegionClosing21, 1.5)</l>
+<l>connection (RegionClosing21, ConnectedRegions2)</l>
+<l>shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans2, Partitioned2, 12, 32)</l>
+<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,7,18], [550,20,35])</l>
+<l>intersection (SelectedRegions2, Region02, RegionIntersection21)</l>
+<c>*选中字符</c>
+<c>*排序</c>
+<l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
+<c>*训练**************</c>
+<l>count_obj (SortedRegions1, Number1)</l>
+<l>count_obj (SortedRegions2, Number2) </l>
+<c>*创建训练文件******</c>
+<l>words1:=['2','0','1','7','0','4','1','2']</l>
+<l>words2:=['5','6','4','2','3','3', '1']</l>
+<l>TrainFile:='D:/github/CodeRecognition/0515Words.trf'</l>
+<l>dev_set_check('~give_error') </l>
+<l>delete_file(TrainFile) </l>
+<l>dev_set_check('~give_error')</l>
+<l>for i:=1 to Number1 by 1 </l>
+<l>    select_obj(SortedRegions1, SingleWord, i) </l>
+<l>    append_ocr_trainf(SingleWord,ImageRotate0,words1[i-1],TrainFile) </l>
+<l>endfor</l>
+<l>for i:=1 to Number2 by 1 </l>
+<l>    select_obj(SortedRegions2, SingleWord, i) </l>
+<l>    append_ocr_trainf(SingleWord,ImageRotate0,words2[i-1],TrainFile) </l>
+<l>endfor</l>
+<c>*训练ocr</c>
+<l>FontFile:='D:/github/CodeRecognition/0515Words.omc'</l>
+<l>read_ocr_trainf_names(TrainFile, CharacterNames, CharacterCount)</l>
+<l>NumHidden:=400</l>
+<l>*create_ocr_class_mlp (10, 20, 'constant', 'default', CharacterNames, NumHidden, 'none', 10, 42, OCRHandle)</l>
+<l>read_ocr_class_mlp(FontFile, OCRHandle)</l>
+<l>trainf_ocr_class_mlp (OCRHandle, TrainFile, 200, 1, 0.01, Error, ErrorLog)</l>
+<l>write_ocr_class_mlp(OCRHandle, FontFile) </l>
+<l>clear_ocr_class_mlp(OCRHandle)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
