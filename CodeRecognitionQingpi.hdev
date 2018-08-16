@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="144365057">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="559234921">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/青啤/C1_45.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/青啤/C1_52.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomial0, 7, 7)</l>
 <l>threshold (ImageBinomial0, Region00, 0, 140)</l>
@@ -28,7 +28,7 @@
 <l>threshold (ImageBinomial01, Region01, 0, 140)</l>
 <l>gray_opening_shape (ImageEmphasize01, ImageOpening01, 25, 25, 'rectangle')</l>
 <l>threshold (ImageOpening01, Region012, 0, 20)</l>
-<l>opening_circle (Region012, RegionOpening01, 3.5)</l>
+<l>opening_circle (Region012, RegionOpening01, 8)</l>
 <l>connection (RegionOpening01, ConnectedRegions01)</l>
 <l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [80,30], [170,110])</l>
 <l>select_shape_std (SelectedRegions01, SelectedRegionsStd01, 'max_area', 70)</l>
