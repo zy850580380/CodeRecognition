@@ -1,47 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="768160834">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="813216637">
 <procedure name="main">
 <interface/>
 <body>
 <l>read_image (Image, 'D:/实习/图片/pic/C1/C1_21.bmp')</l>
-<l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize0, ImageBinomial0, 7, 7)</l>
-<l>threshold (ImageBinomial0, Region0, 110, 255)</l>
-<l>gray_closing_shape (Image, ImageClosing0, 40, 40, 'octagon')</l>
-<l>threshold (ImageClosing0, Region00, 125, 255)</l>
-<l>opening_circle (Region00, RegionOpening0, 3.5)</l>
-<l>connection (RegionOpening0, ConnectedRegions0)</l>
-<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,30], [170,110])</l>
-<l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
-<l>count_obj (SelectedRegionsStd0, Number0)</l>
-<l>if (Number0 # 1)</l>
-<l>    return()</l>
-<l>endif</l>
-<l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
-<l>smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
-<l>tuple_deg (Phi0, Deg0)</l>
-<l>rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
-<c>*处理旋转后的图像</c>
-<l>emphasize (Image, ImageEmphasize01, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize01, ImageBinomial01, 7, 7)</l>
-<l>threshold (ImageBinomial01, Region01, 110, 255)</l>
-<l>gray_closing_shape (Image, ImageClosing01, 40, 40, 'octagon')</l>
-<l>threshold (ImageClosing01, Region001, 125, 255)</l>
-<l>opening_circle (Region001, RegionOpening01, 3.5)</l>
-<l>connection (RegionOpening01, ConnectedRegions01)</l>
-<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [80,30], [170,110])</l>
-<l>select_shape_std (SelectedRegions01, SelectedRegionsStd01, 'max_area', 70)</l>
-<l>count_obj (SelectedRegionsStd01, Number01)</l>
-<l>if (Number01 # 1)</l>
-<l>    return()</l>
-<l>endif</l>
-<l>intersection (SelectedRegionsStd01, Region01, RegionIntersection01)</l>
-<l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
-<l>gen_rectangle2 (Rectangle01, Row01, Column01+1, 0, Length011+4, Length012+2)</l>
-<c>*缩小区域</c>
-<l>reduce_domain (ImageRotate0, Rectangle01, ImageReduced01)</l>
-<c></c>
-<c></c>
+<l>gray_dilation_shape (Image, ImageMax1, 5, 5, 'rectangle')</l>
+<l>emphasize (ImageMax1, ImageEmphasize, 3, 3, 7)</l>
 <c></c>
 <c></c>
 <c></c>
