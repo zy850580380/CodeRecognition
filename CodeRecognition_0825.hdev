@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="525340888">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="465416448">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_17 (2).bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_110 (2).bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomial0, 9, 9)</l>
 <l>invert_image (ImageBinomial0, ImageInvert0)</l>
@@ -66,13 +66,18 @@
 <c>*排序</c>
 <l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions1, Number1)</l>
+<l>if (Number1 # 8)</l>
+<l>    return ()</l>
+<l>endif</l>
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
-<l>AreaMin := [71,83,35,51,83,97,69,88,70,95,83,35,50,35,92]</l>
+<l>KnownStr := [2,0,1,7,0,8,2,5,3,6,2,1,7,1,9]</l>
+<l>AreaPrior := [115,54,95,100,100,103,122,78,124,120]</l>
+<l>AreaDelta := 20</l>
 <l>ErrorCount := 0</l>
-<l>for Index := 0 to Number1-1 by 1 </l>
-<l>    if (Area11[Index]&lt;AreaMin[Index])</l>
+<l>for Index1 := 0 to Number1-1 by 1 </l>
+<l>    if (Area11[Index1] &lt; AreaPrior[KnownStr[Index1]] - AreaDelta)</l>
 <l>        ErrorCount := ErrorCount + 1</l>
-<l>        return()</l>
+<l>        return ()</l>
 <l>    endif</l>
 <l>endfor</l>
 <c></c>
@@ -90,9 +95,12 @@
 <c>*排序</c>
 <l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions2, Number2)</l>
+<l>if (Number2 # 7)</l>
+<l>    return ()</l>
+<l>endif</l>
 <l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
-<l>for Index := 0 to Number2-1 by 1 </l>
-<l>    if (Area12[Index]&lt;AreaMin[Index+8])</l>
+<l>for Index2 := 0 to Number2-1 by 1 </l>
+<l>    if (Area12[Index2] &lt; AreaPrior[KnownStr[Index2+8]] - AreaDelta)</l>
 <l>        ErrorCount := ErrorCount + 1</l>
 <l>        return()</l>
 <l>    endif</l>
