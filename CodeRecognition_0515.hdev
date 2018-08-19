@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="672037228">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="218861500">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/7.jpg')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/4.jpg')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
 <l>*dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
 <l>binomial_filter (ImageInvert0, ImageBinomial0, 7, 7)</l>
-<l>threshold (ImageBinomial0, Region0, 180, 255)</l>
 <l>threshold (ImageBinomial0, Region0, 105, 255)</l>
 <l>closing_circle (Region0, RegionClosing0, 10)</l>
 <l>connection (RegionClosing0, ConnectedRegions0)</l>
@@ -66,10 +65,7 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
-<l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
-<l>FontName:='D:/github/CodeRecognition/0515Words.omc'</l>
-<l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
+<c></c>
 <c>*第二行***********************</c>
 <l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,Row01], [160,35,Row01+20])</l>
 <l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
@@ -83,18 +79,7 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
-<l>area_center (SortedRegions2, Area2, Row2, Column2)</l>
-<c>*识别</c>
-<l>read_ocr_class_mlp(FontName, OCRHandle2)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions2, ImageRotate0, OCRHandle2, RecNum2, Confidence2)</l>
-<c>*显示识别结果</c>
-<l>set_display_font (3600, 27, 'mono', 'true', 'false')</l>
-<l>for i := 0 to |RecNum1| - 1 by 1</l>
-<l>    disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'white', 'false')</l>
-<l>endfor</l>
-<l>for i := 0 to |RecNum2| - 1 by 1</l>
-<l>    disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'white', 'false')</l>
-<l>endfor</l>
+<c></c>
 </body>
 <docu id="main">
 <parameters/>

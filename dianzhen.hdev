@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="397722032">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/x/C1_294.bmp')</l>
+<c>*增强图像中的圆点</c>
+<l>dots_image (Image, DotImage, 3, 'dark', 2) </l>
+<l>threshold (DotImage, Regions, 100, 255)</l>
+<c></c>
+<l>closing_circle (Regions, RegionClosing5, 33.5)</l>
+<l>connection (RegionClosing5, ConnectedRegions6)</l>
+<c></c>
+<l>select_shape (ConnectedRegions6, SelectedRegions7, ['width','height'], 'and', [109.28,50.96], [342.23,113.25])</l>
+<c></c>
+<l>select_shape_std (SelectedRegions7, SelectedRegions5, 'max_area', 70)</l>
+<l>intersection (SelectedRegions5, Regions, RegionIntersection7)</l>
+<l>area_center (RegionIntersection7, Area, Row1, Column1)</l>
+<c></c>
+<l>disp_message (3600, '整体面积是'+Area, 'image', 0, 0, 'blue', 'true')</l>
+<c></c>
+<l>smallest_rectangle2 (SelectedRegions5, Row, Column, Phi, Length1, Length2)</l>
+<l>gen_rectangle2 (Rectangle, Row, Column, Phi, Length1, Length2)</l>
+<l>tuple_deg (Phi, Deg)</l>
+<l>rotate_image (Image, rotateImage, -Deg, 'constant')</l>
+<c>*以上是旋转图片</c>
+<l>dots_image (rotateImage, DotImage1, 3, 'dark', 2)</l>
+<l>threshold (DotImage1, Region, 100, 255)</l>
+<c></c>
+<l>connection (Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 2, 576)</l>
+<l>union1 (SelectedRegions, RegionUnion)</l>
+<l>closing_rectangle1 (RegionUnion, RegionClosing, 70, 7)</l>
+<c></c>
+<l>closing_circle (RegionUnion, RegionClosing7, 33.5)</l>
+<l>intersection (RegionClosing7, RegionClosing, RegionIntersection6)</l>
+<c></c>
+<l>connection (RegionIntersection6, ConnectedRegions1)</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, ['height','area'], 'and', [20,3000], [90,99999])</l>
+<c></c>
+<l>union1 (SelectedRegions1, RegionUnion1)</l>
+<l>intersection (RegionUnion1, RegionUnion, RegionIntersection)</l>
+<c>*以上是获取整个字符区域</c>
+<l>smallest_rectangle1 (RegionUnion1, RowChar1, ColumnChar1, RowChar2, ColumnChar2)</l>
+<l>gen_rectangle1 (RectChar1, RowChar1, ColumnChar1, (RowChar1+RowChar2)/2, ColumnChar2)</l>
+<l>gen_rectangle1 (RectChar2, (RowChar1+RowChar2)/2, ColumnChar1, RowChar2, ColumnChar2)</l>
+<c>*每一行生成一个矩形</c>
+<l>intersection (RegionIntersection, RectChar1, RegionIntersection2)</l>
+<l>closing_rectangle1 (RegionIntersection2, RegionClosing3, 4, 50)</l>
+<l>closing_circle (RegionClosing3, RegionClosing1, 6.5)</l>
+<c></c>
+<l>connection (RegionClosing1, ConnectedRegions4)</l>
+<l>shape_trans (ConnectedRegions4, RegionTrans, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans, Partitioned, 33, 38)</l>
+<l>select_shape (Partitioned, SelectedRegions3, 'height', 'and', 32, 44)</l>
+<l>intersection (SelectedRegions3, RegionIntersection2, RegionIntersection3)</l>
+<c>*以上是分割第一行字符</c>
+<l>sort_region (RegionIntersection3, SortedRegions, 'character', 'true', 'column')</l>
+<l>count_obj (SortedRegions, Number1)</l>
+<l>area_center (SortedRegions, Area11, Row11, Column11)</l>
+<l>AreaMin := [98,92,41,118,106,115,113,63,50,86,96,51,115,116]</l>
+<l>ErrorCount := 0</l>
+<l>for Index := 0 to Number1-1 by 1 </l>
+<l>    if (Area11[Index]&lt;AreaMin[Index])</l>
+<l>        ErrorCount := ErrorCount + 1</l>
+<l>        return()</l>
+<l>    endif</l>
+<l>endfor</l>
+<c>*ocr识别第一行字符</c>
+<l>intersection (RegionIntersection, RectChar2, RegionIntersection4)</l>
+<c>*获取第二行字符区域</c>
+<c></c>
+<l>closing_circle (RegionIntersection4, RegionClosing4, 6.5)</l>
+<l>closing_rectangle1 (RegionClosing4, RegionClosing2, 4, 50)</l>
+<c></c>
+<l>connection (RegionClosing2, ConnectedRegions2)</l>
+<c></c>
+<l>select_shape (ConnectedRegions2, SelectedRegions2, 'area', 'and', 50, 99999)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>connection (RegionClosing2, ConnectedRegions5)</l>
+<c></c>
+<l>shape_trans (ConnectedRegions5, RegionTrans1, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 33, 38)</l>
+<l>select_shape (Partitioned1, SelectedRegions4, 'height', 'and', 32, 44)</l>
+<c></c>
+<l>sort_region (SelectedRegions4, SortedRegions2, 'character', 'false', 'column')</l>
+<l>select_obj (SortedRegions2, ObjectSelected, 1)</l>
+<l>select_obj (SortedRegions2, ObjectSelected1, 2)</l>
+<l>union2 (ObjectSelected, ObjectSelected1, RegionUnion2)</l>
+<c></c>
+<l>intersection (SelectedRegions4, RegionIntersection, RegionIntersection5)</l>
+<c></c>
+<l>sort_region (RegionIntersection5, SortedRegions1, 'character', 'true', 'column')</l>
+<l>count_obj (SortedRegions1, Number2)</l>
+<l>area_center (SortedRegions1, Area12, Row12, Column12)</l>
+<l>for Index := 0 to Number2-1 by 1 </l>
+<l>    if (Area12[Index]&lt;AreaMin[Index+8])</l>
+<l>        ErrorCount := ErrorCount + 1</l>
+<l>        return()</l>
+<l>    endif</l>
+<l>endfor</l>
+<c></c>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
