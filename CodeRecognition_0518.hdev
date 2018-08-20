@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="795752212">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="655775865">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_6.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_13.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -27,7 +27,8 @@
 <l>invert_image (ImageEmphasize01, ImageInvert01)</l>
 <l>*mean_image (ImageRotate0, ImageMean, 3, 3)</l>
 <l>*dyn_threshold (ImageInvert01, ImageMean, Region, 30, 'light')</l>
-<l>threshold (ImageInvert01, Region01, 140, 255)</l>
+<l>binomial_filter (ImageInvert01, ImageBinomial01, 5, 5)</l>
+<l>threshold (ImageBinomial01, Region01, 80, 255)</l>
 <l>closing_circle (Region01, RegionClosing01, 10)</l>
 <l>opening_circle (RegionClosing01, RegionOpening01, 5)</l>
 <l>connection (RegionOpening01, ConnectedRegions01)</l>
@@ -63,13 +64,18 @@
 <c>*排序</c>
 <l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions1, Number1)</l>
+<l>if (Number1 # 8)</l>
+<l>    return ()</l>
+<l>endif</l>
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
-<l>AreaMin := [78,113,40,51,99,91,49,103,95,96,70,56,70,99,87]</l>
+<l>KnownStr := [2,0,1,7,0,5,1,8,5,6,4,1,4,0,5]</l>
+<l>AreaPrior := [148,75,115,95,95,115,103,78,148,145]</l>
+<l>AreaDelta := 30</l>
 <l>ErrorCount := 0</l>
-<l>for Index := 0 to Number1-1 by 1 </l>
-<l>    if (Area11[Index]&lt;AreaMin[Index])</l>
+<l>for Index1 := 0 to Number1-1 by 1 </l>
+<l>    if (Area11[Index1] &lt; AreaPrior[KnownStr[Index1]] - AreaDelta)</l>
 <l>        ErrorCount := ErrorCount + 1</l>
-<l>        return()</l>
+<l>        return ()</l>
 <l>    endif</l>
 <l>endfor</l>
 <c></c>
@@ -86,13 +92,21 @@
 <c>*排序</c>
 <l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions2, Number2)</l>
+<l>if (Number2 # 7)</l>
+<l>    return ()</l>
+<l>endif</l>
 <l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
-<l>for Index := 0 to Number2-1 by 1 </l>
-<l>    if (Area12[Index]&lt;AreaMin[Index+8])</l>
+<l>for Index2 := 0 to Number2-1 by 1 </l>
+<l>    if (Area12[Index2] &lt; AreaPrior[KnownStr[Index2+8]] - AreaDelta)</l>
 <l>        ErrorCount := ErrorCount + 1</l>
 <l>        return()</l>
 <l>    endif</l>
 <l>endfor</l>
+<c></c>
+<l>dev_clear_window ()</l>
+<l>dev_set_color ('white')</l>
+<l>dev_display (SortedRegions1)</l>
+<l>dev_display (SortedRegions2)</l>
 <c></c>
 </body>
 <docu id="main">

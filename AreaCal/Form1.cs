@@ -30,8 +30,8 @@ namespace haocon_ocr_0518
             if (HD.hv_OkFlag)
             {
                 label1.Text = "合格";
-                textBox1.Text = HD.hv_Area11.ToString().Replace(";", "");
-                textBox2.Text = HD.hv_Area12.ToString().Replace(";", "");
+                textBox1.Text = HD.ShowStr1.ToString().Replace(";", "");
+                textBox2.Text = HD.ShowStr2.ToString().Replace(";", "");
             }
             else
             {
@@ -62,26 +62,31 @@ namespace haocon_ocr_0518
 #endif
         public HTuple hv_OkFlag = 0;
         // Main procedure 
-        public HTuple hv_Area11 = new HTuple(), hv_Area12 = new HTuple();
+        public HTuple ShowStr1 = new HTuple(), ShowStr2 = new HTuple();
+        HTuple HDWindow;
+        string ImageFile;
 
-        public void ShowImage(HTuple HDWindow, string ImageFile)
+        public void ShowImage(HTuple HDWindow_, string ImageFile_)
         {
             HObject ho_Image;
             HOperatorSet.GenEmptyObj(out ho_Image);
-            HDevWindowStack.Push(HDWindow);
+            HDevWindowStack.Push(HDWindow_);
             ho_Image.Dispose();
-            HOperatorSet.ReadImage(out ho_Image, ImageFile);
+            HOperatorSet.ReadImage(out ho_Image, ImageFile_);
             if (HDevWindowStack.IsOpen())
             {
                 HOperatorSet.DispObj(ho_Image, HDevWindowStack.GetActive());
             }
         }
 
-        public void ProcessImage(HTuple HDWindow, string ImageFile)
+        public void ProcessImage(HTuple HDWindow_, string ImageFile_)
         {
-            action(HDWindow, ImageFile);
+            HDWindow = HDWindow_;
+            ImageFile = ImageFile_;
+            action();
         }
-        private void action(HTuple HDWindow_, string ImageFile)
+
+        private void action()
         {
 
             // Local iconic variables 
@@ -109,9 +114,9 @@ namespace haocon_ocr_0518
             HTuple hv_Length01, hv_Length02, hv_Deg0, hv_Number01;
             HTuple hv_Row01, hv_Column01, hv_Phi01, hv_Length011, hv_Length012;
             HTuple hv_RegionPriorWidth, hv_RegionPriorHeight, hv_Number1;
-            HTuple hv_Row11, hv_Column11, hv_KnownStr, hv_AreaPrior;
+            HTuple hv_Area11, hv_Row11, hv_Column11, hv_KnownStr, hv_AreaPrior;
             HTuple hv_AreaDelta, hv_ErrorCount, hv_Index1, hv_Number2;
-            HTuple hv_Row12, hv_Column12, hv_Index2;
+            HTuple hv_Area12, hv_Row12, hv_Column12, hv_Index2;
 
             // Initialize local and output iconic variables 
             HOperatorSet.GenEmptyObj(out ho_Image);
@@ -649,7 +654,14 @@ namespace haocon_ocr_0518
                     return;
                 }
             }
-
+            HDevWindowStack.Push(HDWindow);
+            if (HDevWindowStack.IsOpen())
+            {
+                HOperatorSet.SetColor(HDevWindowStack.GetActive(), "white");
+                HOperatorSet.ClearWindow(HDevWindowStack.GetActive());
+                HOperatorSet.DispObj(ho_SortedRegions1, HDevWindowStack.GetActive());
+                HOperatorSet.DispObj(ho_SortedRegions2, HDevWindowStack.GetActive());
+            }
             ho_Image.Dispose();
             ho_ImageEmphasize0.Dispose();
             ho_ImageBinomial0.Dispose();
@@ -695,6 +707,9 @@ namespace haocon_ocr_0518
             ho_Partitioned2.Dispose();
             ho_RegionIntersection21.Dispose();
             ho_SortedRegions2.Dispose();
+
+            ShowStr1 = hv_Area11;
+            ShowStr2 = hv_Area12;
             hv_OkFlag = 1;
         }
 
