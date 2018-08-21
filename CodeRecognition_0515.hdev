@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="218861500">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="13422496">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/4.jpg')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/7.jpg')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -47,8 +47,8 @@
 <l>gen_rectangle2 (Rectangle01, Row01-1, Column01-2, 0, Length011+4, Length012+2)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>binomial_filter (ImageReduced01, ImageBinomial02, 3, 3)</l>
-<l>threshold (ImageBinomial02, Region02, 110, 255)</l>
+<l>binomial_filter (ImageReduced01, ImageBinomial02, 7, 7)</l>
+<l>threshold (ImageBinomial02, Region02, 90, 255)</l>
 <l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
 <l>*opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 2)</l>
 <l>connection (RegionClosing02, ConnectedRegions02)</l>
@@ -65,6 +65,21 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions1, Number1)</l>
+<l>if (Number1 # 8)</l>
+<l>    return ()</l>
+<l>endif</l>
+<l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
+<l>KnownStr := [2,0,1,7,0,4,1,2,5,6,4,2,3,3,1]</l>
+<l>AreaPrior := [155,86,125,130,102,140,140,98,155,150]</l>
+<l>AreaDelta := 30</l>
+<l>ErrorCount := 0</l>
+<l>for Index1 := 0 to Number1-1 by 1 </l>
+<l>    if (Area11[Index1] &lt; AreaPrior[KnownStr[Index1]] - AreaDelta)</l>
+<l>        ErrorCount := ErrorCount + 1</l>
+<l>        return ()</l>
+<l>    endif</l>
+<l>endfor</l>
 <c></c>
 <c>*第二行***********************</c>
 <l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,Row01], [160,35,Row01+20])</l>
@@ -79,6 +94,22 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions2, Number2)</l>
+<l>if (Number2 # 7)</l>
+<l>    return ()</l>
+<l>endif</l>
+<l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
+<l>for Index2 := 0 to Number2-1 by 1 </l>
+<l>    if (Area12[Index2] &lt; AreaPrior[KnownStr[Index2+8]] - AreaDelta)</l>
+<l>        ErrorCount := ErrorCount + 1</l>
+<l>        return()</l>
+<l>    endif</l>
+<l>endfor</l>
+<c></c>
+<l>dev_clear_window ()</l>
+<l>dev_set_color ('white')</l>
+<l>dev_display (SortedRegions1)</l>
+<l>dev_display (SortedRegions2)</l>
 <c></c>
 </body>
 <docu id="main">
