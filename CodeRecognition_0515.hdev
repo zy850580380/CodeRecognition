@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="13422496">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="881568377">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/7.jpg')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/2.jpg')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -47,8 +47,7 @@
 <l>gen_rectangle2 (Rectangle01, Row01-1, Column01-2, 0, Length011+4, Length012+2)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>binomial_filter (ImageReduced01, ImageBinomial02, 7, 7)</l>
-<l>threshold (ImageBinomial02, Region02, 90, 255)</l>
+<l>close_edges (Rectangle01, ImageReduced01, Region02, 130)</l>
 <l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
 <l>*opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 2)</l>
 <l>connection (RegionClosing02, ConnectedRegions02)</l>
@@ -71,7 +70,7 @@
 <l>endif</l>
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
 <l>KnownStr := [2,0,1,7,0,4,1,2,5,6,4,2,3,3,1]</l>
-<l>AreaPrior := [155,86,125,130,102,140,140,98,155,150]</l>
+<l>AreaPrior := [110,65,90,85,75,95,100,68,110,105]</l>
 <l>AreaDelta := 30</l>
 <l>ErrorCount := 0</l>
 <l>for Index1 := 0 to Number1-1 by 1 </l>
