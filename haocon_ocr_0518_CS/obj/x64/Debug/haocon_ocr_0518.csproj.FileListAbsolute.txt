@@ -7,3 +7,5 @@ C:\Users\Dell\Desktop\CS-halcon-test\haocon_ocr_0518\bin\x64\Debug\halcondotnet.
 C:\Users\Dell\Desktop\CS-halcon-test\haocon_ocr_0518\bin\x64\Debug\halcondotnet.xml
 C:\Users\Dell\Desktop\CS-halcon-test\haocon_ocr_0518\obj\x64\Debug\haocon_ocr_0518.exe
 C:\Users\Dell\Desktop\CS-halcon-test\haocon_ocr_0518\obj\x64\Debug\haocon_ocr_0518.pdb
+D:\github\CodeRecognition\haocon_ocr_0518_CS\obj\x64\Debug\haocon_ocr_0518.exe
+D:\github\CodeRecognition\haocon_ocr_0518_CS\obj\x64\Debug\haocon_ocr_0518.pdb

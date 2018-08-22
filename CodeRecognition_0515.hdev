@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="881568377">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="621024634">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/2.jpg')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/4.jpg')</l>
+<l>count_seconds (T1)</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
 <l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
@@ -104,7 +105,8 @@
 <l>        return()</l>
 <l>    endif</l>
 <l>endfor</l>
-<c></c>
+<l>count_seconds (T2)</l>
+<l>T := T2*1000 - T1*1000</l>
 <l>dev_clear_window ()</l>
 <l>dev_set_color ('white')</l>
 <l>dev_display (SortedRegions1)</l>

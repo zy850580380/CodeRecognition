@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="137840194">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="960195312">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_1.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_42 (2).bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomial0, 9, 9)</l>
 <l>invert_image (ImageBinomial0, ImageInvert0)</l>
