@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="559234921">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="551803943">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/青啤/C1_52.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/青啤/C1_45.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize0, ImageBinomial0, 7, 7)</l>
-<l>threshold (ImageBinomial0, Region00, 0, 140)</l>
 <l>gray_opening_shape (ImageEmphasize0, ImageOpening, 25, 25, 'rectangle')</l>
-<l>threshold (ImageOpening, Region0, 0, 20)</l>
+<l>threshold (ImageOpening, Region0, 0, 10)</l>
 <l>opening_circle (Region0, RegionOpening0, 8)</l>
 <l>connection (RegionOpening0, ConnectedRegions0)</l>
 <l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,30], [170,110])</l>
@@ -25,7 +23,6 @@
 <c>*处理旋转后的图像</c>
 <l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize01, ImageBinomial01, 7, 7)</l>
-<l>threshold (ImageBinomial01, Region01, 0, 140)</l>
 <l>gray_opening_shape (ImageEmphasize01, ImageOpening01, 25, 25, 'rectangle')</l>
 <l>threshold (ImageOpening01, Region012, 0, 20)</l>
 <l>opening_circle (Region012, RegionOpening01, 8)</l>
@@ -40,17 +37,13 @@
 <l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
 <l>RegionPriorWidth:=74</l>
 <l>RegionPriorHeight:=36</l>
-<l>gen_rectangle2 (Rectangle01, Row01-1, Column01, 0, Length011, Length012+4)</l>
-<c>*缩小区域</c>
-<l>reduce_domain (ImageRotate0, Rectangle01, ImageReduced01)</l>
-<l>emphasize (ImageReduced01, ImageEmphasize011, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize011, ImageBinomial011, 3, 3)</l>
 <c>*第一行****************************</c>
 <l>gen_rectangle2 (Rectangle1, Row01-Length012/2-1, Column01, 0, Length011+4, Length012/2)</l>
-<l>reduce_domain (ImageBinomial011, Rectangle1, ImageReduced1)</l>
+<l>reduce_domain (ImageEmphasize01, Rectangle1, ImageReduced1)</l>
+<l>binomial_filter (ImageReduced1, ImageBinomial1, 3, 3)</l>
 <l>*mean_image (ImageReduced1, ImageMean1, 5, 5)</l>
 <l>*dyn_threshold (ImageReduced1, ImageMean1, Region1, 50, 'light')</l>
-<l>threshold (ImageReduced1, Region1, 0, 110)</l>
+<l>threshold (ImageBinomial1, Region1, 0, 110)</l>
 <l>closing_rectangle1 (Region1, RegionClosing1, 2, 50)</l>
 <l>closing_circle (RegionClosing1, RegionClosing11, 3)</l>
 <l>connection (RegionClosing11, ConnectedRegions1)</l>
@@ -67,10 +60,11 @@
 <l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
 <l>gen_rectangle2 (Rectangle2, Row01+Length012/2+3, Column01, 0, Length011+4, Length012/2)</l>
-<l>reduce_domain (ImageBinomial011, Rectangle2, ImageReduced2)</l>
+<l>reduce_domain (ImageEmphasize01, Rectangle2, ImageReduced2)</l>
+<l>binomial_filter (ImageReduced2, ImageBinomial2, 3, 3)</l>
 <l>*mean_image (ImageReduced2, ImageMean2, 5, 5)</l>
 <l>*dyn_threshold (ImageReduced2, ImageMean2, Region2, 50, 'light')</l>
-<l>threshold (ImageReduced2, Region2, 0, 120)</l>
+<l>threshold (ImageBinomial2, Region2, 0, 120)</l>
 <l>closing_rectangle1 (Region2, RegionClosing2, 2, 50)</l>
 <l>closing_circle (RegionClosing2, RegionClosing21, 3.5)</l>
 <l>connection (RegionClosing21, ConnectedRegions2)</l>

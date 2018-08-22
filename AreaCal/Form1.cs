@@ -26,28 +26,37 @@ namespace haocon_ocr_0518
         private void button1_Click(object sender, EventArgs e)
         {
             HDevelopExport HD = new HDevelopExport();
-            HD.ProcessImage(hWindowControl1.HalconWindow, ImagePath);
-            if (!HD.hv_ErrorCount)
+            string str = textBox3.Text;
+            byte[] sNum = new byte[15];
+            for (byte i = 0; i < str.Length; i++)
             {
-                label1.Text = "合格";
-                textBox1.Text = HD.ShowStr1.ToString().Replace(";", "");
-                textBox2.Text = HD.ShowStr2.ToString().Replace(";", "");
+                sNum[i] = Convert.ToByte(str[i]);
             }
-            else
-            {
-                if (HD.hv_ErrorCount == 1)
+            HD.ProcessImage(hWindowControl1.HalconWindow, ImagePath, sNum);
+                if (!HD.hv_ErrorCount)
                 {
-                    label1.Text = "不合格, 第一行缺失字符";
-                }
-                else if (HD.hv_ErrorCount == 2)
-                {
-                    label1.Text = "不合格, 第二行缺失字符";
+                    label1.Text = "合格";
+                    string str1 = HD.ShowStr1.ToString().Replace(";", "");
+                    string str2 = HD.ShowStr2.ToString().Replace(";", "");
+                    textBox1.Text = str1;
+                    textBox2.Text = str2;
+                    //int[] iNums = Array.ConvertAll(sNums, int.Parse);
                 }
                 else
                 {
-                    label1.Text = "不合格, 缺失多个字符";
+                    if (HD.hv_ErrorCount == 1)
+                    {
+                        label1.Text = "不合格, 第一行缺失字符";
+                    }
+                    else if (HD.hv_ErrorCount == 2)
+                    {
+                        label1.Text = "不合格, 第二行缺失字符";
+                    }
+                    else
+                    {
+                        label1.Text = "不合格, 缺失多个字符";
+                    }
                 }
-            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -74,6 +83,7 @@ namespace haocon_ocr_0518
         public HTuple hv_ErrorCount = 0;
         // Main procedure 
         public HTuple ShowStr1 = new HTuple(), ShowStr2 = new HTuple();
+        public HTuple hv_KnownStr;
         string ImageFile;
 
         public void ShowImage(HTuple HDWindow_, string ImageFile_)
@@ -89,10 +99,15 @@ namespace haocon_ocr_0518
             }
         }
 
-        public void ProcessImage(HTuple HDWindow_, string ImageFile_)
+        public void ProcessImage(HTuple HDWindow_, string ImageFile_, byte[] arr)
         {
             HDevWindowStack.Push(HDWindow_);
             ImageFile = ImageFile_;
+            //hv_KnownStr = new HTuple();
+           // for (int i = 0; i < 15; i++)
+            {
+                //hv_KnownStr[i] = arr[i];
+            }
             action();
         }
 
@@ -123,7 +138,7 @@ namespace haocon_ocr_0518
             HTuple hv_Column0, hv_Phi0, hv_Length01, hv_Length02, hv_Deg0;
             HTuple hv_Number01, hv_Row01, hv_Column01, hv_Phi01, hv_Length011;
             HTuple hv_Length012, hv_Number1, hv_Area11, hv_Row11, hv_Column11;
-            HTuple hv_KnownStr, hv_AreaPrior, hv_AreaDelta, hv_Index1;
+            HTuple hv_AreaPrior, hv_AreaDelta, hv_Index1;
             HTuple hv_Number2, hv_Area12, hv_Row12, hv_Column12, hv_Index2;
 
             // Initialize local and output iconic variables 
@@ -434,11 +449,11 @@ namespace haocon_ocr_0518
             hv_AreaPrior[7] = 78;
             hv_AreaPrior[8] = 128;
             hv_AreaPrior[9] = 125;
-            hv_AreaDelta = 30;
+            hv_AreaDelta = 0.3;
             for (hv_Index1 = 0; hv_Index1.Continue(hv_Number1 - 1, 1); hv_Index1 = hv_Index1.TupleAdd(1))
             {
                 if ((int)(new HTuple(((hv_Area11.TupleSelect(hv_Index1))).TupleLess((hv_AreaPrior.TupleSelect(
-                    hv_KnownStr.TupleSelect(hv_Index1))) - hv_AreaDelta))) != 0)
+                    hv_KnownStr.TupleSelect(hv_Index1))) * (1 - hv_AreaDelta)))) != 0)
                 {
                     hv_ErrorCount = 1;
                     ho_Image.Dispose();
@@ -566,7 +581,7 @@ namespace haocon_ocr_0518
             for (hv_Index2 = 0; hv_Index2.Continue(hv_Number2 - 1, 1); hv_Index2 = hv_Index2.TupleAdd(1))
             {
                 if ((int)(new HTuple(((hv_Area12.TupleSelect(hv_Index2))).TupleLess((hv_AreaPrior.TupleSelect(
-                    hv_KnownStr.TupleSelect(hv_Index2 + 8))) - hv_AreaDelta))) != 0)
+                    hv_KnownStr.TupleSelect(hv_Index2 + 8))) * (1 - hv_AreaDelta)))) != 0)
                 {
                     hv_ErrorCount = 2;
                     ho_Image.Dispose();

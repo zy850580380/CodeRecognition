@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="621024634">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="63886895">
 <procedure name="main">
 <interface/>
 <body>
@@ -72,10 +72,10 @@
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
 <l>KnownStr := [2,0,1,7,0,4,1,2,5,6,4,2,3,3,1]</l>
 <l>AreaPrior := [110,65,90,85,75,95,100,68,110,105]</l>
-<l>AreaDelta := 30</l>
+<l>AreaDelta := 0.3</l>
 <l>ErrorCount := 0</l>
 <l>for Index1 := 0 to Number1-1 by 1 </l>
-<l>    if (Area11[Index1] &lt; AreaPrior[KnownStr[Index1]] - AreaDelta)</l>
+<l>    if (Area11[Index1] &lt; AreaPrior[KnownStr[Index1]] * (1-AreaDelta))</l>
 <l>        ErrorCount := ErrorCount + 1</l>
 <l>        return ()</l>
 <l>    endif</l>
@@ -100,7 +100,7 @@
 <l>endif</l>
 <l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
 <l>for Index2 := 0 to Number2-1 by 1 </l>
-<l>    if (Area12[Index2] &lt; AreaPrior[KnownStr[Index2+8]] - AreaDelta)</l>
+<l>    if (Area12[Index2] &lt; AreaPrior[KnownStr[Index2+8]] * (1-AreaDelta))</l>
 <l>        ErrorCount := ErrorCount + 1</l>
 <l>        return()</l>
 <l>    endif</l>
