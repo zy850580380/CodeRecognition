@@ -27,12 +27,7 @@ namespace haocon_ocr_0518
         {
             HDevelopExport HD = new HDevelopExport();
             string str = textBox3.Text;
-            byte[] sNum = new byte[15];
-            for (byte i = 0; i < str.Length; i++)
-            {
-                sNum[i] = Convert.ToByte(str[i]);
-            }
-            HD.ProcessImage(hWindowControl1.HalconWindow, ImagePath, sNum);
+            HD.ProcessImage(hWindowControl1.HalconWindow, ImagePath, str);
                 if (!HD.hv_ErrorCount)
                 {
                     label1.Text = "合格";
@@ -99,14 +94,14 @@ namespace haocon_ocr_0518
             }
         }
 
-        public void ProcessImage(HTuple HDWindow_, string ImageFile_, byte[] arr)
+        public void ProcessImage(HTuple HDWindow_, string ImageFile_, string KnownStr)
         {
             HDevWindowStack.Push(HDWindow_);
             ImageFile = ImageFile_;
-            //hv_KnownStr = new HTuple();
-           // for (int i = 0; i < 15; i++)
+            hv_KnownStr = new HTuple();
+            for (int i = 0; i < KnownStr.Length; i++)
             {
-                //hv_KnownStr[i] = arr[i];
+                hv_KnownStr[i] = int.Parse(KnownStr[i].ToString());
             }
             action();
         }
@@ -422,22 +417,6 @@ namespace haocon_ocr_0518
 
                 return;
             }
-            hv_KnownStr = new HTuple();
-            hv_KnownStr[0] = 2;
-            hv_KnownStr[1] = 0;
-            hv_KnownStr[2] = 1;
-            hv_KnownStr[3] = 7;
-            hv_KnownStr[4] = 0;
-            hv_KnownStr[5] = 5;
-            hv_KnownStr[6] = 1;
-            hv_KnownStr[7] = 8;
-            hv_KnownStr[8] = 5;
-            hv_KnownStr[9] = 6;
-            hv_KnownStr[10] = 4;
-            hv_KnownStr[11] = 1;
-            hv_KnownStr[12] = 4;
-            hv_KnownStr[13] = 0;
-            hv_KnownStr[14] = 5;
             hv_AreaPrior = new HTuple();
             hv_AreaPrior[0] = 130;
             hv_AreaPrior[1] = 78;
@@ -687,6 +666,14 @@ namespace haocon_ocr_0518
             ho_RegionIntersection21.Dispose();
             ho_SortedRegions2.Dispose();
 
+            for (byte i = 0; i < hv_Area11.Length; i++)
+            {
+                hv_Area11[i] = hv_Area11.TupleSelect(i) * 100 / hv_AreaPrior.TupleSelect(hv_KnownStr.TupleSelect(i));
+            }
+            for (byte i = 0; i < 7; i++)
+            {
+                hv_Area12[i] = hv_Area12.TupleSelect(i) * 100 / hv_AreaPrior.TupleSelect(hv_KnownStr.TupleSelect(hv_Area11.Length + i));
+            }
             ShowStr1 = hv_Area11;
             ShowStr2 = hv_Area12;
         }
