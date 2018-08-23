@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="63886895">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="107868811">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/4.jpg')</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.05.15/7.jpg')</l>
 <l>count_seconds (T1)</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize0, ImageInvert0)</l>
-<l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
-<l>*dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
 <l>binomial_filter (ImageInvert0, ImageBinomial0, 7, 7)</l>
 <l>threshold (ImageBinomial0, Region0, 105, 255)</l>
 <l>closing_circle (Region0, RegionClosing0, 10)</l>

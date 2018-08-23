@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="957869357">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="102547915">
 <procedure name="main">
 <interface/>
 <body>
@@ -7,6 +7,12 @@
 <l>decompose3 (Image0, ImageB, ImageG, ImageR)</l>
 <l>trans_from_rgb (ImageR, ImageG, ImageB, ImageHSV1, ImageHSV2, ImageHSV3, 'hsv')</l>
 <l>threshold (ImageHSV3, Region0, 0, 70)</l>
+<l>gray_erosion_shape (ImageHSV3, ImageMin, 30, 30, 'octagon')</l>
+<l>threshold (ImageMin, Region, 0, 40)</l>
+<l>intersection (Region, Region0, RegionIntersection)</l>
+<l>smallest_rectangle1 (RegionIntersection, Row1, Column1, Row2, Column2)</l>
+<l>gen_rectangle1 (Rectangle, Row1, Column1, Row2, Column2)</l>
+<l>reduce_domain (ImageHSV3, Rectangle, ImageReduced)</l>
 </body>
 <docu id="main">
 <parameters/>
