@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="82280488">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/pic/C1/C1_21.bmp')</l>
+<l>*emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
+<l>draw_rectangle1 (3600, Row01, Column01, Row02, Column02)</l>
+<l>gen_rectangle1 (Rectangle0, Row01, Column01, Row02, Column02)</l>
+<l>reduce_domain (Image, Rectangle0, ImageReduced0)</l>
+<l>create_shape_model (ImageReduced0, 'auto', -0.39, 0.79, 'auto', 'auto', 'use_polarity', 'auto', 'auto', ModelID)</l>
+<l>write_shape_model (ModelID, 'D:/github/CodeRecognition/C1Model.shm')</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
