@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="264025329">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)2.bmp')</l>
+<l>dots_image (Image, DotImage0, 3, 'dark', 2)</l>
+<l>threshold (DotImage0, Region0, 150, 255)</l>
+<l>closing_rectangle1 (Region0, RegionClosing0, 10, 10)</l>
+<l>closing_circle (RegionClosing0, RegionClosing001, 7.5)</l>
+<l>closing_rectangle1 (RegionClosing001, RegionClosing002, 20, 1)</l>
+<l>fill_up (RegionClosing002, RegionFillUp0)</l>
+<l>connection (RegionFillUp0, ConnectedRegions0)</l>
+<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','area'], 'and', [360,11000], [440,24000])</l>
+<l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
+<l>count_obj (SelectedRegionsStd0, Number0)</l>
+<l>if (Number0 # 1)  </l>
+<l>    return ()</l>
+<l>endif</l>
+<l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
+<c>*旋转图像</c>
+<l>smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
+<l>tuple_deg (Phi0, Deg0)</l>
+<l>rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
+<c>*处理旋转后的图像</c>
+<l>dots_image (ImageRotate0, DotImage01, 3, 'dark', 2)</l>
+<l>threshold (DotImage01, Region01, 135, 255)</l>
+<l>closing_rectangle1 (Region01, RegionClosing01, 10, 10)</l>
+<l>closing_circle (RegionClosing01, RegionClosing02, 7.5)</l>
+<l>closing_rectangle1 (RegionClosing02, RegionClosing03, 20, 1)</l>
+<l>fill_up (RegionClosing03, RegionFillUp01)</l>
+<l>connection (RegionFillUp01, ConnectedRegions01)</l>
+<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','area'], 'and', [360,11000], [440,16000])</l>
+<l>select_shape_std (SelectedRegions01, SelectedRegionsStd01, 'max_area', 70)</l>
+<l>count_obj (SelectedRegions01, Number01)</l>
+<l>if (Number01 # 1)  </l>
+<l>    return ()</l>
+<l>endif</l>
+<l>intersection (SelectedRegionsStd01, Region01, RegionIntersection01)</l>
+<l>closing_rectangle1 (RegionIntersection01, RegionClosing1, 5, 50)</l>
+<l>closing_circle (RegionClosing1, RegionClosing11, 4)</l>
+<l>connection (RegionClosing11, ConnectedRegions1)</l>
+<l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 26, 33)</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['width','height'], 'and', [8,30], [28,40])</l>
+<l>intersection (SelectedRegions1, Region01, RegionIntersection1)</l>
+<l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions1, Number1)</l>
+<l>if (Number1 # 16)</l>
+<l>    return ()</l>
+<l>endif</l>
+<l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
+<l>FontName:='DotPrint_0-9A-Z.omc'</l>
+<l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
+<l>set_display_font (3600, 12, 'mono', 'true', 'false')</l>
+<l>for i := 0 to |RecNum1| - 1 by 1</l>
+<l>    disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'black', 'false')</l>
+<l>endfor</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
