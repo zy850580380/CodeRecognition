@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="33051199">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="302218571">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)12.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)3.bmp')</l>
+<l>get_image_size (Image, Width0, Height0)</l>
 <l>dots_image (Image, DotImage0, 3, 'dark', 2)</l>
-<l>threshold (DotImage0, Region0, 150, 255)</l>
-<l>hough_lines (Region0, 2, 1000, 5, 5, Angle0, Dist0)</l>
+<l>threshold (DotImage0, Region0, 140, 255)</l>
+<l>hough_lines (Region0, 8, 800, 5, 5, Angle0, Dist0)</l>
+<l>tuple_length (Angle0, Length)</l>
+<l>if (Length &lt; 1)</l>
+<l>    hough_lines (Region0, 4, 800, 5, 5, Angle0, Dist0)</l>
+<l>    tuple_length (Angle0, Length)</l>
+<l>    if (Length &lt; 1)</l>
+<l>        hough_lines (Region0, 2, 800, 5, 5, Angle0, Dist0)</l>
+<l>    endif</l>
+<l>endif</l>
 <l>gen_region_hline (RegionLines, Angle0, Dist0)</l>
 <l>dilation_circle (RegionLines, RegionLinesDilation, 2.5)</l>
-<l>region_to_bin (RegionLinesDilation, BinImage, 255, 0, 656, 490)</l>
+<l>region_to_bin (RegionLinesDilation, BinImage, 255, 0, Width0, Height0)</l>
 <l>add_image (Image, BinImage, ImageAddResult, 0.5, 127)</l>
 <l>dots_image (ImageAddResult, DotImage01, 3, 'dark', 2)</l>
 <l>threshold (DotImage01, Region01, 140, 255)</l>
@@ -47,7 +56,7 @@
 <l>endif</l>
 <l>intersection (SelectedRegionsStd01, Region01, RegionIntersection01)</l>
 <l>smallest_rectangle1 (RegionIntersection01, Row11, Column11, Row12, Column12)</l>
-<l>gen_rectangle1 (Rectangle01, Row11, Column11, Row12, Column12)</l>
+<l>gen_rectangle1 (Rectangle01, Row11-2, Column11-4, Row12+2, Column12+2)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageRotate1, Rectangle01, ImageReduced1)</l>
 <l>dots_image (ImageReduced1, DotImage2, 3, 'light', 2)</l>
@@ -71,7 +80,7 @@
 <l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <l>set_display_font (3600, 15, 'mono', 'true', 'false')</l>
 <l>for i := 0 to |RecNum1| - 1 by 1</l>
-<l>    disp_message (3600, RecNum1[i], 'image', Row1[i], Column1[i], 'white', 'false')</l>
+<l>    disp_message (3600, RecNum1[i], 'image', Row1[i], Column1[i], 'lime green', 'false')</l>
 <l>endfor</l>
 <c></c>
 <c></c>
