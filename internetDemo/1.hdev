@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="655923157">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="691267553">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/pic/C1/C1_21.bmp')</l>
-<l>threshold (Image, Region, 120, 255)</l>
+<l>read_image (Image, 'D:/github/CodeRecognition/internetDemo/1.bmp')</l>
+<l>threshold (Image, Region, 0, 10)</l>
 <l>complement (Region, RegionComplement)</l>
 <l>reduce_domain (Image, RegionComplement, ImageReduced)</l>
-<l>mean_image (ImageReduced, ImageMean, 101, 101)</l>
-<l>dyn_threshold (ImageReduced, ImageMean, RegionDynThresh, 1, 'light')</l>
+<l>mean_image (ImageReduced, ImageMean, 201, 201)</l>
+<l>dyn_threshold (ImageReduced, ImageMean, RegionDynThresh, 35, 'dark')</l>
 <l>opening_circle (RegionDynThresh, RegionOpening, 8)</l>
 <l>closing_circle (RegionOpening, RegionClosing1, 10)</l>
-<c></c>
-<c></c>
-<c></c>
-<c></c>
-<c></c>
-<c></c>
-<c></c>
-<c></c>
 </body>
 <docu id="main">
 <parameters/>
