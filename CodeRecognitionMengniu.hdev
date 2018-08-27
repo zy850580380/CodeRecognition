@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="532346048">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-294178000">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)3.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)13.bmp')</l>
+<l>get_image_size (Image, Width0, Height0)</l>
 <l>dots_image (Image, DotImage0, 3, 'dark', 2)</l>
-<l>threshold (DotImage0, Region0, 150, 255)</l>
-<l>closing_circle (Region0, RegionClosing0, 14)</l>
-<l>connection (RegionClosing0, ConnectedRegions0)</l>
-<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [350,30], [430,40])</l>
+<l>threshold (DotImage0, Region0, 140, 255)</l>
+<l>hough_lines (Region0, 8, 800, 5, 5, Angle0, Dist0)</l>
+<l>tuple_length (Angle0, Length)</l>
+<l>if (Length &lt; 1)</l>
+<l>    hough_lines (Region0, 4, 800, 5, 5, Angle0, Dist0)</l>
+<l>    tuple_length (Angle0, Length)</l>
+<l>    if (Length &lt; 1)</l>
+<l>        hough_lines (Region0, 2, 800, 5, 5, Angle0, Dist0)</l>
+<l>    endif</l>
+<l>endif</l>
+<l>gen_region_hline (RegionLines, Angle0, Dist0)</l>
+<l>dilation_circle (RegionLines, RegionLinesDilation, 2.5)</l>
+<l>region_to_bin (RegionLinesDilation, BinImage, 255, 0, Width0, Height0)</l>
+<l>add_image (Image, BinImage, ImageAddResult, 0.5, 127)</l>
+<l>dots_image (ImageAddResult, DotImage01, 3, 'dark', 2)</l>
+<l>threshold (DotImage01, Region01, 140, 255)</l>
+<l>closing_rectangle1 (Region01, RegionClosing01, 30, 10)</l>
+<l>opening_circle (RegionClosing01, RegionOpening01, 3.5)</l>
+<l>closing_circle (RegionOpening01, RegionClosing012, 7.5)</l>
+<l>fill_up (RegionClosing012, RegionFillUp0)</l>
+<l>connection (RegionFillUp0, ConnectedRegions0)</l>
+<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','area'], 'and', [360,10000], [440,24000])</l>
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>count_obj (SelectedRegionsStd0, Number0)</l>
 <l>if (Number0 # 1)  </l>
@@ -20,39 +39,69 @@
 <l>tuple_deg (Phi0, Deg0)</l>
 <l>rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
 <c>*处理旋转后的图像</c>
-<l>dots_image (ImageRotate0, DotImage01, 3, 'dark', 2)</l>
-<l>threshold (DotImage01, Region01, 135, 255)</l>
-<l>closing_circle (Region01, RegionClosing01, 14)</l>
-<l>opening_circle (RegionClosing01, RegionOpening01, 3.5)</l>
-<l>connection (RegionOpening01, ConnectedRegions01)</l>
-<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [350,30], [430,40])</l>
+<l>rotate_image (DotImage01, ImageRotate1, -Deg0, 'constant')</l>
+<l>threshold (ImageRotate1, Region01, 140, 255)</l>
+<l>closing_rectangle1 (Region01, RegionClosing02, 30, 10)</l>
+<l>fill_up (RegionClosing02, RegionFillUp01)</l>
+<l>opening_circle (RegionFillUp01, RegionOpening02, 3.5)</l>
+<l>closing_circle (RegionOpening02, RegionClosing021, 7.5)</l>
+<l>*closing_rectangle1 (RegionClosing02, RegionClosing03, 20, 1)</l>
+<l>connection (RegionClosing021, ConnectedRegions01)</l>
+<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','area'], 'and', [360,9000], [440,16000])</l>
 <l>select_shape_std (SelectedRegions01, SelectedRegionsStd01, 'max_area', 70)</l>
 <l>count_obj (SelectedRegions01, Number01)</l>
 <l>if (Number01 # 1)  </l>
 <l>    return ()</l>
 <l>endif</l>
-<l>intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
-<l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
+<l>intersection (SelectedRegionsStd01, Region01, RegionIntersection01)</l>
+<l>smallest_rectangle1 (RegionIntersection01, Row11, Column11, Row12, Column12)</l>
+<l>gen_rectangle1 (Rectangle01, Row11-2, Column11-4, Row12+2, Column12+2)</l>
+<c>*缩小区域</c>
+<l>reduce_domain (ImageRotate1, Rectangle01, ImageReduced1)</l>
+<l>dots_image (ImageReduced1, DotImage2, 3, 'light', 2)</l>
+<l>mean_image (DotImage2, ImageMean2, 7, 7)</l>
+<l>dyn_threshold (DotImage2, ImageMean2, RegionDynThresh2, 60, 'light')</l>
+<c>*形态学处理</c>
+<l>gen_rectangle2 (Rectangle2, 10, 10, rad(45), 3, 0)</l>
+<l>closing (RegionDynThresh2, Rectangle2, RegionClosing2)</l>
+<l>gen_rectangle2 (Rectangle21, 10, 10, rad(135), 3, 0)</l>
+<l>closing (RegionClosing2, Rectangle21, RegionClosing21)</l>
+<l>closing_rectangle1 (RegionClosing21, RegionClosing22, 5, 30)</l>
+<c></c>
+<l>connection (RegionClosing22, ConnectedRegions1)</l>
+<l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 26, 33)</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['width','height'], 'and', [6,30], [28,40])</l>
+<l>intersection (SelectedRegions1, RegionDynThresh2, RegionIntersection1)</l>
+<l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions1, Number1)</l>
-<l>if (Number1 # 8)</l>
+<l>if (Number1 # 16)</l>
 <l>    return ()</l>
 <l>endif</l>
-<l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
-<l>KnownStr := [2,0,1,7,0,8,2,5,3,6,2,1,7,1,9]</l>
-<l>AreaPrior := [115,60,95,100,100,103,122,78,124,120]</l>
-<l>AreaDelta := 0.3</l>
-<l>ErrorCount := 0</l>
-<l>for Index1 := 0 to Number1-1 by 1 </l>
-<l>    if (Area11[Index1] &lt; AreaPrior[KnownStr[Index1]] * (1-AreaDelta))</l>
-<l>        ErrorCount := ErrorCount + 1</l>
-<l>        return ()</l>
-<l>    endif</l>
-<l>endfor</l>
+<c>*判断字符是否在直线上</c>
+<l>reduce_domain (ImageRotate0, Rectangle01, ImageReduced2)</l>
+<l>dots_image (ImageReduced2, DotImage3, 3, 'dark', 2)</l>
+<l>threshold (DotImage3, Region3, 100, 255)</l>
 <c></c>
-<l>dev_clear_window ()</l>
-<l>dev_set_color ('white')</l>
-<l>dev_display (SortedRegions1)</l>
-<l>dev_display (SortedRegions2)</l>
+<l>gen_rectangle2 (Rectangle3, 10, 10, rad(45), 3, 0)</l>
+<l>closing (Region3, Rectangle3, RegionClosing3)</l>
+<l>gen_rectangle2 (Rectangle31, 10, 10, rad(135), 3, 0)</l>
+<l>closing (RegionClosing3, Rectangle31, RegionClosing31)</l>
+<l>closing_rectangle1 (RegionClosing31, RegionClosing32, 5, 30)</l>
+<c></c>
+<l>connection (RegionClosing32, ConnectedRegions3)</l>
+<l>count_obj (ConnectedRegions3, Number3)</l>
+<l>if (Number3 &lt; 10)</l>
+<l>    return ()</l>
+<l>endif</l>
+<l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
+<l>FontName:='DotPrint_0-9A-Z.omc'</l>
+<l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
+<l>set_display_font (3600, 15, 'mono', 'true', 'false')</l>
+<l>for i := 0 to |RecNum1| - 1 by 1</l>
+<l>    disp_message (3600, RecNum1[i], 'image', Row1[i], Column1[i], 'lime green', 'false')</l>
+<l>endfor</l>
 <c></c>
 <c></c>
 </body>
