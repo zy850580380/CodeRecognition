@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-294178000">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-46878661">
 <procedure name="main">
 <interface/>
 <body>
@@ -91,7 +91,7 @@
 <c></c>
 <l>connection (RegionClosing32, ConnectedRegions3)</l>
 <l>count_obj (ConnectedRegions3, Number3)</l>
-<l>if (Number3 &lt; 10)</l>
+<l>if (Number3 &lt; 8)</l>
 <l>    return ()</l>
 <l>endif</l>
 <l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
