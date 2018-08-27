@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-405089742">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-446717947">
 <procedure name="main">
 <interface/>
 <body>
@@ -30,8 +30,10 @@
 <l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','area'], 'and', [360,10000], [440,24000])</l>
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>count_obj (SelectedRegionsStd0, Number0)</l>
+<l>erorCount := 0</l>
 <l>if (Number0 # 1)  </l>
 <l>    return ()</l>
+<l>    erorCount := 10</l>
 <l>endif</l>
 <l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>*旋转图像</c>
@@ -52,6 +54,7 @@
 <l>count_obj (SelectedRegions01, Number01)</l>
 <l>if (Number01 # 1)  </l>
 <l>    return ()</l>
+<l>    erorCount := 10</l>
 <l>endif</l>
 <l>intersection (SelectedRegionsStd01, Region01, RegionIntersection01)</l>
 <l>smallest_rectangle1 (RegionIntersection01, Row11, Column11, Row12, Column12)</l>
@@ -77,6 +80,7 @@
 <l>count_obj (SortedRegions1, Number1)</l>
 <l>if (Number1 # 16)</l>
 <l>    return ()</l>
+<l>    erorCount := 1</l>
 <l>endif</l>
 <c>*判断字符是否在直线上</c>
 <l>reduce_domain (ImageRotate0, Rectangle01, ImageReduced2)</l>
@@ -93,6 +97,7 @@
 <l>count_obj (ConnectedRegions3, Number3)</l>
 <l>if (Number3 &lt; 8)</l>
 <l>    return ()</l>
+<l>    erorCount := 2</l>
 <l>endif</l>
 <c></c>
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
@@ -101,13 +106,6 @@
 <l>orderChar  := ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']</l>
 <l>AreaMax    := ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']</l>
 <l>AreaMin    := ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']</l>
-<l>AreaDelta := 5</l>
-<l>for Index1 := 0 to Number1-1 by 1 </l>
-<l>    if ((Area11[Index1] &lt; AreaMin[KnownStr[Index1]] - AreaDelta) or (Area11[Index1] &gt; AreaMax[KnownStr[Index1]] + AreaDelta))</l>
-<l>        ErrorCount := 1</l>
-<l>        return ()</l>
-<l>    endif</l>
-<l>endfor</l>
 <c></c>
 <l>dev_clear_window ()</l>
 <l>dev_set_color ('white')</l>
