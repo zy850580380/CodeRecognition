@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="302218571">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-46878661">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)3.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)13.bmp')</l>
 <l>get_image_size (Image, Width0, Height0)</l>
 <l>dots_image (Image, DotImage0, 3, 'dark', 2)</l>
 <l>threshold (DotImage0, Region0, 140, 255)</l>
@@ -25,7 +25,6 @@
 <l>closing_rectangle1 (Region01, RegionClosing01, 30, 10)</l>
 <l>opening_circle (RegionClosing01, RegionOpening01, 3.5)</l>
 <l>closing_circle (RegionOpening01, RegionClosing012, 7.5)</l>
-<l>*closing_rectangle1 (RegionClosing001, RegionClosing002, 20, 1)</l>
 <l>fill_up (RegionClosing012, RegionFillUp0)</l>
 <l>connection (RegionFillUp0, ConnectedRegions0)</l>
 <l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','area'], 'and', [360,10000], [440,24000])</l>
@@ -62,9 +61,14 @@
 <l>dots_image (ImageReduced1, DotImage2, 3, 'light', 2)</l>
 <l>mean_image (DotImage2, ImageMean2, 7, 7)</l>
 <l>dyn_threshold (DotImage2, ImageMean2, RegionDynThresh2, 60, 'light')</l>
-<l>closing_circle (RegionDynThresh2, RegionClosing2, 5.5)</l>
-<l>closing_rectangle1 (RegionClosing2, RegionClosing21, 5, 10)</l>
-<l>connection (RegionClosing21, ConnectedRegions1)</l>
+<c>*形态学处理</c>
+<l>gen_rectangle2 (Rectangle2, 10, 10, rad(45), 3, 0)</l>
+<l>closing (RegionDynThresh2, Rectangle2, RegionClosing2)</l>
+<l>gen_rectangle2 (Rectangle21, 10, 10, rad(135), 3, 0)</l>
+<l>closing (RegionClosing2, Rectangle21, RegionClosing21)</l>
+<l>closing_rectangle1 (RegionClosing21, RegionClosing22, 5, 30)</l>
+<c></c>
+<l>connection (RegionClosing22, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans1, Partitioned1, 26, 33)</l>
 <l>select_shape (Partitioned1, SelectedRegions1, ['width','height'], 'and', [6,30], [28,40])</l>
@@ -72,6 +76,22 @@
 <l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions1, Number1)</l>
 <l>if (Number1 # 16)</l>
+<l>    return ()</l>
+<l>endif</l>
+<c>*判断字符是否在直线上</c>
+<l>reduce_domain (ImageRotate0, Rectangle01, ImageReduced2)</l>
+<l>dots_image (ImageReduced2, DotImage3, 3, 'dark', 2)</l>
+<l>threshold (DotImage3, Region3, 100, 255)</l>
+<c></c>
+<l>gen_rectangle2 (Rectangle3, 10, 10, rad(45), 3, 0)</l>
+<l>closing (Region3, Rectangle3, RegionClosing3)</l>
+<l>gen_rectangle2 (Rectangle31, 10, 10, rad(135), 3, 0)</l>
+<l>closing (RegionClosing3, Rectangle31, RegionClosing31)</l>
+<l>closing_rectangle1 (RegionClosing31, RegionClosing32, 5, 30)</l>
+<c></c>
+<l>connection (RegionClosing32, ConnectedRegions3)</l>
+<l>count_obj (ConnectedRegions3, Number3)</l>
+<l>if (Number3 &lt; 8)</l>
 <l>    return ()</l>
 <l>endif</l>
 <l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
