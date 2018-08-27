@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-497489570">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-499494007">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/C1  20180827/C1_0.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/C1  20180827/C1_127.bmp')</l>
 <l>emphasize (Image, ImageEmphasize, 7, 7, 3)</l>
 <l>binomial_filter (ImageEmphasize, ImageBinomial0, 5, 5)</l>
+<l>*median_image (ImageBinomial0, ImageMedian0, 'circle', 2, 'mirrored')</l>
+<l>*mean_image (ImageMedian0, ImageMean0, 7, 7)</l>
+<l>*dyn_threshold (ImageMedian0, ImageMean0, Region0, 10, 'dark')</l>
 <l>threshold (ImageBinomial0, Region0, 0, 100)</l>
 <l>closing_rectangle1 (Region0, RegionClosing00, 30, 20)</l>
 <l>connection (RegionClosing00, ConnectedRegions0)</l>
@@ -24,25 +27,19 @@
 <l>rotate_image (ImagePart0, ImageRotate0, -Deg0, 'constant')</l>
 <l>rotate_image (ImagePart1, ImageRotate1, -Deg0, 'constant')</l>
 <c>*处理旋转后的图像</c>
+<l>*mean_image (ImageRotate1, ImageMean1, 7, 7)</l>
+<l>*dyn_threshold (ImageRotate1, ImageMean1, Region01, 6, 'dark')</l>
 <l>threshold (ImageRotate1, Region01, 0, 105)</l>
-<l>closing_rectangle1 (Region01, RegionClosing011, 30, 20)</l>
-<l>connection (RegionClosing011, ConnectedRegions01)</l>
-<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [160,55], [200,85])</l>
-<l>count_obj (SelectedRegions01, Number01)</l>
-<l>if (Number01 # 1)  </l>
-<l>    return ()</l>
-<l>endif</l>
-<l>intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
-<l>area_center (RegionIntersection01, Area, Row, Column)</l>
+<l>area_center (Region01, Area, Row, Column)</l>
 <l>gen_rectangle2 (Rectangle1, 10, 10, rad(45), 3, 0)</l>
-<l>closing (RegionIntersection01, Rectangle1, RegionClosing1)</l>
+<l>closing (Region01, Rectangle1, RegionClosing1)</l>
 <l>gen_rectangle2 (Rectangle11, 10, 10, rad(135), 3, 0)</l>
 <l>closing (RegionClosing1, Rectangle11, RegionClosing11)</l>
-<l>closing_rectangle1 (RegionClosing11, RegionClosing12, 5, 10)</l>
+<l>closing_rectangle1 (RegionClosing11, RegionClosing12, 5, 7)</l>
 <l>connection (RegionClosing12, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans1, Partitioned1, 20, 28)</l>
-<l>select_shape (Partitioned1, SelectedRegions1, ['width','height', 'row'], 'and', [8,20, Row-30], [25,36, Row])</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['width','height', 'row'], 'and', [6,20, Row-30], [25,36, Row])</l>
 <l>intersection (SelectedRegions1, Region01, RegionIntersection11)</l>
 <c>*选中字符</c>
 <c>*排序</c>
@@ -59,12 +56,12 @@
 <l>for Index1 := 0 to Number1-1 by 1</l>
 <l>    if ((Area11[Index1] &lt; AreaMax[KnownStr[Index1]] - AreaDelta))</l>
 <l>        ErrorCount := 1</l>
-<l>        return ()</l>
+<l>        *return ()</l>
 <l>    endif</l>
 <l>endfor</l>
 <c></c>
 <c>*第二行***********************</c>
-<l>select_shape (Partitioned1, SelectedRegions2, ['width','height', 'row'], 'and', [8,20, Row], [25,36, Row+30])</l>
+<l>select_shape (Partitioned1, SelectedRegions2, ['width','height', 'row'], 'and', [6,20, Row], [25,36, Row+30])</l>
 <l>intersection (SelectedRegions2, Region01, RegionIntersection21)</l>
 <c>*选中字符</c>
 <c>*排序</c>
@@ -77,7 +74,7 @@
 <l>for Index2 := 0 to Number2-1 by 1 </l>
 <l>    if ((Area12[Index2] &lt; AreaMax[KnownStr[Index2+8]]-AreaDelta))</l>
 <l>        ErrorCount := 2</l>
-<l>        return()</l>
+<l>        *return()</l>
 <l>    endif</l>
 <l>endfor</l>
 <c></c>
