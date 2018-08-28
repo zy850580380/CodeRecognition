@@ -39,15 +39,16 @@
             this.labelPriorChar = new System.Windows.Forms.Label();
             this.buttonSaveValue = new System.Windows.Forms.Button();
             this.labelPriorCharAll = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxPriorCharAll = new System.Windows.Forms.TextBox();
             this.buttonOpenDir = new System.Windows.Forms.Button();
             this.buttonNextImg = new System.Windows.Forms.Button();
             this.buttonProcMultiImg = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxAreaMin = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.labelChar = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonProcSingleImg
@@ -74,19 +75,19 @@
             // textBoxSettingValue
             // 
             this.textBoxSettingValue.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBoxSettingValue.Location = new System.Drawing.Point(49, 495);
+            this.textBoxSettingValue.Location = new System.Drawing.Point(47, 464);
             this.textBoxSettingValue.Multiline = true;
             this.textBoxSettingValue.Name = "textBoxSettingValue";
-            this.textBoxSettingValue.Size = new System.Drawing.Size(649, 41);
+            this.textBoxSettingValue.Size = new System.Drawing.Size(651, 27);
             this.textBoxSettingValue.TabIndex = 2;
             // 
             // textBoxMeasureValue
             // 
             this.textBoxMeasureValue.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBoxMeasureValue.Location = new System.Drawing.Point(49, 438);
+            this.textBoxMeasureValue.Location = new System.Drawing.Point(47, 433);
             this.textBoxMeasureValue.Multiline = true;
             this.textBoxMeasureValue.Name = "textBoxMeasureValue";
-            this.textBoxMeasureValue.Size = new System.Drawing.Size(649, 41);
+            this.textBoxMeasureValue.Size = new System.Drawing.Size(651, 26);
             this.textBoxMeasureValue.TabIndex = 3;
             // 
             // buttonOpenImg
@@ -106,10 +107,11 @@
             // labelMessage
             // 
             this.labelMessage.AutoSize = true;
-            this.labelMessage.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labelMessage.Location = new System.Drawing.Point(27, 255);
+            this.labelMessage.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelMessage.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.labelMessage.Location = new System.Drawing.Point(10, 258);
             this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(0, 19);
+            this.labelMessage.Size = new System.Drawing.Size(0, 14);
             this.labelMessage.TabIndex = 5;
             // 
             // textBoxPriorChar
@@ -148,18 +150,19 @@
             this.labelPriorCharAll.TabIndex = 10;
             this.labelPriorCharAll.Text = "喷码范围";
             // 
-            // textBox1
+            // textBoxPriorCharAll
             // 
-            this.textBox1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox1.Location = new System.Drawing.Point(47, 1);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(209, 44);
-            this.textBox1.TabIndex = 11;
-            this.textBox1.Text = "0123456789E";
+            this.textBoxPriorCharAll.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxPriorCharAll.Location = new System.Drawing.Point(47, 1);
+            this.textBoxPriorCharAll.Multiline = true;
+            this.textBoxPriorCharAll.Name = "textBoxPriorCharAll";
+            this.textBoxPriorCharAll.Size = new System.Drawing.Size(209, 44);
+            this.textBoxPriorCharAll.TabIndex = 11;
+            this.textBoxPriorCharAll.Text = "0123456789E";
             // 
             // buttonOpenDir
             // 
+            this.buttonOpenDir.Enabled = false;
             this.buttonOpenDir.Location = new System.Drawing.Point(47, 179);
             this.buttonOpenDir.Name = "buttonOpenDir";
             this.buttonOpenDir.Size = new System.Drawing.Size(75, 23);
@@ -169,6 +172,7 @@
             // 
             // buttonNextImg
             // 
+            this.buttonNextImg.Enabled = false;
             this.buttonNextImg.Location = new System.Drawing.Point(47, 226);
             this.buttonNextImg.Name = "buttonNextImg";
             this.buttonNextImg.Size = new System.Drawing.Size(75, 23);
@@ -178,6 +182,7 @@
             // 
             // buttonProcMultiImg
             // 
+            this.buttonProcMultiImg.Enabled = false;
             this.buttonProcMultiImg.Location = new System.Drawing.Point(181, 179);
             this.buttonProcMultiImg.Name = "buttonProcMultiImg";
             this.buttonProcMultiImg.Size = new System.Drawing.Size(75, 23);
@@ -185,13 +190,14 @@
             this.buttonProcMultiImg.Text = "批量处理";
             this.buttonProcMultiImg.UseVisualStyleBackColor = true;
             // 
-            // textBox2
+            // textBoxAreaMin
             // 
-            this.textBox2.Location = new System.Drawing.Point(47, 308);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(209, 76);
-            this.textBox2.TabIndex = 15;
+            this.textBoxAreaMin.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxAreaMin.Location = new System.Drawing.Point(47, 308);
+            this.textBoxAreaMin.Multiline = true;
+            this.textBoxAreaMin.Name = "textBoxAreaMin";
+            this.textBoxAreaMin.Size = new System.Drawing.Size(209, 76);
+            this.textBoxAreaMin.TabIndex = 15;
             // 
             // label1
             // 
@@ -206,15 +212,16 @@
             // 
             // labelChar
             // 
+            this.labelChar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelChar.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labelChar.Location = new System.Drawing.Point(47, 398);
             this.labelChar.Name = "labelChar";
-            this.labelChar.Size = new System.Drawing.Size(651, 23);
+            this.labelChar.Size = new System.Drawing.Size(651, 30);
             this.labelChar.TabIndex = 17;
-            this.labelChar.Text = "labelChar";
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(12, 445);
+            this.label3.Location = new System.Drawing.Point(12, 435);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 28);
             this.label3.TabIndex = 18;
@@ -222,26 +229,35 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(14, 502);
+            this.label4.Location = new System.Drawing.Point(12, 463);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 28);
             this.label4.TabIndex = 19;
             this.label4.Text = "设定值";
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(12, 403);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 14);
+            this.label2.TabIndex = 20;
+            this.label2.Text = "喷码";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 548);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.labelChar);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBoxAreaMin);
             this.Controls.Add(this.buttonProcMultiImg);
             this.Controls.Add(this.buttonNextImg);
             this.Controls.Add(this.buttonOpenDir);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxPriorCharAll);
             this.Controls.Add(this.labelPriorCharAll);
             this.Controls.Add(this.buttonSaveValue);
             this.Controls.Add(this.labelPriorChar);
@@ -273,15 +289,16 @@
         private System.Windows.Forms.Label labelPriorChar;
         private System.Windows.Forms.Button buttonSaveValue;
         private System.Windows.Forms.Label labelPriorCharAll;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxPriorCharAll;
         private System.Windows.Forms.Button buttonOpenDir;
         private System.Windows.Forms.Button buttonNextImg;
         private System.Windows.Forms.Button buttonProcMultiImg;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxAreaMin;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelChar;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
     }
 }
 
