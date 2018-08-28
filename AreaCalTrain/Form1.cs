@@ -32,28 +32,27 @@ namespace haocon_ocr_0518
         private void button1_Click(object sender, EventArgs e)
         {
             HD.ProcessImage(hWindowControl1.HalconWindow, ImagePath);
+            string str = "";
+            for (int i = 0; i < HD.Area.Length; i++)
+                str += HD.Area[i].I.ToString() + "  ";
+            textBoxMeasureValue.Text = str;
                 if (!HD.hv_ErrorCount)
                 {
-                    label1.Text = "合格";
-                    //string str1 = HD.ShowStr1.ToString().Replace(";", "");
-                    //string str2 = HD.ShowStr2.ToString().Replace(";", "");
-                    //textBox1.Text = str1;
-                    //textBox2.Text = str2;
-                    //int[] iNums = Array.ConvertAll(sNums, int.Parse);
+                    labelMessage.Text = "合格";
                 }
                 else
                 {
                     if (HD.hv_ErrorCount == 1)
                     {
-                        label1.Text = "不合格, 第一行缺失字符";
+                        labelMessage.Text = "不合格, 第一行缺失字符";
                     }
                     else if (HD.hv_ErrorCount == 2)
                     {
-                        label1.Text = "不合格, 第二行缺失字符";
+                        labelMessage.Text = "不合格, 第二行缺失字符";
                     }
                     else
                     {
-                        label1.Text = "不合格, 缺失多个字符";
+                        labelMessage.Text = "不合格, 缺失多个字符";
                     }
                 }
         }
@@ -64,12 +63,12 @@ namespace haocon_ocr_0518
             openFileDialog1.ShowDialog();
             ImagePath = openFileDialog1.FileName;
             HD.ShowImage(hWindowControl1.HalconWindow, ImagePath);
-            label1.Text = ImagePath;
+            labelMessage.Text = ImagePath;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            knownStr = textBox3.Text;
+            knownStr = textBoxPriorChar.Text;
             if (formLoadFlag)
             {
                 formLoadFlag = false;
@@ -77,7 +76,7 @@ namespace haocon_ocr_0518
                 for (int i = 0; i < HD.Area.Length; i++)
                 {
                     areaMin[Array.IndexOf(orderChar, knownStr[i])] = HD.Area[i];
-                    areaMax[Array.IndexOf(orderChar, knownStr[i])] = HD.Area[i];
+                    //areaMax[Array.IndexOf(orderChar, knownStr[i])] = HD.Area[i];
                 }
             }
             else
@@ -88,20 +87,16 @@ namespace haocon_ocr_0518
                     {
                         areaMin[Array.IndexOf(orderChar, knownStr[i])] = HD.Area[i];
                     }
-                    if (areaMax[Array.IndexOf(orderChar, knownStr[i])] < HD.Area[i])
+                    /*if (areaMax[Array.IndexOf(orderChar, knownStr[i])] < HD.Area[i])
                     {
                         areaMax[Array.IndexOf(orderChar, knownStr[i])] = HD.Area[i];
-                    }
+                    }*/
                 }
             }
             string str = "";
             for (int i = 0; i < areaMin.Length; i++)
-                str += areaMin[i] + ", ";
-            textBox1.Text = str;
-            str = "";
-            for (int i = 0; i < areaMax.Length; i++)
-                str += areaMax[i] + ", ";
-            textBox2.Text = str;
+                str += areaMin[i].ToString() + "  ";
+            textBoxSettingValue.Text = str;
         }
     }
 
