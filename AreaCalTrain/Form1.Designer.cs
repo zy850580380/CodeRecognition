@@ -65,10 +65,11 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox1.Location = new System.Drawing.Point(18, 162);
+            this.textBox1.Location = new System.Drawing.Point(18, 153);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(242, 88);
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(242, 97);
             this.textBox1.TabIndex = 2;
             // 
             // textBox2
@@ -77,6 +78,7 @@
             this.textBox2.Location = new System.Drawing.Point(20, 312);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
+            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox2.Size = new System.Drawing.Size(240, 88);
             this.textBox2.TabIndex = 3;
             // 
@@ -111,7 +113,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(209, 44);
             this.textBox3.TabIndex = 6;
-            this.textBox3.Text = "1M20180821AK10Sb";
+            this.textBox3.Text = "20180827095813E";
             // 
             // label2
             // 
