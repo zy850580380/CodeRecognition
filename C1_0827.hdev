@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-530604196">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-31590249">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/C1  20180827/C1_26.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/C!_0827_diff/C1_144.bmp')</l>
 <l>KnownStr := ['2','0','1','8','0','8','2','7','1','0','0','7','1','3','E']</l>
 <l>emphasize (Image, ImageEmphasize, 7, 7, 3)</l>
 <l>binomial_filter (ImageEmphasize, ImageBinomial0, 5, 5)</l>
