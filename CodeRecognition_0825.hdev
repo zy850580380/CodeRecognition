@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="556606030">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="429482976">
 <procedure name="main">
 <interface/>
 <body>
@@ -14,56 +14,39 @@
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>count_obj (SelectedRegionsStd0, Number0)</l>
 <l>if (Number0 # 1)  </l>
-<l>    return ()</l>
+<l>    stop ()</l>
 <l>endif</l>
 <l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>*旋转图像</c>
 <l>smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
-<l>tuple_deg (Phi0, Deg0)</l>
-<l>rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
+<l>gen_rectangle2 (Rectangle0, Row0, Column0, Phi0, Length01+4, Length02+4)</l>
+<l>reduce_domain (ImageInvert0, Rectangle0, ImageReduced)</l>
+<l>crop_domain (ImageReduced, ImagePart)</l>
+<l>get_image_pointer1 (ImagePart, Pointer, Type, Width, Height)</l>
+<l>hom_mat2d_identity (HomMat2DIdentity)</l>
+<l>hom_mat2d_rotate (HomMat2DIdentity, -Phi0, Width/2, Height/2, HomMat2DRotate)</l>
+<l>affine_trans_image (ImagePart, ImageRotate0, HomMat2DRotate, 'constant', 'true')</l>
 <c>*处理旋转后的图像</c>
-<l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize01, ImageBinomia0l, 5, 5)</l>
-<l>invert_image (ImageBinomia0l, ImageInvert01)</l>
-<l>threshold (ImageInvert01, Region01, 135, 255)</l>
-<l>closing_circle (Region01, RegionClosing01, 10)</l>
-<l>opening_circle (RegionClosing01, RegionOpening01, 5)</l>
-<l>connection (RegionOpening01, ConnectedRegions01)</l>
-<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,30], [160,110])</l>
-<l>count_obj (SelectedRegions01, Number01)</l>
-<l>if (Number01 # 1)  </l>
-<l>    return ()</l>
-<l>endif</l>
-<l>intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
-<l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
-<l>RegionPriorWidth:=74</l>
-<l>RegionPriorHeight:=30</l>
-<c>*62,26</c>
-<l>gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2, 0, RegionPriorWidth, RegionPriorHeight)</l>
-<c>*缩小区域</c>
-<l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>mean_image (ImageReduced01, ImageMean01, 3, 3)</l>
-<l>dyn_threshold (ImageReduced01, ImageMean01, Region02, 8, 'light')</l>
-<l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
-<l>opening_rectangle1 (RegionClosing02, RegionOpening02, 5, 1)</l>
-<l>connection (RegionOpening02, ConnectedRegions02)</l>
-<c>*第一行***********************</c>
-<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,18,Row01-20], [160,35,Row01])</l>
-<l>intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
-<l>closing_rectangle1 (RegionIntersection1, RegionClosing1, 2, 50)</l>
-<l>closing_circle (RegionClosing1, RegionClosing11, 2)</l>
-<l>connection (RegionClosing11, ConnectedRegions1)</l>
+<l>threshold (ImageRotate0, Region01, 130, 255)</l>
+<l>area_center (Region01, Area, Row, Column)</l>
+<l>gen_rectangle2 (Rectangle1, 10, 10, rad(45), 2, 0)</l>
+<l>closing (Region01, Rectangle1, RegionClosing1)</l>
+<l>gen_rectangle2 (Rectangle11, 10, 10, rad(135), 2, 0)</l>
+<l>closing (RegionClosing1, Rectangle11, RegionClosing11)</l>
+<l>closing_rectangle1 (RegionClosing11, RegionClosing12, 2, 3)</l>
+<l>connection (RegionClosing12, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
-<l>partition_rectangle (RegionTrans1, Partitioned1, 14, 32)</l>
-<l>select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,6,18], [600,20,40])</l>
-<l>intersection (SelectedRegions1, Region02, RegionIntersection11)</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 20, 28)</l>
+<c>*第一行</c>
+<l>select_shape (Partitioned1, SelectedRegions1, ['width','height', 'row'], 'and', [6,18,Row-30], [20,40,Row])</l>
+<l>intersection (SelectedRegions1, Region01, RegionIntersection11)</l>
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions1, Number1)</l>
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
 <l>if (Number1 # 8)</l>
-<l>    return ()</l>
+<l>    stop ()</l>
 <l>endif</l>
 <l>KnownStr := [2,0,1,7,0,8,2,5,3,6,2,1,7,1,7]</l>
 <l>AreaMax := [136,86,112,116,120,121,138,91,149,138]</l>
@@ -72,32 +55,25 @@
 <l>for Index1 := 0 to Number1-1 by 1 </l>
 <l>    if ((Area11[Index1] &lt; AreaMin[KnownStr[Index1]] - AreaDelta) or (Area11[Index1] &gt; AreaMax[KnownStr[Index1]] + AreaDelta))</l>
 <l>        ErrorCount := 1</l>
-<l>        return ()</l>
+<l>        stop ()</l>
 <l>    endif</l>
 <l>endfor</l>
 <c></c>
 <c>*第二行***********************</c>
-<l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,18,Row01], [160,35,Row01+16])</l>
-<l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
-<l>closing_rectangle1 (RegionIntersection2, RegionClosing2, 2, 50)</l>
-<l>closing_circle (RegionClosing2, RegionClosing21, 2)</l>
-<l>connection (RegionClosing21, ConnectedRegions2)</l>
-<l>shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
-<l>partition_rectangle (RegionTrans2, Partitioned2, 14, 32)</l>
-<l>select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,6,18], [600,20,40])</l>
-<l>intersection (SelectedRegions2, Region02, RegionIntersection21)</l>
+<l>select_shape (Partitioned1, SelectedRegions2, ['width','height', 'row'], 'and', [6,18,Row], [20,40,Row+30])</l>
+<l>intersection (SelectedRegions2, Region01, RegionIntersection21)</l>
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions2, Number2)</l>
 <l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
 <l>if (Number2 # 7)</l>
-<l>    return ()</l>
+<l>    stop ()</l>
 <l>endif</l>
 <l>for Index2 := 0 to Number2-1 by 1 </l>
 <l>    if ((Area12[Index2] &lt; AreaMin[KnownStr[Index2+8]]-AreaDelta) or (Area12[Index2] &gt; AreaMax[KnownStr[Index2+8]]+AreaDelta))</l>
 <l>        ErrorCount := 2</l>
-<l>        return()</l>
+<l>        stop()</l>
 <l>    endif</l>
 <l>endfor</l>
 <c></c>

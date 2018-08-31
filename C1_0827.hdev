@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-899130433">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-516527947">
 <procedure name="main">
 <interface/>
 <body>
@@ -7,6 +7,7 @@
 <l>KnownStr := ['2','0','1','8','0','8','2','7','1','0','0','7','1','3','E']</l>
 <l>emphasize (Image, ImageEmphasize, 7, 7, 3)</l>
 <l>binomial_filter (ImageEmphasize, ImageBinomial0, 5, 5)</l>
+<l>invert_image (ImageBinomial0, ImageInvert0)</l>
 <l>gray_erosion_shape (ImageBinomial0, ImageMin0, 11, 11, 'octagon')</l>
 <l>threshold (ImageMin0, Region0, 0, 100)</l>
 <l>closing_rectangle1 (Region0, RegionClosing00, 20, 20)</l>
@@ -19,18 +20,15 @@
 <l>intersection (SelectedRegions0, Region0, RegionIntersection0)</l>
 <c>*旋转图像</c>
 <l>smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
-<l>smallest_rectangle1 (RegionIntersection0, Row11, Column11, Row12, Column12)</l>
-<l>gen_rectangle1 (Rectangle0, Row11, Column11, Row12, Column12)</l>
-<l>reduce_domain (ImageBinomial0, Rectangle0, ImageReduced0)</l>
+<l>gen_rectangle2 (Rectangle0, Row0, Column0, Phi0, Length01+4, Length02+4)</l>
+<l>reduce_domain (ImageInvert0, Rectangle0, ImageReduced0)</l>
 <l>crop_domain (ImageReduced0, ImagePart0)</l>
 <l>get_image_pointer1 (ImagePart0, Pointer, Type, Width, Height)</l>
 <l>hom_mat2d_identity (HomMat2DIdentity)</l>
 <l>hom_mat2d_rotate (HomMat2DIdentity, -Phi0, Width/2, Height/2, HomMat2DRotate)</l>
-<l>affine_trans_image (ImagePart0, ImageRotate0, HomMat2DRotate, 'constant', 'true')</l>
+<l>affine_trans_image (ImagePart0, ImageRotate0, HomMat2DRotate, 'nearest_neighbor', 'true')</l>
 <c>*处理旋转后的图像</c>
-<l>mean_image (ImageRotate0, ImageMean1, 7, 7)</l>
-<l>dyn_threshold (ImageRotate0, ImageMean1, Region01, 15, 'dark')</l>
-<l>*threshold (ImageRotate0, Region01, 0, 105)</l>
+<l>threshold (ImageRotate0, Region01, 150, 255)</l>
 <l>area_center (Region01, Area, Row, Column)</l>
 <l>gen_rectangle2 (Rectangle1, 10, 10, rad(45), 3, 0)</l>
 <l>closing (Region01, Rectangle1, RegionClosing1)</l>
