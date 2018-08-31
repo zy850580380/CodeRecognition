@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-469373266">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-81467122">
 <procedure name="main">
 <interface/>
 <body>
-<l>list_files ('D:/实习/图片/pic/2017.05.18/C1', 'files', FilesList)</l>
+<l>list_files ('D:/实习/seg/pic_0518/05', 'files', FilesList)</l>
 <l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
 <c>*|FilesList|</c>
 <l>for Index :=0 to |FilesList| - 1 by 1</l>
@@ -75,10 +75,21 @@
 <c>    *选中字符</c>
 <c>    *排序</c>
 <l>    sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
+<l>    count_obj (SortedRegions1, Number1)</l>
+<l>    if (Number1 # 8)</l>
+<l>        continue</l>
+<l>    endif</l>
 <l>    area_center (SortedRegions1, Area1, Row1, Column1)</l>
-<l>    FontName:='D:/github/CodeRecognition/0518Words.omc'</l>
-<l>    read_ocr_class_mlp(FontName, OCRHandle1)</l>
-<l>    do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
+<l>    priorChar := ['2','0','1','7','0','5','1','8']</l>
+<l>    smallest_rectangle1 (SortedRegions1, Row11, Column11, Row12, Column12)</l>
+<l>    for Index1 := 0 to 7 by 1</l>
+<l>        gen_rectangle1 (Rectangle, Row11[Index1], Column11[Index1], Row12[Index1], Column12[Index1])</l>
+<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
+<l>        crop_domain (ImageReduced, ImagePart)</l>
+<l>        imgname := 'D:/实习/seg/datasets/pic_0518/'+priorChar[Index1]+'/'+BaseName+'_'+Index1+'.png'</l>
+<l>        write_image (ImagePart, 'png', 0, imgname)</l>
+<l>    endfor</l>
+<c>    </c>
 <c>    *第二行***********************</c>
 <l>    select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,Row01], [160,35,Row01+20])</l>
 <l>    intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
@@ -91,23 +102,21 @@
 <c>    *选中字符</c>
 <c>    *排序</c>
 <l>    sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
+<l>    count_obj (SortedRegions2, Number2)</l>
+<l>    if (Number2 # 7)</l>
+<l>        continue</l>
+<l>    endif</l>
 <l>    area_center (SortedRegions2, Area2, Row2, Column2)</l>
-<c>    *识别</c>
-<l>    read_ocr_class_mlp(FontName, OCRHandle2)</l>
-<l>    do_ocr_multi_class_mlp (SortedRegions2, ImageRotate0, OCRHandle2, RecNum2, Confidence2)</l>
-<c>    *显示识别结果</c>
-<l>    set_display_font (3600, 18, 'mono', 'true', 'false')</l>
-<l>    for i := 0 to |RecNum1| - 1 by 1</l>
-<l>        disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'black', 'false')</l>
-<l>    endfor</l>
-<l>    for i := 0 to |RecNum2| - 1 by 1</l>
-<l>        disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'black', 'false')</l>
+<l>    priorChar := ['5','6','4','1','4','0','5']</l>
+<l>    smallest_rectangle1 (SortedRegions2, Row21, Column21, Row22, Column22)</l>
+<l>    for Index2 := 0 to 6 by 1</l>
+<l>        gen_rectangle1 (Rectangle, Row21[Index2], Column21[Index2], Row22[Index2], Column22[Index2])</l>
+<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
+<l>        crop_domain (ImageReduced, ImagePart)</l>
+<l>        imgname := 'D:/实习/seg/datasets/pic_0518/'+priorChar[Index2]+'/'+BaseName+'_'+Index2+Index1+'.png'</l>
+<l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <c>    </c>
-<l>    dump_window_image (Image_write, WindowHandle)</l>
-<l>    write_image (Image_write, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/result/'+BaseName)</l>
-<l>    clear_ocr_class_mlp (OCRHandle1)</l>
-<l>    clear_ocr_class_mlp (OCRHandle2)</l>
 <l>endfor   </l>
 </body>
 <docu id="main">
