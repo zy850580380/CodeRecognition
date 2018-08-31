@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="halcondotnet">
-      <HintPath>..\..\..\..\..\Program Files\MVTec\HALCON-10.0\bin\dotnet35\halcondotnet.dll</HintPath>
+      <HintPath>C:\Program Files\MVTec\HALCON-10.0\bin\dotnet35\halcondotnet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
