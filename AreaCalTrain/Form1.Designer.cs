@@ -37,18 +37,21 @@
             this.labelMessage = new System.Windows.Forms.Label();
             this.textBoxPriorChar = new System.Windows.Forms.TextBox();
             this.labelPriorChar = new System.Windows.Forms.Label();
-            this.buttonSaveValue = new System.Windows.Forms.Button();
+            this.buttonRestoreLast = new System.Windows.Forms.Button();
             this.labelPriorCharAll = new System.Windows.Forms.Label();
             this.textBoxPriorCharAll = new System.Windows.Forms.TextBox();
             this.buttonOpenDir = new System.Windows.Forms.Button();
             this.buttonNextImg = new System.Windows.Forms.Button();
-            this.buttonProcMultiImg = new System.Windows.Forms.Button();
+            this.buttonFormerIng = new System.Windows.Forms.Button();
             this.textBoxAreaMin = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.labelChar = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.buttonSaveResults = new System.Windows.Forms.Button();
+            this.buttonShowResults = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonProcSingleImg
@@ -116,7 +119,7 @@
             // 
             // textBoxPriorChar
             // 
-            this.textBoxPriorChar.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxPriorChar.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBoxPriorChar.Location = new System.Drawing.Point(47, 64);
             this.textBoxPriorChar.Multiline = true;
             this.textBoxPriorChar.Name = "textBoxPriorChar";
@@ -132,15 +135,15 @@
             this.labelPriorChar.TabIndex = 7;
             this.labelPriorChar.Text = "预存喷码";
             // 
-            // buttonSaveValue
+            // buttonRestoreLast
             // 
-            this.buttonSaveValue.Location = new System.Drawing.Point(181, 226);
-            this.buttonSaveValue.Name = "buttonSaveValue";
-            this.buttonSaveValue.Size = new System.Drawing.Size(75, 23);
-            this.buttonSaveValue.TabIndex = 9;
-            this.buttonSaveValue.Text = "保存阈值";
-            this.buttonSaveValue.UseVisualStyleBackColor = true;
-            this.buttonSaveValue.Click += new System.EventHandler(this.button3_Click);
+            this.buttonRestoreLast.Location = new System.Drawing.Point(47, 191);
+            this.buttonRestoreLast.Name = "buttonRestoreLast";
+            this.buttonRestoreLast.Size = new System.Drawing.Size(75, 23);
+            this.buttonRestoreLast.TabIndex = 9;
+            this.buttonRestoreLast.Text = "阈值回滚";
+            this.buttonRestoreLast.UseVisualStyleBackColor = true;
+            this.buttonRestoreLast.Click += new System.EventHandler(this.buttonRestoreLast_Click);
             // 
             // labelPriorCharAll
             // 
@@ -152,7 +155,7 @@
             // 
             // textBoxPriorCharAll
             // 
-            this.textBoxPriorCharAll.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxPriorCharAll.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBoxPriorCharAll.Location = new System.Drawing.Point(47, 1);
             this.textBoxPriorCharAll.Multiline = true;
             this.textBoxPriorCharAll.Name = "textBoxPriorCharAll";
@@ -162,33 +165,33 @@
             // 
             // buttonOpenDir
             // 
-            this.buttonOpenDir.Enabled = false;
-            this.buttonOpenDir.Location = new System.Drawing.Point(47, 179);
+            this.buttonOpenDir.Location = new System.Drawing.Point(47, 162);
             this.buttonOpenDir.Name = "buttonOpenDir";
             this.buttonOpenDir.Size = new System.Drawing.Size(75, 23);
             this.buttonOpenDir.TabIndex = 12;
             this.buttonOpenDir.Text = "选择文件夹";
             this.buttonOpenDir.UseVisualStyleBackColor = true;
+            this.buttonOpenDir.Click += new System.EventHandler(this.buttonOpenDir_Click);
             // 
             // buttonNextImg
             // 
-            this.buttonNextImg.Enabled = false;
-            this.buttonNextImg.Location = new System.Drawing.Point(47, 226);
+            this.buttonNextImg.Location = new System.Drawing.Point(181, 162);
             this.buttonNextImg.Name = "buttonNextImg";
             this.buttonNextImg.Size = new System.Drawing.Size(75, 23);
             this.buttonNextImg.TabIndex = 13;
             this.buttonNextImg.Text = "下一张";
             this.buttonNextImg.UseVisualStyleBackColor = true;
+            this.buttonNextImg.Click += new System.EventHandler(this.buttonNextImg_Click);
             // 
-            // buttonProcMultiImg
+            // buttonFormerIng
             // 
-            this.buttonProcMultiImg.Enabled = false;
-            this.buttonProcMultiImg.Location = new System.Drawing.Point(181, 179);
-            this.buttonProcMultiImg.Name = "buttonProcMultiImg";
-            this.buttonProcMultiImg.Size = new System.Drawing.Size(75, 23);
-            this.buttonProcMultiImg.TabIndex = 14;
-            this.buttonProcMultiImg.Text = "批量处理";
-            this.buttonProcMultiImg.UseVisualStyleBackColor = true;
+            this.buttonFormerIng.Location = new System.Drawing.Point(181, 191);
+            this.buttonFormerIng.Name = "buttonFormerIng";
+            this.buttonFormerIng.Size = new System.Drawing.Size(75, 23);
+            this.buttonFormerIng.TabIndex = 14;
+            this.buttonFormerIng.Text = "上一张";
+            this.buttonFormerIng.UseVisualStyleBackColor = true;
+            this.buttonFormerIng.Click += new System.EventHandler(this.buttonProcMultiImg_Click);
             // 
             // textBoxAreaMin
             // 
@@ -243,23 +246,49 @@
             this.label2.TabIndex = 20;
             this.label2.Text = "喷码";
             // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            // 
+            // buttonSaveResults
+            // 
+            this.buttonSaveResults.Location = new System.Drawing.Point(47, 220);
+            this.buttonSaveResults.Name = "buttonSaveResults";
+            this.buttonSaveResults.Size = new System.Drawing.Size(75, 23);
+            this.buttonSaveResults.TabIndex = 21;
+            this.buttonSaveResults.Text = "保存结果";
+            this.buttonSaveResults.UseVisualStyleBackColor = true;
+            this.buttonSaveResults.Click += new System.EventHandler(this.buttonSaveResults_Click);
+            // 
+            // buttonShowResults
+            // 
+            this.buttonShowResults.Location = new System.Drawing.Point(181, 220);
+            this.buttonShowResults.Name = "buttonShowResults";
+            this.buttonShowResults.Size = new System.Drawing.Size(75, 23);
+            this.buttonShowResults.TabIndex = 22;
+            this.buttonShowResults.Text = "显示结果";
+            this.buttonShowResults.UseVisualStyleBackColor = true;
+            this.buttonShowResults.Click += new System.EventHandler(this.buttonShowResults_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 492);
+            this.Controls.Add(this.buttonShowResults);
+            this.Controls.Add(this.buttonSaveResults);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.labelChar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxAreaMin);
-            this.Controls.Add(this.buttonProcMultiImg);
+            this.Controls.Add(this.buttonFormerIng);
             this.Controls.Add(this.buttonNextImg);
             this.Controls.Add(this.buttonOpenDir);
             this.Controls.Add(this.textBoxPriorCharAll);
             this.Controls.Add(this.labelPriorCharAll);
-            this.Controls.Add(this.buttonSaveValue);
+            this.Controls.Add(this.buttonRestoreLast);
             this.Controls.Add(this.labelPriorChar);
             this.Controls.Add(this.textBoxPriorChar);
             this.Controls.Add(this.labelMessage);
@@ -287,18 +316,21 @@
         private System.Windows.Forms.Label labelMessage;
         private System.Windows.Forms.TextBox textBoxPriorChar;
         private System.Windows.Forms.Label labelPriorChar;
-        private System.Windows.Forms.Button buttonSaveValue;
+        private System.Windows.Forms.Button buttonRestoreLast;
         private System.Windows.Forms.Label labelPriorCharAll;
         private System.Windows.Forms.TextBox textBoxPriorCharAll;
         private System.Windows.Forms.Button buttonOpenDir;
         private System.Windows.Forms.Button buttonNextImg;
-        private System.Windows.Forms.Button buttonProcMultiImg;
+        private System.Windows.Forms.Button buttonFormerIng;
         private System.Windows.Forms.TextBox textBoxAreaMin;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelChar;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button buttonSaveResults;
+        private System.Windows.Forms.Button buttonShowResults;
     }
 }
 
