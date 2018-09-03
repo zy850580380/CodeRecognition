@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-81467122">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-197340135">
 <procedure name="main">
 <interface/>
 <body>
-<l>list_files ('D:/实习/seg/pic_0518/05', 'files', FilesList)</l>
+<l>list_files ('D:/实习/seg/pic_0518/06', 'files', FilesList)</l>
 <l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
 <c>*|FilesList|</c>
 <l>for Index :=0 to |FilesList| - 1 by 1</l>
@@ -60,6 +60,7 @@
 <l>    reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
 <l>    median_image (ImageReduced01, ImageMedian01, 'circle', 2, 'mirrored')</l>
 <l>    threshold (ImageMedian01, Region02, 60, 255)</l>
+<l>    region_to_bin (Region02, BinImage, 255, 0, Width, Height)</l>
 <l>    closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
 <l>    *opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 2)</l>
 <l>    connection (RegionClosing02, ConnectedRegions02)</l>
@@ -84,9 +85,9 @@
 <l>    smallest_rectangle1 (SortedRegions1, Row11, Column11, Row12, Column12)</l>
 <l>    for Index1 := 0 to 7 by 1</l>
 <l>        gen_rectangle1 (Rectangle, Row11[Index1], Column11[Index1], Row12[Index1], Column12[Index1])</l>
-<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
+<l>        reduce_domain (BinImage, Rectangle, ImageReduced)</l>
 <l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/datasets/pic_0518/'+priorChar[Index1]+'/'+BaseName+'_'+Index1+'.png'</l>
+<l>        imgname := 'D:/实习/seg/datasets/bin/pic_0518/'+priorChar[Index1]+'/'+BaseName+'_'+Index1+'.png'</l>
 <l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <c>    </c>
@@ -107,13 +108,13 @@
 <l>        continue</l>
 <l>    endif</l>
 <l>    area_center (SortedRegions2, Area2, Row2, Column2)</l>
-<l>    priorChar := ['5','6','4','1','4','0','5']</l>
+<l>    priorChar := ['5','6','4','1','4','0','6']</l>
 <l>    smallest_rectangle1 (SortedRegions2, Row21, Column21, Row22, Column22)</l>
 <l>    for Index2 := 0 to 6 by 1</l>
 <l>        gen_rectangle1 (Rectangle, Row21[Index2], Column21[Index2], Row22[Index2], Column22[Index2])</l>
-<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
+<l>        reduce_domain (BinImage, Rectangle, ImageReduced)</l>
 <l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/datasets/pic_0518/'+priorChar[Index2]+'/'+BaseName+'_'+Index2+Index1+'.png'</l>
+<l>        imgname := 'D:/实习/seg/datasets/bin/pic_0518/'+priorChar[Index2]+'/'+BaseName+'_'+Index2+Index1+'.png'</l>
 <l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <c>    </c>
