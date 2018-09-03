@@ -52,6 +52,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.buttonSaveResults = new System.Windows.Forms.Button();
             this.buttonShowResults = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonProcSingleImg
@@ -199,6 +200,7 @@
             this.textBoxAreaMin.Location = new System.Drawing.Point(47, 308);
             this.textBoxAreaMin.Multiline = true;
             this.textBoxAreaMin.Name = "textBoxAreaMin";
+            this.textBoxAreaMin.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxAreaMin.Size = new System.Drawing.Size(209, 76);
             this.textBoxAreaMin.TabIndex = 15;
             // 
@@ -270,11 +272,20 @@
             this.buttonShowResults.UseVisualStyleBackColor = true;
             this.buttonShowResults.Click += new System.EventHandler(this.buttonShowResults_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(134, 167);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(0, 12);
+            this.label5.TabIndex = 23;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 492);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.buttonShowResults);
             this.Controls.Add(this.buttonSaveResults);
             this.Controls.Add(this.label2);
@@ -331,6 +342,7 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button buttonSaveResults;
         private System.Windows.Forms.Button buttonShowResults;
+        private System.Windows.Forms.Label label5;
     }
 }
 

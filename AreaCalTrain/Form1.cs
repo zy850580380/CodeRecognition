@@ -16,6 +16,7 @@ namespace haocon_ocr_0518
         string ImagePath;
         string[] fileList = new string[666];
         int fileListIndex = 0;
+        int fileCount = 0;
 
         HDevelopExport HD = new HDevelopExport();
         string knownStr = "";
@@ -24,7 +25,8 @@ namespace haocon_ocr_0518
         int[] areaMin = new int[62] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         int[] areaMinLast = new int[62] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         int[] areaMinUlt = new int[62] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        //int[] areaMin = new int[62] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61 };
+        int[] areaMaxUlt = new int[62] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        int[] areaMax = new int[62] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public Form1()
         {
             InitializeComponent();
@@ -100,6 +102,10 @@ namespace haocon_ocr_0518
                 {
                     areaMin[Array.IndexOf(orderChar, knownStr[i])] = HD.Area[i];
                 }
+                if ((areaMax[Array.IndexOf(orderChar, knownStr[i])] < HD.Area[i]) || areaMax[Array.IndexOf(orderChar, knownStr[i])] == 0)
+                {
+                    areaMax[Array.IndexOf(orderChar, knownStr[i])] = HD.Area[i];
+                }
             }
             string str = "";
             for (int i = 0; i < textBoxPriorCharAll.Text.Length; i++)
@@ -114,13 +120,21 @@ namespace haocon_ocr_0518
         private void buttonProcMultiImg_Click(object sender, EventArgs e)
         {
             --fileListIndex;
-            if (fileListIndex != 0)
+            if (fileListIndex > 0)
             {
                 ImagePath = fileList[--fileListIndex];
+                label5.Text = (fileListIndex+1).ToString();
+                HD.ShowImage(hWindowControl1.HalconWindow, ImagePath);
+            }
+            else if (fileListIndex == 0)
+            {
+                ImagePath = fileList[fileListIndex];
+                label5.Text = (fileListIndex + 1).ToString();
                 HD.ShowImage(hWindowControl1.HalconWindow, ImagePath);
             }
             else
             {
+                labelMessage.Text = "已回到第一张";
                 return;
             }
             labelMessage.Text = ImagePath;
@@ -133,18 +147,37 @@ namespace haocon_ocr_0518
             {
                 DirectoryInfo folder = new DirectoryInfo(folderBrowserDialog1.SelectedPath);
                 labelMessage.Text = folderBrowserDialog1.SelectedPath;
-
+                string str = "";
                 foreach (FileInfo file in folder.GetFiles("*.bmp"))
                 {
                     fileList[fileListIndex++]=file.FullName;
+                    fileCount++;
+                    str += file.FullName+"\n";
                 }
                 fileListIndex = 0;
+                textBoxAreaMin.Text = str;
             }
         }
 
         private void buttonNextImg_Click(object sender, EventArgs e)
         {
-            ImagePath = fileList[fileListIndex++];
+            if (fileListIndex == fileCount)
+            {
+                labelMessage.Text = "已处理完";
+                return;
+            }
+            if (fileListIndex >= 0)
+            {
+                ImagePath = fileList[fileListIndex++];
+            }
+            else
+            {
+                fileListIndex++;
+                return;
+            }
+            label5.Text = fileListIndex.ToString();
+            labelMessage.Text = ImagePath;
+            textBoxPriorChar.BackColor = Color.Blue;
             if (ImagePath != "")
             {
                 HD.ShowImage(hWindowControl1.HalconWindow, ImagePath);
@@ -153,8 +186,6 @@ namespace haocon_ocr_0518
             {
                 return;
             }
-            labelMessage.Text = ImagePath;
-            textBoxPriorChar.BackColor = Color.Blue;
         }
 
         private void buttonRestoreLast_Click(object sender, EventArgs e)
@@ -162,6 +193,7 @@ namespace haocon_ocr_0518
             for (int i = 0; i < areaMin.Length; i++)
             {
                 areaMin[i] = areaMinUlt[i];
+                areaMax[i] = areaMaxUlt[i];
             }
             string str = "";
             for (int i = 0; i < textBoxPriorCharAll.Text.Length; i++)
@@ -178,6 +210,7 @@ namespace haocon_ocr_0518
             for (int i = 0; i < areaMin.Length; i++)
             {
                 areaMinUlt[i] = areaMin[i];
+                areaMaxUlt[i] = areaMax[i];
             }
         }
 
@@ -187,6 +220,11 @@ namespace haocon_ocr_0518
             for (int i = 0; i < textBoxPriorCharAll.Text.Length; i++)
             {
                 str += areaMinUlt[Array.IndexOf(orderChar, textBoxPriorCharAll.Text[i])].ToString() + ", ";
+            }
+            str += "\n\r***";
+            for (int i = 0; i < textBoxPriorCharAll.Text.Length; i++)
+            {
+                str += areaMaxUlt[Array.IndexOf(orderChar, textBoxPriorCharAll.Text[i])].ToString() + ", ";
             }
             textBoxAreaMin.Text = str;
         }
