@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-422877248">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-262241664">
 <procedure name="main">
 <interface/>
 <body>
-<l>list_files ('D:/实习/seg/pic_0825', 'files', FilesList)</l>
+<l>list_files ('D:/实习/seg/test/pic_0825', 'files', FilesList)</l>
 <l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
 <c>*|FilesList|</c>
 <l>for Index :=0 to |FilesList| - 1 by 1</l>
@@ -90,7 +90,7 @@
 <l>        gen_rectangle1 (Rectangle, Row11[Index1], Column11[Index1], Row12[Index1], Column12[Index1])</l>
 <l>        reduce_domain (BinImage, Rectangle, ImageReduced)</l>
 <l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/datasets/bin/pic_0825/'+priorChar[Index1]+'/'+BaseName+'_'+Index1+'.png'</l>
+<l>        imgname := 'D:/实习/seg/test/dataset/'+priorChar[Index1]+'/'+'0825'+BaseName+'_'+Index1+'.png'</l>
 <l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <c>    </c>
@@ -119,7 +119,7 @@
 <l>        gen_rectangle1 (Rectangle, Row21[Index2], Column21[Index2], Row22[Index2], Column22[Index2])</l>
 <l>        reduce_domain (BinImage, Rectangle, ImageReduced)</l>
 <l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/datasets/bin/pic_0825/'+priorChar[Index2]+'/'+BaseName+'_'+Index2+Index1+'.png'</l>
+<l>        imgname := 'D:/实习/seg/test/dataset/'+priorChar[Index2]+'/'+'0825'+BaseName+'_'+Index2+Index1+'.png'</l>
 <l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <l>endfor </l>
