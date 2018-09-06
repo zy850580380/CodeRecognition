@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-262241664">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-123754191">
 <procedure name="main">
 <interface/>
 <body>
-<l>list_files ('D:/实习/seg/test/pic_0825', 'files', FilesList)</l>
+<l>list_files ('D:/实习/seg/test/pic_0825/18', 'files', FilesList)</l>
 <l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
 <c>*|FilesList|</c>
 <l>for Index :=0 to |FilesList| - 1 by 1</l>
@@ -88,9 +88,9 @@
 <l>    smallest_rectangle1 (SortedRegions1, Row11, Column11, Row12, Column12)</l>
 <l>    for Index1 := 0 to 7 by 1</l>
 <l>        gen_rectangle1 (Rectangle, Row11[Index1], Column11[Index1], Row12[Index1], Column12[Index1])</l>
-<l>        reduce_domain (BinImage, Rectangle, ImageReduced)</l>
+<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
 <l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/test/dataset/'+priorChar[Index1]+'/'+'0825'+BaseName+'_'+Index1+'.png'</l>
+<l>        imgname := 'D:/实习/seg/test/dataset/gray/'+priorChar[Index1]+'/'+'0825'+BaseName+'_'+Index1+'.png'</l>
 <l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <c>    </c>
@@ -113,13 +113,13 @@
 <l>    endif</l>
 <l>    area_center (SortedRegions2, Area2, Row2, Column2)</l>
 <c>    </c>
-<l>    priorChar := ['3','6','2','1','7','1','9']</l>
+<l>    priorChar := ['3','6','2','1','7','1','8']</l>
 <l>    smallest_rectangle1 (SortedRegions2, Row21, Column21, Row22, Column22)</l>
 <l>    for Index2 := 0 to 6 by 1</l>
 <l>        gen_rectangle1 (Rectangle, Row21[Index2], Column21[Index2], Row22[Index2], Column22[Index2])</l>
-<l>        reduce_domain (BinImage, Rectangle, ImageReduced)</l>
+<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
 <l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/test/dataset/'+priorChar[Index2]+'/'+'0825'+BaseName+'_'+Index2+Index1+'.png'</l>
+<l>        imgname := 'D:/实习/seg/test/dataset/gray/'+priorChar[Index2]+'/'+'0825'+BaseName+'_'+Index2+Index1+'.png'</l>
 <l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <l>endfor </l>

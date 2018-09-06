@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-195684017">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-774546640">
 <procedure name="main">
 <interface/>
 <body>
@@ -85,9 +85,9 @@
 <l>    smallest_rectangle1 (SortedRegions1, Row11, Column11, Row12, Column12)</l>
 <l>    for Index1 := 0 to 7 by 1</l>
 <l>        gen_rectangle1 (Rectangle, Row11[Index1], Column11[Index1], Row12[Index1], Column12[Index1])</l>
-<l>        reduce_domain (BinImage, Rectangle, ImageReduced)</l>
+<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
 <l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/test/dataset/'+priorChar[Index1]+'/'+'0518'+BaseName+'_'+Index1+'.png'</l>
+<l>        imgname := 'D:/实习/seg/test/dataset/gray/'+priorChar[Index1]+'/'+'0518'+BaseName+'_'+Index1+'.png'</l>
 <l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <c>    </c>
@@ -112,9 +112,9 @@
 <l>    smallest_rectangle1 (SortedRegions2, Row21, Column21, Row22, Column22)</l>
 <l>    for Index2 := 0 to 6 by 1</l>
 <l>        gen_rectangle1 (Rectangle, Row21[Index2], Column21[Index2], Row22[Index2], Column22[Index2])</l>
-<l>        reduce_domain (BinImage, Rectangle, ImageReduced)</l>
+<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
 <l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/test/dataset/'+priorChar[Index2]+'/'+'0518'+BaseName+'_'+Index2+Index1+'.png'</l>
+<l>        imgname := 'D:/实习/seg/test/dataset/gray/'+priorChar[Index2]+'/'+'0518'+BaseName+'_'+Index2+Index1+'.png'</l>
 <l>        write_image (ImagePart, 'png', 0, imgname)</l>
 <l>    endfor</l>
 <c>    </c>
