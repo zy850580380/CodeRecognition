@@ -66,8 +66,8 @@ namespace haocon_ocr_0518
         }
 #endif
         public HTuple RecognitionStr1 = new HTuple(), RecognitionStr2 = new HTuple();
-        //public HTuple hv_errorCnt;
-        private void action(HTuple HDWindow_, string ImageFile)
+        public HTuple errorCounts;
+        private void action(HTuple HDWindow_, string imgPath)
         {
             HDevWindowStack.Push(HDWindow_);
             // Local iconic variables 
@@ -87,9 +87,10 @@ namespace haocon_ocr_0518
 
             // Local control variables 
 
-            HTuple hv_Width0, hv_Height0, hv_Number0, hv_errorCnt;
-            HTuple hv_Row0, hv_Column0, hv_Phi0, hv_Length01, hv_Length02;
-            HTuple hv_Pointer, hv_Type, hv_Width, hv_Height, hv_HomMat2DIdentity;
+            HTuple hv_imgPath = new HTuple(), hv_Width0;
+            HTuple hv_Height0, hv_Number0, hv_errorCounts, hv_Row0;
+            HTuple hv_Column0, hv_Phi0, hv_Length01, hv_Length02, hv_Pointer;
+            HTuple hv_Type, hv_Width, hv_Height, hv_HomMat2DIdentity;
             HTuple hv_HomMat2DRotate, hv_Number1, hv_FontName, hv_OCRHandle1;
             HTuple hv_RecNum1, hv_Confidence1;
 
@@ -128,7 +129,7 @@ namespace haocon_ocr_0518
             HOperatorSet.GenEmptyObj(out ho_SortedRegions1);
 
             ho_Image.Dispose();
-            HOperatorSet.ReadImage(out ho_Image, ImageFile);
+            HOperatorSet.ReadImage(out ho_Image, imgPath);
             HOperatorSet.GetImageSize(ho_Image, out hv_Width0, out hv_Height0);
             ho_DotImage0.Dispose();
             HOperatorSet.DotsImage(ho_Image, out ho_DotImage0, 3, "dark", 2);
@@ -153,10 +154,10 @@ namespace haocon_ocr_0518
             HOperatorSet.SelectShapeStd(ho_SelectedRegions0, out ho_SelectedRegionsStd0,
                 "max_area", 70);
             HOperatorSet.CountObj(ho_SelectedRegionsStd0, out hv_Number0);
-            hv_errorCnt = 0;
+            hv_errorCounts = 0;
             if ((int)(new HTuple(hv_Number0.TupleNotEqual(1))) != 0)
             {
-                hv_errorCnt = 10;
+                hv_errorCounts = 10;
                 if (HDevWindowStack.IsOpen())
                 {
                     HOperatorSet.ClearWindow(HDevWindowStack.GetActive());
@@ -207,7 +208,7 @@ namespace haocon_ocr_0518
             ho_RegionIntersection0.Dispose();
             HOperatorSet.Intersection(ho_SelectedRegionsStd0, ho_Region0, out ho_RegionIntersection0
                 );
-            //旋转图像
+            //鏃嬭浆鍥惧儚
             HOperatorSet.SmallestRectangle2(ho_RegionIntersection0, out hv_Row0, out hv_Column0,
                 out hv_Phi0, out hv_Length01, out hv_Length02);
             ho_Rectangle0.Dispose();
@@ -235,7 +236,7 @@ namespace haocon_ocr_0518
             ho_ImageRotate1.Dispose();
             HOperatorSet.AffineTransImage(ho_ImagePart1, out ho_ImageRotate1, hv_HomMat2DRotate,
                 "nearest_neighbor", "true");
-            //处理旋转后的图像
+            //澶勭悊鏃嬭浆鍚庣殑鍥惧儚
             ho_DotImage2.Dispose();
             HOperatorSet.DotsImage(ho_ImageRotate1, out ho_DotImage2, 3, "light", 2);
             ho_ImageMean2.Dispose();
@@ -243,7 +244,7 @@ namespace haocon_ocr_0518
             ho_RegionDynThresh2.Dispose();
             HOperatorSet.DynThreshold(ho_DotImage2, ho_ImageMean2, out ho_RegionDynThresh2,
                 60, "light");
-            //形态学处理
+            //褰㈡€佸澶勭悊
             ho_Rectangle2.Dispose();
             HOperatorSet.GenRectangle2(out ho_Rectangle2, 10, 10, (new HTuple(45)).TupleRad()
                 , 3, 0);
@@ -279,7 +280,7 @@ namespace haocon_ocr_0518
             HOperatorSet.CountObj(ho_SortedRegions1, out hv_Number1);
             if ((int)(new HTuple(hv_Number1.TupleNotEqual(16))) != 0)
             {
-                hv_errorCnt = 1;
+                hv_errorCounts = 1;
                 if (HDevWindowStack.IsOpen())
                 {
                     HOperatorSet.ClearWindow(HDevWindowStack.GetActive());
@@ -380,6 +381,7 @@ namespace haocon_ocr_0518
             ho_RegionIntersection1.Dispose();
             ho_SortedRegions1.Dispose();
 
+            errorCounts = hv_errorCounts;
             RecognitionStr1 = hv_RecNum1;
         }
     }

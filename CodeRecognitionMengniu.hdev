@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-608800725">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-420162929">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)2.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/蒙牛/VLG-02M(0776620216)9.bmp')</l>
 <l>get_image_size (Image, Width0, Height0)</l>
 <l>dots_image (Image, DotImage0, 3, 'dark', 2)</l>
 <l>threshold (DotImage0, Region0, 150, 255)</l>
@@ -15,9 +15,9 @@
 <l>select_shape (ConnectedRegions0, SelectedRegions0, ['height','width','area'], 'and', [25,360,10000], [60,440,24000])</l>
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>count_obj (SelectedRegionsStd0, Number0)</l>
-<l>errorCnt := 0</l>
+<l>errorCounts := 0</l>
 <l>if (Number0 # 1)  </l>
-<l>    errorCnt := 10</l>
+<l>    errorCounts := 10</l>
 <l>    dev_clear_window ()</l>
 <l>    dev_set_color ('white')</l>
 <l>    dev_display (Image)</l>
@@ -58,7 +58,7 @@
 <l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>count_obj (SortedRegions1, Number1)</l>
 <l>if (Number1 # 16)</l>
-<l>    errorCnt := 1</l>
+<l>    errorCounts := 1</l>
 <l>    dev_clear_window ()</l>
 <l>    dev_set_color ('white')</l>
 <l>    dev_display (Image)</l>
