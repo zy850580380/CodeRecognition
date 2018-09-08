@@ -53,6 +53,7 @@
             this.buttonSaveResults = new System.Windows.Forms.Button();
             this.buttonShowResults = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonProcSingleImg
@@ -126,7 +127,7 @@
             this.textBoxPriorChar.Name = "textBoxPriorChar";
             this.textBoxPriorChar.Size = new System.Drawing.Size(209, 44);
             this.textBoxPriorChar.TabIndex = 6;
-            this.textBoxPriorChar.Text = "20180827095813E";
+            this.textBoxPriorChar.Text = "201708253621718";
             // 
             // labelPriorChar
             // 
@@ -162,7 +163,7 @@
             this.textBoxPriorCharAll.Name = "textBoxPriorCharAll";
             this.textBoxPriorCharAll.Size = new System.Drawing.Size(209, 44);
             this.textBoxPriorCharAll.TabIndex = 11;
-            this.textBoxPriorCharAll.Text = "0123456789E";
+            this.textBoxPriorCharAll.Text = "0123456789";
             // 
             // buttonOpenDir
             // 
@@ -180,7 +181,7 @@
             this.buttonNextImg.Name = "buttonNextImg";
             this.buttonNextImg.Size = new System.Drawing.Size(75, 23);
             this.buttonNextImg.TabIndex = 13;
-            this.buttonNextImg.Text = "下一张";
+            this.buttonNextImg.Text = "批量处理";
             this.buttonNextImg.UseVisualStyleBackColor = true;
             this.buttonNextImg.Click += new System.EventHandler(this.buttonNextImg_Click);
             // 
@@ -190,7 +191,7 @@
             this.buttonFormerIng.Name = "buttonFormerIng";
             this.buttonFormerIng.Size = new System.Drawing.Size(75, 23);
             this.buttonFormerIng.TabIndex = 14;
-            this.buttonFormerIng.Text = "上一张";
+            this.buttonFormerIng.Text = "保存阈值";
             this.buttonFormerIng.UseVisualStyleBackColor = true;
             this.buttonFormerIng.Click += new System.EventHandler(this.buttonProcMultiImg_Click);
             // 
@@ -280,11 +281,20 @@
             this.label5.Size = new System.Drawing.Size(0, 12);
             this.label5.TabIndex = 23;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(128, 202);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(0, 12);
+            this.label6.TabIndex = 24;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 492);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.buttonShowResults);
             this.Controls.Add(this.buttonSaveResults);
@@ -343,6 +353,7 @@
         private System.Windows.Forms.Button buttonSaveResults;
         private System.Windows.Forms.Button buttonShowResults;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 

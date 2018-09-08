@@ -1,77 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="86016324">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-469373266">
 <procedure name="main">
 <interface/>
 <body>
 <l>list_files ('D:/实习/图片/pic/2017.05.18/C1', 'files', FilesList)</l>
 <l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
 <c>*|FilesList|</c>
-<l>for Index :=0 to |FilesList| - 1 by 1   </l>
+<l>for Index :=0 to |FilesList| - 1 by 1</l>
+<l>    dev_close_window()//关闭窗口的实时更新</l>
+<l>    dev_update_window ('off')</l>
+<c>    </c>
 <l>    read_image (Image, FilesList[Index])</l>
 <c>    </c>
-<l>    parse_filename (FilesList[Index], BaseName, Extension, Directory)</l>
+<l>    parse_filename(FilesList[Index], BaseName, Extension, Directory)</l>
+<l>    get_image_size (Image, Width, Height)</l>
+<l>    dev_open_window (0, 0, Width, Height, 'black', WindowHandle)</l>
+<l>    dev_display (Image)</l>
+<c>    </c>
 <l>    emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>    invert_image (ImageEmphasize0, ImageInvert0)</l>
-<l>    threshold (ImageEmphasize0, Region0, 0, 105)</l>
+<l>*    mean_image (ImageInvert, ImageMean, 5, 5)</l>
+<l>*    dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
+<l>    threshold (ImageInvert0, Region0, 150, 255)</l>
 <l>    closing_circle (Region0, RegionClosing0, 10)</l>
 <l>    connection (RegionClosing0, ConnectedRegions0)</l>
 <l>    select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,40], [180,140])</l>
 <l>    select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
-<l>    ErrorCount := 0</l>
 <l>    count_obj (SelectedRegionsStd0, Number0)</l>
-<l>    if (Number0 # 1)  </l>
-<l>        write_image (Image, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/C2/'+BaseName+'.bmp')</l>
-<l>        ErrorCount := 10</l>
+<l>    if (Number0 # 1)</l>
 <l>        continue</l>
 <l>    endif</l>
 <l>    intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>    *旋转图像</c>
 <l>    smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
-<l>    gen_rectangle2 (Rectangle0, Row0, Column0, Phi0, Length01+4, Length02+4)</l>
-<l>    reduce_domain (ImageInvert0, Rectangle0, ImageReduced)</l>
-<l>    crop_domain (ImageReduced, ImagePart)</l>
-<l>    get_image_pointer1 (ImagePart, Pointer, Type, Width, Height)</l>
-<l>    hom_mat2d_identity (HomMat2DIdentity)</l>
-<l>    hom_mat2d_rotate (HomMat2DIdentity, -Phi0, Width/2, Height/2, HomMat2DRotate)</l>
-<l>    affine_trans_image (ImagePart, ImageRotate0, HomMat2DRotate, 'constant', 'true')</l>
+<l>    tuple_deg (Phi0, Deg0)</l>
+<l>    rotate_image (Image, ImageRotate0, -Deg0-1.5, 'constant')</l>
 <c>    *处理旋转后的图像</c>
-<l>    threshold (ImageRotate0, Region01, 105, 255)</l>
-<l>    area_center (Region01, Area, Row, Column)</l>
-<l>    gen_rectangle2 (Rectangle1, 10, 10, rad(45), 2, 0)</l>
-<l>    closing (Region01, Rectangle1, RegionClosing1)</l>
-<l>    gen_rectangle2 (Rectangle11, 10, 10, rad(135), 2, 0)</l>
-<l>    closing (RegionClosing1, Rectangle11, RegionClosing11)</l>
-<l>    closing_rectangle1 (RegionClosing11, RegionClosing12, 3, 5)</l>
-<l>    connection (RegionClosing12, ConnectedRegions1)</l>
+<l>    emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
+<l>    invert_image (ImageEmphasize01, ImageInvert01)</l>
+<l>*    mean_image (ImageRotate0, ImageMean, 3, 3)</l>
+<l>*    dyn_threshold (ImageInvert01, ImageMean, Region, 30, 'light')</l>
+<l>    threshold (ImageInvert01, Region01, 140, 255)</l>
+<l>    closing_circle (Region01, RegionClosing01, 10)</l>
+<l>    opening_circle (RegionClosing01, RegionOpening01, 5)</l>
+<l>    connection (RegionOpening01, ConnectedRegions01)</l>
+<l>    select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,30], [140,75])</l>
+<l>    count_obj (SelectedRegions01, Number01)</l>
+<l>    if (Number01 # 1)</l>
+<l>        continue</l>
+<l>    endif</l>
+<l>    intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
+<l>    smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
+<l>    RegionPriorWidth:=58</l>
+<l>    RegionPriorHeight:=28</l>
+<c>    *62,28</c>
+<l>*    gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2, 0, RegionPriorWidth, RegionPriorHeight)</l>
+<l>    gen_rectangle2 (Rectangle01, Row01-1, Column01-2, 0, Length011+4, Length012)</l>
+<c>    *缩小区域</c>
+<l>    reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
+<l>    median_image (ImageReduced01, ImageMedian01, 'circle', 2, 'mirrored')</l>
+<l>    threshold (ImageMedian01, Region02, 60, 255)</l>
+<l>    closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
+<l>    *opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 2)</l>
+<l>    connection (RegionClosing02, ConnectedRegions02)</l>
+<c>    *第一行****************************</c>
+<l>    select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [40,15,Row01-20], [160,35,Row01])</l>
+<l>    intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
+<l>    closing_rectangle1 (RegionIntersection1, RegionClosing1, 2, 50)</l>
+<l>    connection (RegionClosing1, ConnectedRegions1)</l>
 <l>    shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
 <l>    partition_rectangle (RegionTrans1, Partitioned1, 12, 32)</l>
-<c>    *第一行</c>
-<l>    select_shape (Partitioned1, SelectedRegions1, ['width','height', 'row'], 'and', [7,16, Row-30], [20,35, Row])</l>
-<l>    intersection (SelectedRegions1, Region01, RegionIntersection11)</l>
+<l>    select_shape (Partitioned1, SelectedRegions1, ['area','width','height'], 'and', [100,7,18], [550,20,35])</l>
+<l>    intersection (SelectedRegions1, Region02, RegionIntersection11)</l>
 <c>    *选中字符</c>
 <c>    *排序</c>
 <l>    sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
-<l>    count_obj (SortedRegions1, Number1)</l>
-<l>    area_center (SortedRegions1, Area11, Row11, Column11)</l>
-<l>    if (Number1 # 8)</l>
-<l>        write_image (Image, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/C2/'+BaseName+'.bmp')</l>
-<l>        ErrorCount := 1</l>
-<l>        continue</l>
-<l>    endif</l>
-<c>    </c>
+<l>    area_center (SortedRegions1, Area1, Row1, Column1)</l>
+<l>    FontName:='D:/github/CodeRecognition/0518Words.omc'</l>
+<l>    read_ocr_class_mlp(FontName, OCRHandle1)</l>
+<l>    do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
 <c>    *第二行***********************</c>
-<l>    select_shape (Partitioned1, SelectedRegions2, ['width','height', 'row'], 'and', [7,16, Row], [20,35, Row+30])</l>
-<l>    intersection (SelectedRegions2, Region01, RegionIntersection21)</l>
+<l>    select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,Row01], [160,35,Row01+20])</l>
+<l>    intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
+<l>    closing_rectangle1 (RegionIntersection2, RegionClosing2, 2, 50)</l>
+<l>    connection (RegionClosing2, ConnectedRegions2)</l>
+<l>    shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
+<l>    partition_rectangle (RegionTrans2, Partitioned2, 12, 32)</l>
+<l>    select_shape (Partitioned2, SelectedRegions2, ['area','width','height'], 'and', [100,7,18], [550,20,35])</l>
+<l>    intersection (SelectedRegions2, Region02, RegionIntersection21)</l>
 <c>    *选中字符</c>
 <c>    *排序</c>
 <l>    sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
-<l>    count_obj (SortedRegions2, Number2)</l>
-<l>    area_center (SortedRegions2, Area12, Row12, Column12)</l>
-<l>    if (Number2 # 7)</l>
-<l>        write_image (Image, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/C2/'+BaseName+'.bmp')</l>
-<l>        ErrorCount := 2</l>
-<l>        continue</l>
-<l>    endif</l>
+<l>    area_center (SortedRegions2, Area2, Row2, Column2)</l>
+<c>    *识别</c>
+<l>    read_ocr_class_mlp(FontName, OCRHandle2)</l>
+<l>    do_ocr_multi_class_mlp (SortedRegions2, ImageRotate0, OCRHandle2, RecNum2, Confidence2)</l>
+<c>    *显示识别结果</c>
+<l>    set_display_font (3600, 18, 'mono', 'true', 'false')</l>
+<l>    for i := 0 to |RecNum1| - 1 by 1</l>
+<l>        disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'black', 'false')</l>
+<l>    endfor</l>
+<l>    for i := 0 to |RecNum2| - 1 by 1</l>
+<l>        disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'black', 'false')</l>
+<l>    endfor</l>
+<c>    </c>
+<l>    dump_window_image (Image_write, WindowHandle)</l>
+<l>    write_image (Image_write, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/result/'+BaseName)</l>
+<l>    clear_ocr_class_mlp (OCRHandle1)</l>
+<l>    clear_ocr_class_mlp (OCRHandle2)</l>
 <l>endfor   </l>
 </body>
 <docu id="main">

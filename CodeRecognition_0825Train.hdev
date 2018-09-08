@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="373524925">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="785964891">
 <procedure name="main">
 <interface/>
 <body>
-<l>AreaMax := [136,86,112,116,120,121,138,91,149,138]</l>
-<l>AreaMin := [111,54,82,100,100,103,122,65,109,115]</l>
-<c></c>
-<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_490.bmp')</l>
-<l>KnownStr := [2,0,1,7,0,8,2,5,3,6,2,1,7,1,8]</l>
+<l>read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_3.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize0, ImageBinomial0, 5, 5)</l>
+<l>binomial_filter (ImageEmphasize0, ImageBinomial0, 9, 9)</l>
 <l>invert_image (ImageBinomial0, ImageInvert0)</l>
+<l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
+<l>*dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
 <l>threshold (ImageInvert0, Region0, 135, 255)</l>
 <l>closing_circle (Region0, RegionClosing0, 10)</l>
 <l>connection (RegionClosing0, ConnectedRegions0)</l>
-<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [90,40], [180,140])</l>
+<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,40], [180,140])</l>
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>count_obj (SelectedRegionsStd0, Number0)</l>
+<l>ErrorCounts := 0</l>
 <l>if (Number0 # 1)  </l>
-<l>    continue</l>
+<l>    ErrorCounts := 10</l>
+<l>    return ()</l>
 <l>endif</l>
 <l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>*旋转图像</c>
@@ -27,17 +27,15 @@
 <l>rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
 <c>*处理旋转后的图像</c>
 <l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
-<l>binomial_filter (ImageEmphasize01, ImageBinomia0l, 5, 5)</l>
+<l>binomial_filter (ImageEmphasize01, ImageBinomia0l, 9, 9)</l>
 <l>invert_image (ImageBinomia0l, ImageInvert01)</l>
+<l>*mean_image (ImageRotate, ImageMean, 3, 3)</l>
+<l>*dyn_threshold (ImageInvert, ImageMean, Region, 30, 'light')</l>
 <l>threshold (ImageInvert01, Region01, 135, 255)</l>
 <l>closing_circle (Region01, RegionClosing01, 10)</l>
 <l>opening_circle (RegionClosing01, RegionOpening01, 5)</l>
 <l>connection (RegionOpening01, ConnectedRegions01)</l>
 <l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,30], [160,110])</l>
-<l>count_obj (SelectedRegions01, Number01)</l>
-<l>if (Number01 # 1)  </l>
-<l>    continue</l>
-<l>endif</l>
 <l>intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
 <l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
 <l>RegionPriorWidth:=74</l>
@@ -46,6 +44,7 @@
 <l>gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2, 0, RegionPriorWidth, RegionPriorHeight)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
+<l>*threshold (ImageReduced01, Region02, 110, 255)</l>
 <l>mean_image (ImageReduced01, ImageMean01, 3, 3)</l>
 <l>dyn_threshold (ImageReduced01, ImageMean01, Region02, 8, 'light')</l>
 <l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
@@ -67,16 +66,9 @@
 <l>count_obj (SortedRegions1, Number1)</l>
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
 <l>if (Number1 # 8)</l>
-<l>    continue</l>
+<l>    ErrorCount := 1</l>
+<l>    return ()</l>
 <l>endif</l>
-<l>for Index1 := 0 to Number1-1 by 1 </l>
-<l>    if (Area11[Index1] &gt; AreaMax[KnownStr[Index1]])</l>
-<l>        AreaMax[KnownStr[Index1]] := Area11[Index1]</l>
-<l>    endif</l>
-<l>    if (Area11[Index1] &lt; AreaMin[KnownStr[Index1]])</l>
-<l>        AreaMin[KnownStr[Index1]] := Area11[Index1]</l>
-<l>    endif</l>
-<l>endfor</l>
 <c></c>
 <c>*第二行***********************</c>
 <l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,18,Row01], [160,35,Row01+16])</l>
@@ -94,17 +86,10 @@
 <l>count_obj (SortedRegions2, Number2)</l>
 <l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
 <l>if (Number2 # 7)</l>
-<l>    continue</l>
+<l>    ErrorCounts := 2</l>
+<l>    return ()</l>
 <l>endif</l>
-<l>for Index2 := 0 to Number2-1 by 1 </l>
-<l>    if (Area12[Index2] &gt; AreaMax[KnownStr[Index2+8]])</l>
-<l>        AreaMax[KnownStr[Index2+8]] := Area12[Index2]</l>
-<l>    endif</l>
-<l>    if (Area12[Index2] &lt; AreaMin[KnownStr[Index2+8]])</l>
-<l>        AreaMin[KnownStr[Index2+8]] := Area12[Index2]</l>
-<l>    endif</l>
-<l>endfor</l>
-<c></c>
+<l>area := [Area11,Area12]</l>
 <l>dev_clear_window ()</l>
 <l>dev_set_color ('white')</l>
 <l>dev_display (SortedRegions1)</l>

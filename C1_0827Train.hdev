@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-1032884889">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-64027405">
 <procedure name="main">
 <interface/>
 <body>
@@ -12,9 +12,9 @@
 <l>connection (RegionClosing00, ConnectedRegions0)</l>
 <l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [160,55], [250,180])</l>
 <l>count_obj (SelectedRegions0, Number0)</l>
-<l>ErrorCount := 0</l>
+<l>ErrorCounts := 0</l>
 <l>if (Number0 # 1)  </l>
-<l>    ErrorCount := 10</l>
+<l>    ErrorCounts := 10</l>
 <l>    return ()</l>
 <l>endif</l>
 <l>intersection (SelectedRegions0, Region0, RegionIntersection0)</l>
@@ -47,7 +47,7 @@
 <l>count_obj (SortedRegions1, Number1)</l>
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
 <l>if (Number1 # 8)</l>
-<l>    ErrorCount := 1</l>
+<l>    ErrorCounts := 1</l>
 <l>    return ()</l>
 <l>endif</l>
 <c></c>
@@ -60,7 +60,7 @@
 <l>count_obj (SortedRegions2, Number2)</l>
 <l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
 <l>if (Number2 # 7)</l>
-<l>    ErrorCount := 2</l>
+<l>    ErrorCounts := 2</l>
 <l>    return ()</l>
 <l>endif</l>
 <l>area := [Area11,Area12]</l>
