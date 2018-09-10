@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-469373266">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="575120065">
 <procedure name="main">
 <interface/>
 <body>
@@ -7,27 +7,19 @@
 <l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
 <c>*|FilesList|</c>
 <l>for Index :=0 to |FilesList| - 1 by 1</l>
-<l>    dev_close_window()//关闭窗口的实时更新</l>
-<l>    dev_update_window ('off')</l>
 <c>    </c>
 <l>    read_image (Image, FilesList[Index])</l>
 <c>    </c>
-<l>    parse_filename(FilesList[Index], BaseName, Extension, Directory)</l>
-<l>    get_image_size (Image, Width, Height)</l>
-<l>    dev_open_window (0, 0, Width, Height, 'black', WindowHandle)</l>
-<l>    dev_display (Image)</l>
-<c>    </c>
+<l>    parse_filename(FilesList[Index], BaseName, Extension, Directory)   </l>
 <l>    emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
-<l>    invert_image (ImageEmphasize0, ImageInvert0)</l>
-<l>*    mean_image (ImageInvert, ImageMean, 5, 5)</l>
-<l>*    dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
-<l>    threshold (ImageInvert0, Region0, 150, 255)</l>
+<l>    threshold (ImageEmphasize0, Region0, 0, 105)</l>
 <l>    closing_circle (Region0, RegionClosing0, 10)</l>
 <l>    connection (RegionClosing0, ConnectedRegions0)</l>
 <l>    select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,40], [180,140])</l>
 <l>    select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>    count_obj (SelectedRegionsStd0, Number0)</l>
 <l>    if (Number0 # 1)</l>
+<l>        write_image (Image, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/C2/'+BaseName+'.bmp')</l>
 <l>        continue</l>
 <l>    endif</l>
 <l>    intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
@@ -47,6 +39,7 @@
 <l>    select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,30], [140,75])</l>
 <l>    count_obj (SelectedRegions01, Number01)</l>
 <l>    if (Number01 # 1)</l>
+<l>        write_image (Image, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/C2/'+BaseName+'.bmp')</l>
 <l>        continue</l>
 <l>    endif</l>
 <l>    intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
@@ -58,8 +51,9 @@
 <l>    gen_rectangle2 (Rectangle01, Row01-1, Column01-2, 0, Length011+4, Length012)</l>
 <c>    *缩小区域</c>
 <l>    reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>    median_image (ImageReduced01, ImageMedian01, 'circle', 2, 'mirrored')</l>
-<l>    threshold (ImageMedian01, Region02, 60, 255)</l>
+<l>    close_edges (Rectangle01, ImageReduced01, Region02, 90)</l>
+<l>*    median_image (ImageReduced01, ImageMedian01, 'circle', 2, 'mirrored')</l>
+<l>*    threshold (ImageMedian01, Region02, 60, 255)</l>
 <l>    closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
 <l>    *opening_rectangle1 (RegionClosing02, RegionOpening02, 3, 2)</l>
 <l>    connection (RegionClosing02, ConnectedRegions02)</l>
@@ -76,9 +70,12 @@
 <c>    *排序</c>
 <l>    sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>    area_center (SortedRegions1, Area1, Row1, Column1)</l>
-<l>    FontName:='D:/github/CodeRecognition/0518Words.omc'</l>
-<l>    read_ocr_class_mlp(FontName, OCRHandle1)</l>
-<l>    do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
+<l>    count_obj (SortedRegions1, Number1)</l>
+<l>    if (Number1 # 8)</l>
+<l>        write_image (Image, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/C2/'+BaseName+'.bmp')</l>
+<l>        continue</l>
+<l>    endif</l>
+<c>    </c>
 <c>    *第二行***********************</c>
 <l>    select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,15,Row01], [160,35,Row01+20])</l>
 <l>    intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
@@ -92,22 +89,11 @@
 <c>    *排序</c>
 <l>    sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
 <l>    area_center (SortedRegions2, Area2, Row2, Column2)</l>
-<c>    *识别</c>
-<l>    read_ocr_class_mlp(FontName, OCRHandle2)</l>
-<l>    do_ocr_multi_class_mlp (SortedRegions2, ImageRotate0, OCRHandle2, RecNum2, Confidence2)</l>
-<c>    *显示识别结果</c>
-<l>    set_display_font (3600, 18, 'mono', 'true', 'false')</l>
-<l>    for i := 0 to |RecNum1| - 1 by 1</l>
-<l>        disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'black', 'false')</l>
-<l>    endfor</l>
-<l>    for i := 0 to |RecNum2| - 1 by 1</l>
-<l>        disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'black', 'false')</l>
-<l>    endfor</l>
-<c>    </c>
-<l>    dump_window_image (Image_write, WindowHandle)</l>
-<l>    write_image (Image_write, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/result/'+BaseName)</l>
-<l>    clear_ocr_class_mlp (OCRHandle1)</l>
-<l>    clear_ocr_class_mlp (OCRHandle2)</l>
+<l>    count_obj (SortedRegions2, Number2)</l>
+<l>    if (Number2 # 7)</l>
+<l>        write_image (Image, 'bmp', 0, 'D:/实习/图片/pic/2017.05.18/C2/'+BaseName+'.bmp')</l>
+<l>        continue</l>
+<l>    endif</l>
 <l>endfor   </l>
 </body>
 <docu id="main">

@@ -127,7 +127,7 @@
             this.textBoxPriorChar.Name = "textBoxPriorChar";
             this.textBoxPriorChar.Size = new System.Drawing.Size(209, 44);
             this.textBoxPriorChar.TabIndex = 6;
-            this.textBoxPriorChar.Text = "201708253621718";
+            this.textBoxPriorChar.Text = "201705185641405";
             // 
             // labelPriorChar
             // 

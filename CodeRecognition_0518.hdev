@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="1070167464">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="835505621">
 <procedure name="main">
 <interface/>
 <body>
 <l>read_image (Image, 'D:/实习/图片/pic/2017.05.18/C1/C1_370.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
-<l>invert_image (ImageEmphasize0, ImageInvert0)</l>
-<l>threshold (ImageInvert0, Region0, 150, 255)</l>
+<l>threshold (ImageEmphasize0, Region0, 0, 105)</l>
 <l>closing_circle (Region0, RegionClosing0, 10)</l>
 <l>connection (RegionClosing0, ConnectedRegions0)</l>
 <l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,40], [180,140])</l>
@@ -25,8 +24,7 @@
 <c>*处理旋转后的图像</c>
 <l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
 <l>invert_image (ImageEmphasize01, ImageInvert01)</l>
-<l>binomial_filter (ImageInvert01, ImageBinomial01, 5, 5)</l>
-<l>threshold (ImageBinomial01, Region01, 80, 255)</l>
+<l>threshold (ImageInvert01, Region01, 140, 255)</l>
 <l>closing_circle (Region01, RegionClosing01, 10)</l>
 <l>opening_circle (RegionClosing01, RegionOpening01, 5)</l>
 <l>connection (RegionOpening01, ConnectedRegions01)</l>
@@ -64,9 +62,9 @@
 <l>    ErrorCount := 1</l>
 <l>    return ()</l>
 <l>endif</l>
-<l>KnownStr := [2,0,1,7,0,5,1,8,5,6,4,1,4,0,5]</l>
-<l>AreaMax := [140,91,105,95,97,124,118,88,130,125]</l>
-<l>AreaMin := [111,65,73,70,77,59,91,75,119,155]</l>
+<l>KnownStr := [2,0,1,7,0,5,1,8,5,6,4,1,4,0,6]</l>
+<l>AreaMax := [139, 91, 112, 112, 98, 127, 119, 90, 133, 135]</l>
+<l>AreaMin := [93, 63, 56, 70, 71, 17, 62, 72, 113, 110]</l>
 <l>AreaDelta := 5</l>
 <l>for Index1 := 0 to Number1-1 by 1 </l>
 <l>    if ((Area11[Index1] &lt; AreaMin[KnownStr[Index1]] - AreaDelta) or (Area11[Index1] &gt; AreaMax[KnownStr[Index1]] + AreaDelta))</l>
