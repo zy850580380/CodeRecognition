@@ -1,46 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-64027405">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-23589347">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/C1  20180827/C1_156.bmp')</l>
-<l>emphasize (Image, ImageEmphasize, 7, 7, 3)</l>
-<l>binomial_filter (ImageEmphasize, ImageBinomial0, 5, 5)</l>
-<l>gray_erosion_shape (ImageBinomial0, ImageMin0, 11, 11, 'octagon')</l>
-<l>threshold (ImageMin0, Region0, 0, 100)</l>
-<l>closing_rectangle1 (Region0, RegionClosing00, 22, 20)</l>
+<l>read_image (Image, 'D:/实习/图片/珠江啤酒/面积检测不合格图片C1/C1_73.bmp')</l>
+<l>illuminate (Image, ImageIlluminate, 40, 40, 0.55)</l>
+<l>emphasize (ImageIlluminate, ImageEmphasize0, 7, 7, 3)</l>
+<l>binomial_filter (ImageEmphasize0, ImageBinomial0, 3, 3)</l>
+<l>var_threshold (ImageBinomial0, Region0, 15, 15, 0.5, 20, 'dark')</l>
+<l>*threshold (ImageBinomial0, Region0, 0, 95)</l>
+<l>closing_circle (Region0, RegionClosing0, 5.5)</l>
+<l>closing_rectangle1 (RegionClosing0, RegionClosing00, 20, 20)</l>
 <l>connection (RegionClosing00, ConnectedRegions0)</l>
-<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [160,55], [250,180])</l>
-<l>count_obj (SelectedRegions0, Number0)</l>
+<l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [80,40], [180,140])</l>
+<l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>ErrorCounts := 0</l>
+<l>count_obj (SelectedRegionsStd0, Number0)</l>
 <l>if (Number0 # 1)  </l>
 <l>    ErrorCounts := 10</l>
 <l>    return ()</l>
 <l>endif</l>
-<l>intersection (SelectedRegions0, Region0, RegionIntersection0)</l>
+<l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>*旋转图像</c>
 <l>smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
-<l>smallest_rectangle1 (RegionIntersection0, Row11, Column11, Row12, Column12)</l>
-<l>gen_rectangle1 (Rectangle0, Row11, Column11, Row12, Column12)</l>
 <l>tuple_deg (Phi0, Deg0)</l>
-<l>reduce_domain (ImageBinomial0, Rectangle0, ImageReduced0)</l>
-<l>crop_domain (ImageReduced0, ImagePart0)</l>
-<l>rotate_image (ImagePart0, ImageRotate0, -Deg0, 'constant')</l>
+<l>rotate_image (ImageBinomial0, ImageRotate0, -Deg0, 'constant')</l>
 <c>*处理旋转后的图像</c>
-<l>mean_image (ImageRotate0, ImageMean1, 7, 7)</l>
-<l>dyn_threshold (ImageRotate0, ImageMean1, Region01, 15, 'dark')</l>
-<l>*threshold (ImageRotate0, Region01, 0, 105)</l>
-<l>area_center (Region01, Area, Row, Column)</l>
-<l>gen_rectangle2 (Rectangle1, 10, 10, rad(45), 3, 0)</l>
-<l>closing (Region01, Rectangle1, RegionClosing1)</l>
-<l>gen_rectangle2 (Rectangle11, 10, 10, rad(135), 3, 0)</l>
-<l>closing (RegionClosing1, Rectangle11, RegionClosing11)</l>
-<l>closing_rectangle1 (RegionClosing11, RegionClosing12, 5, 7)</l>
-<l>connection (RegionClosing12, ConnectedRegions1)</l>
+<l>var_threshold (ImageRotate0, Region01, 15, 15, 0.5, 20, 'dark')</l>
+<l>closing_rectangle1 (Region01, RegionClosing011, 15, 10)</l>
+<l>closing_circle (RegionClosing011, RegionClosing01, 10)</l>
+<l>connection (RegionClosing01, ConnectedRegions01)</l>
+<l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [130,40], [200,140])</l>
+<l>select_shape_std (SelectedRegions01, SelectedRegionsStd01, 'max_area', 70)</l>
+<l>count_obj (SelectedRegionsStd01, Number01)</l>
+<l>if (Number01 # 1)  </l>
+<l>    ErrorCounts := 10</l>
+<l>    return ()</l>
+<l>endif</l>
+<l>intersection (SelectedRegionsStd01, Region01, RegionIntersection01)</l>
+<l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
+<l>gen_rectangle2 (Rectangle01, Row01-1, Column01, 0, Length011, Length012)</l>
+<c>*缩小区域</c>
+<l>reduce_domain (ImageRotate0, Rectangle01, ImageReduced01)</l>
+<l>median_image (ImageReduced01, ImageMedian01, 'circle', 2, 'mirrored')</l>
+<l>threshold (ImageMedian01, Region02, 0, 120)</l>
+<l>closing_rectangle1 (Region02, RegionClosing02, 50, 3)</l>
+<l>connection (RegionClosing02, ConnectedRegions02)</l>
+<c>*第一行****************************</c>
+<l>select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [140,22,Row01-30], [200,38,Row01])</l>
+<l>intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
+<l>closing_rectangle1 (RegionIntersection1, RegionClosing1, 3, 50)</l>
+<l>connection (RegionClosing1, ConnectedRegions1)</l>
 <l>shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
-<l>partition_rectangle (RegionTrans1, Partitioned1, 20, 28)</l>
-<l>select_shape (Partitioned1, SelectedRegions1, ['width','height', 'row'], 'and', [6,20, Row-30], [25,36, Row])</l>
-<l>intersection (SelectedRegions1, Region01, RegionIntersection11)</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 15, 32)</l>
+<l>select_shape (Partitioned1, SelectedRegions1, ['width','height'], 'and', [7,18], [25,35])</l>
+<l>intersection (SelectedRegions1, Region02, RegionIntersection11)</l>
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
@@ -52,8 +66,14 @@
 <l>endif</l>
 <c></c>
 <c>*第二行***********************</c>
-<l>select_shape (Partitioned1, SelectedRegions2, ['width','height', 'row'], 'and', [6,20, Row], [25,36, Row+30])</l>
-<l>intersection (SelectedRegions2, Region01, RegionIntersection21)</l>
+<l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [140,22,Row01], [200,38,Row01+30])</l>
+<l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
+<l>closing_rectangle1 (RegionIntersection2, RegionClosing2, 3, 50)</l>
+<l>connection (RegionClosing2, ConnectedRegions2)</l>
+<l>shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans2, Partitioned2, 15, 32)</l>
+<l>select_shape (Partitioned2, SelectedRegions2, ['width','height'], 'and', [7,18], [25,35])</l>
+<l>intersection (SelectedRegions2, Region02, RegionIntersection21)</l>
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
@@ -63,13 +83,11 @@
 <l>    ErrorCounts := 2</l>
 <l>    return ()</l>
 <l>endif</l>
-<l>area := [Area11,Area12]</l>
+<c></c>
 <l>dev_clear_window ()</l>
 <l>dev_set_color ('white')</l>
 <l>dev_display (SortedRegions1)</l>
 <l>dev_display (SortedRegions2)</l>
-<c></c>
-<c></c>
 </body>
 <docu id="main">
 <parameters/>

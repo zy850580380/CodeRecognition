@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-394723784">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-413945504">
 <procedure name="main">
 <interface/>
 <body>
 <l>read_image (Image, 'D:/实习/图片/特种兵/C1_79.bmp')</l>
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomia0, 5, 5)</l>
-<l>*median_image (ImageEmphasize0, ImageMedian0, 'circle', 1, 'mirrored')</l>
 <l>mean_image (ImageBinomia0, ImageMean0, 5, 5)</l>
 <l>dyn_threshold (ImageBinomia0, ImageMean0, Region0, 50, 'light')</l>
-<l>*threshold (ImageBinomia0, Region0, 120, 255)</l>
 <l>closing_rectangle1 (Region0, RegionClosing00, 10, 20)</l>
 <l>closing_rectangle1 (RegionClosing00, RegionClosing0, 30, 10)</l>
 <l>closing_circle (RegionClosing0, RegionClosing01, 10)</l>
@@ -53,8 +51,6 @@
 <c>*第一行****************************</c>
 <l>gen_rectangle2 (Rectangle1, Row01, Column01, 0, Length011+4, Length012+4)</l>
 <l>reduce_domain (ImageBinomial01, Rectangle1, ImageReduced1)</l>
-<l>*mean_image (ImageReduced1, ImageMean1, 5, 5)</l>
-<l>*dyn_threshold (ImageReduced1, ImageMean1, Region1, 50, 'light')</l>
 <l>threshold (ImageReduced1, Region1, 90, 255)</l>
 <l>closing_rectangle1 (Region1, RegionClosing1, 2, 40)</l>
 <l>closing_circle (RegionClosing1, RegionClosing11, 3)</l>
@@ -85,8 +81,6 @@
 <c>*第二行***********************</c>
 <l>gen_rectangle2 (Rectangle2, Row01+76, Column01, 0, 116, 24)</l>
 <l>reduce_domain (ImageBinomial01, Rectangle2, ImageReduced2)</l>
-<l>*mean_image (ImageReduced2, ImageMean2, 5, 5)</l>
-<l>*dyn_threshold (ImageReduced2, ImageMean2, Region2, 50, 'light')</l>
 <l>threshold (ImageReduced2, Region2, 100, 255)</l>
 <l>closing_rectangle1 (Region2, RegionClosing2, 2, 40)</l>
 <l>closing_circle (RegionClosing2, RegionClosing21, 3.5)</l>

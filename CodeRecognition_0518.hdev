@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="835505621">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="650394351">
 <procedure name="main">
 <interface/>
 <body>
@@ -31,7 +31,7 @@
 <l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,40], [140,75])</l>
 <l>count_obj (SelectedRegions01, Number01)</l>
 <l>if (Number01 # 1)  </l>
-<l>    ErrorCount := 10</l>
+<l>    ErrorCounts := 10</l>
 <l>    return ()</l>
 <l>endif</l>
 <l>intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
@@ -59,7 +59,7 @@
 <l>count_obj (SortedRegions1, Number1)</l>
 <l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
 <l>if (Number1 # 8)</l>
-<l>    ErrorCount := 1</l>
+<l>    ErrorCounts := 1</l>
 <l>    return ()</l>
 <l>endif</l>
 <l>KnownStr := [2,0,1,7,0,5,1,8,5,6,4,1,4,0,6]</l>
@@ -68,7 +68,7 @@
 <l>AreaDelta := 5</l>
 <l>for Index1 := 0 to Number1-1 by 1 </l>
 <l>    if ((Area11[Index1] &lt; AreaMin[KnownStr[Index1]] - AreaDelta) or (Area11[Index1] &gt; AreaMax[KnownStr[Index1]] + AreaDelta))</l>
-<l>        ErrorCount := 1</l>
+<l>        ErrorCounts := 1</l>
 <l>        return ()</l>
 <l>    endif</l>
 <l>endfor</l>
@@ -93,7 +93,7 @@
 <l>endif</l>
 <l>for Index2 := 0 to Number2-1 by 1 </l>
 <l>    if ((Area12[Index2] &lt; AreaMin[KnownStr[Index2+8]]-AreaDelta) or (Area12[Index2] &gt; AreaMax[KnownStr[Index2+8]]+AreaDelta))</l>
-<l>        ErrorCount := 2</l>
+<l>        ErrorCounts := 2</l>
 <l>        return()</l>
 <l>    endif</l>
 <l>endfor</l>
