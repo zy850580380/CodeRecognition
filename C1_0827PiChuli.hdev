@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="639537684">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="383714091">
 <procedure name="main">
 <interface/>
 <body>
@@ -9,15 +9,12 @@
 <l>for Index :=0 to |FilesList| - 1 by 1</l>
 <l>    imgname := FilesList[Index]</l>
 <l>    read_image (Image, imgname)</l>
-<l>    KnownStr := ['2','0','1','8','0','9','1','0','1','1','5','1','1','3','E']</l>
-<l>    illuminate (Image, ImageIlluminate, 40, 40, 0.55)</l>
-<l>    emphasize (ImageIlluminate, ImageEmphasize0, 7, 7, 3)</l>
-<l>    binomial_filter (ImageEmphasize0, ImageBinomial0, 3, 3)</l>
-<l>    var_threshold (ImageBinomial0, Region0, 15, 15, 0.5, 20, 'dark')</l>
-<l>*threshold (ImageBinomial0, Region0, 0, 95)</l>
+<l>    dots_image (Image, DotImage, 5, 'dark', 2)</l>
+<l>    threshold (DotImage, Region0, 20, 255)</l>
 <l>    closing_circle (Region0, RegionClosing0, 5.5)</l>
 <l>    closing_rectangle1 (RegionClosing0, RegionClosing00, 20, 20)</l>
-<l>    connection (RegionClosing00, ConnectedRegions0)</l>
+<l>    opening_circle (RegionClosing00, RegionOpening0, 3.5)</l>
+<l>    connection (RegionOpening0, ConnectedRegions0)</l>
 <l>    select_shape (ConnectedRegions0, SelectedRegions0, ['width','height','area'], 'and', [130,40,4000], [220,140,12000])</l>
 <l>    select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
 <l>    ErrorCounts := 0</l>
@@ -30,12 +27,14 @@
 <c>    *旋转图像</c>
 <l>    smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
 <l>    tuple_deg (Phi0, Deg0)</l>
-<l>    rotate_image (ImageBinomial0, ImageRotate0, -Deg0, 'constant')</l>
+<l>    rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
 <c>    *处理旋转后的图像</c>
-<l>    var_threshold (ImageRotate0, Region01, 15, 15, 0.5, 20, 'dark')</l>
+<l>    dots_image (ImageRotate0, DotImage01, 5, 'dark', 2)</l>
+<l>    threshold (DotImage01, Region01, 20, 255)</l>
 <l>    closing_rectangle1 (Region01, RegionClosing011, 15, 10)</l>
 <l>    closing_circle (RegionClosing011, RegionClosing01, 10)</l>
-<l>    connection (RegionClosing01, ConnectedRegions01)</l>
+<l>    opening_circle (RegionClosing01, RegionOpening01, 3.5)</l>
+<l>    connection (RegionOpening01, ConnectedRegions01)</l>
 <l>    select_shape (ConnectedRegions01, SelectedRegions01, ['width','height','area'], 'and', [130,40,4500], [220,140,12000])</l>
 <l>    select_shape_std (SelectedRegions01, SelectedRegionsStd01, 'max_area', 70)</l>
 <l>    count_obj (SelectedRegionsStd01, Number01)</l>
@@ -48,19 +47,23 @@
 <l>    gen_rectangle2 (Rectangle01, Row01-1, Column01, 0, Length011, Length012)</l>
 <c>    *缩小区域</c>
 <l>    reduce_domain (ImageRotate0, Rectangle01, ImageReduced01)</l>
-<l>    median_image (ImageReduced01, ImageMedian01, 'circle', 2, 'mirrored')</l>
-<l>    threshold (ImageMedian01, Region02, 0, 120)</l>
-<l>    closing_rectangle1 (Region02, RegionClosing02, 50, 3)</l>
+<l>    crop_domain (ImageReduced01, ImagePart01)</l>
+<l>    illuminate (ImagePart01, ImageIlluminate, 40, 40, 0.55)</l>
+<l>    emphasize (ImageIlluminate, ImageEmphasize, 7, 7, 5)</l>
+<l>    binomial_filter (ImageEmphasize, ImageBinomial, 3, 3)</l>
+<l>    threshold (ImageBinomial, Region02, 0, 115)</l>
+<l>    closing_circle (Region02, RegionClosing021, 2.5)</l>
+<l>    closing_rectangle1 (RegionClosing021, RegionClosing02, 50, 3)</l>
 <l>    connection (RegionClosing02, ConnectedRegions02)</l>
 <c>    *第一行****************************</c>
-<l>    select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [140,22,Row01-30], [200,38,Row01])</l>
+<l>    select_shape (ConnectedRegions02, SelectedRegions1, ['width','height','row'], 'and', [140,22,0], [200,48,35])</l>
 <l>    intersection (SelectedRegions1, Region02, RegionIntersection1)</l>
 <l>    closing_rectangle1 (RegionIntersection1, RegionClosing1, 3, 50)</l>
 <l>    connection (RegionClosing1, ConnectedRegions1)</l>
 <l>    shape_trans (ConnectedRegions1, RegionTrans1, 'rectangle1')</l>
 <l>    partition_rectangle (RegionTrans1, Partitioned1, 15, 32)</l>
-<l>    select_shape (Partitioned1, SelectedRegions1, ['width','height'], 'and', [7,18], [20,35])</l>
-<l>    intersection (SelectedRegions1, Region02, RegionIntersection11)</l>
+<l>    select_shape (Partitioned1, SelectedRegions11, ['width','height'], 'and', [7,18], [20,35])</l>
+<l>    intersection (SelectedRegions11, Region02, RegionIntersection11)</l>
 <c>    *选中字符</c>
 <c>    *排序</c>
 <l>    sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
@@ -76,14 +79,14 @@
 <l>    AreaDelta := 50</l>
 <c>    </c>
 <c>    *第二行***********************</c>
-<l>    select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [140,22,Row01], [200,38,Row01+30])</l>
+<l>    select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [140,22,35], [200,48,Row01+75])</l>
 <l>    intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
 <l>    closing_rectangle1 (RegionIntersection2, RegionClosing2, 3, 50)</l>
 <l>    connection (RegionClosing2, ConnectedRegions2)</l>
 <l>    shape_trans (ConnectedRegions2, RegionTrans2, 'rectangle1')</l>
 <l>    partition_rectangle (RegionTrans2, Partitioned2, 15, 32)</l>
-<l>    select_shape (Partitioned2, SelectedRegions2, ['width','height'], 'and', [7,18], [25,35])</l>
-<l>    intersection (SelectedRegions2, Region02, RegionIntersection21)</l>
+<l>    select_shape (Partitioned2, SelectedRegions21, ['width','height'], 'and', [7,18], [25,35])</l>
+<l>    intersection (SelectedRegions21, Region02, RegionIntersection21)</l>
 <c>    *选中字符</c>
 <c>    *排序</c>
 <l>    sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
