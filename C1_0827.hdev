@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="711343018">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="206450587">
 <procedure name="main">
 <interface/>
 <body>
@@ -49,21 +49,23 @@
 <l>gen_rectangle1 (RectChar2, (RowChar1+RowChar2)/2, ColumnChar1, RowChar2, ColumnChar2)</l>
 <c></c>
 <l>intersection (RegionIntersection, RectChar1, RegionIntersection2)</l>
-<c></c>
-<l>connection (RegionIntersection2, ConnectedRegions4)</l>
+<l>closing_rectangle1 (RegionIntersection2, RegionClosing3, 1, 12)</l>
+<l>closing_circle (RegionClosing3, RegionClosing1, 1.5)</l>
+<l>connection (RegionClosing1, ConnectedRegions4)</l>
 <l>shape_trans (ConnectedRegions4, RegionTrans, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans, Partitioned, 19, 29)</l>
 <l>select_shape (Partitioned, SelectedRegions3, 'height', 'and', 19, 32)</l>
 <l>intersection (SelectedRegions3, RegionIntersection2, RegionIntersection3)</l>
-<l>closing_circle (RegionIntersection3, RegionClosing1, 1.5)</l>
-<l>sort_region (RegionClosing1, SortedRegions, 'character', 'true', 'column')</l>
+<l>sort_region (RegionIntersection3, SortedRegions, 'character', 'true', 'column')</l>
 <l>count_obj (SortedRegions, Number1)</l>
 <l>if (Number1 # 8)</l>
 <l>    stop ()</l>
 <l>endif</l>
 <c></c>
 <l>intersection (RegionIntersection, RectChar2, RegionIntersection4)</l>
-<l>connection (RegionIntersection4, ConnectedRegions2)</l>
+<l>closing_rectangle1 (RegionIntersection4, RegionClosing4, 1, 12)</l>
+<l>closing_circle (RegionClosing4, RegionClosing2, 1.5)</l>
+<l>connection (RegionClosing2, ConnectedRegions2)</l>
 <l>shape_trans (ConnectedRegions2, RegionTrans1, 'rectangle1')</l>
 <l>partition_rectangle (RegionTrans1, Partitioned1,19, 29)</l>
 <l>select_shape (Partitioned1, SelectedRegions4, 'height', 'and', 20, 34)</l>
