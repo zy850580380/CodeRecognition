@@ -54,6 +54,7 @@
             this.buttonShowResults = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.buttonJump = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonProcSingleImg
@@ -127,7 +128,7 @@
             this.textBoxPriorChar.Name = "textBoxPriorChar";
             this.textBoxPriorChar.Size = new System.Drawing.Size(209, 44);
             this.textBoxPriorChar.TabIndex = 6;
-            this.textBoxPriorChar.Text = "201705185641405";
+            this.textBoxPriorChar.Text = "20180910115113E";
             // 
             // labelPriorChar
             // 
@@ -163,7 +164,7 @@
             this.textBoxPriorCharAll.Name = "textBoxPriorCharAll";
             this.textBoxPriorCharAll.Size = new System.Drawing.Size(209, 44);
             this.textBoxPriorCharAll.TabIndex = 11;
-            this.textBoxPriorCharAll.Text = "0123456789";
+            this.textBoxPriorCharAll.Text = "0123456789E";
             // 
             // buttonOpenDir
             // 
@@ -276,24 +277,37 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(134, 167);
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label5.Location = new System.Drawing.Point(128, 167);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(0, 12);
+            this.label5.Size = new System.Drawing.Size(2, 14);
             this.label5.TabIndex = 23;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(128, 202);
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label6.Location = new System.Drawing.Point(120, 225);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(0, 12);
+            this.label6.Size = new System.Drawing.Size(2, 14);
             this.label6.TabIndex = 24;
+            // 
+            // buttonJump
+            // 
+            this.buttonJump.Location = new System.Drawing.Point(128, 191);
+            this.buttonJump.Name = "buttonJump";
+            this.buttonJump.Size = new System.Drawing.Size(46, 23);
+            this.buttonJump.TabIndex = 25;
+            this.buttonJump.Text = "跳过";
+            this.buttonJump.UseVisualStyleBackColor = true;
+            this.buttonJump.Click += new System.EventHandler(this.buttonJump_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 492);
+            this.Controls.Add(this.buttonJump);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.buttonShowResults);
@@ -354,6 +368,7 @@
         private System.Windows.Forms.Button buttonShowResults;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button buttonJump;
     }
 }
 
