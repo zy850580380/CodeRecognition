@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="660562538">
+<procedure name="main">
+<interface/>
+<body>
+<l>list_files ('D:/实习/seg/C1_0910/1151', 'files', FilesList)</l>
+<l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
+<c>*|FilesList|</c>
+<l>for Index :=55 to |FilesList| - 1 by 1</l>
+<l>    *imgname := FilesList[Index]</l>
+<l>    parse_filename (FilesList[Index], BaseName, Extension, Directory)</l>
+<l>    read_image (Image, FilesList[Index])</l>
+<l>    emphasize (Image, ImageEmphasize, 7, 7, 9)</l>
+<l>    binomial_filter (ImageEmphasize, ImageBinomial0, 5, 5)</l>
+<l>    mean_image (ImageBinomial0, ImageMean1, 31, 31)</l>
+<l>    dyn_threshold (ImageBinomial0, ImageMean1, Regions, 15, 'dark')</l>
+<c>    </c>
+<l>    connection (Regions, ConnectedRegions3)</l>
+<l>    select_shape (ConnectedRegions3, SelectedRegions8, ['width','height','area'], 'and', [3,20,50], [24,34,500])</l>
+<c>    </c>
+<l>    union1 (SelectedRegions8, RegionUnion4)</l>
+<l>    closing_circle (RegionUnion4, RegionClosing5, 7.5)</l>
+<l>    connection (RegionClosing5, ConnectedRegions6)</l>
+<c>    </c>
+<l>    select_shape (ConnectedRegions6, SelectedRegions7, ['width','height'], 'and', [109.28,50.96], [242.23,113.25])</l>
+<l>    select_shape_std (SelectedRegions7, SelectedRegions5, 'max_area', 70)</l>
+<c>    </c>
+<l>    smallest_rectangle2 (SelectedRegions5, Row, Column, Phi, Length1, Length2)</l>
+<l>    tuple_deg (Phi, Deg)</l>
+<l>    rotate_image (Image, rotateImage, -Deg, 'constant')</l>
+<c>    </c>
+<l>    emphasize (rotateImage, ImageEmphasize1, 7, 7, 9)</l>
+<l>    binomial_filter (ImageEmphasize1, ImageBinomia1, 5, 5)</l>
+<l>    mean_image (ImageBinomia1, ImageMean, 31, 31)</l>
+<c>    </c>
+<l>    dyn_threshold (ImageBinomia1, ImageMean, Region, 15, 'dark')</l>
+<c>    </c>
+<l>    connection (Region, ConnectedRegions)</l>
+<l>    select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 50, 300)</l>
+<l>    union1 (SelectedRegions, RegionUnion)</l>
+<l>    closing_rectangle1 (RegionUnion, RegionClosing, 55, 3)</l>
+<c>    ******************</c>
+<l>    closing_circle (RegionUnion, RegionClosing7, 33.5)</l>
+<l>    intersection (RegionClosing7, RegionClosing, RegionIntersection6)</l>
+<c>    </c>
+<l>    connection (RegionIntersection6, ConnectedRegions1)</l>
+<l>    select_shape (ConnectedRegions1, SelectedRegions1, ['height','area'], 'and', [20,3000], [45,99999])</l>
+<c>    </c>
+<l>    union1 (SelectedRegions1, RegionUnion1)</l>
+<l>    intersection (RegionUnion1, RegionUnion, RegionIntersection)</l>
+<c>    </c>
+<l>    smallest_rectangle1 (RegionUnion1, RowChar1, ColumnChar1, RowChar2, ColumnChar2)</l>
+<l>    gen_rectangle1 (RectChar1, RowChar1, ColumnChar1, (RowChar1+RowChar2)/2, ColumnChar2)</l>
+<l>    gen_rectangle1 (RectChar2, (RowChar1+RowChar2)/2, ColumnChar1, RowChar2, ColumnChar2)</l>
+<c>      </c>
+<l>    intersection (RegionIntersection, RectChar1, RegionIntersection2)</l>
+<l>    closing_rectangle1 (RegionIntersection2, RegionClosing3, 1, 12)</l>
+<l>    closing_circle (RegionClosing3, RegionClosing1, 1.5)</l>
+<l>    connection (RegionClosing1, ConnectedRegions4)</l>
+<l>    shape_trans (ConnectedRegions4, RegionTrans, 'rectangle1')</l>
+<l>    partition_rectangle (RegionTrans, Partitioned, 19, 29)</l>
+<l>    select_shape (Partitioned, SelectedRegions3, 'height', 'and', 19, 32)</l>
+<l>    intersection (SelectedRegions3, RegionIntersection2, RegionIntersection3)</l>
+<l>    sort_region (RegionIntersection3, SortedRegions, 'character', 'true', 'column')</l>
+<l>    count_obj (SortedRegions, Number1)</l>
+<l>    if (Number1 # 8)</l>
+<l>        continue</l>
+<l>    endif</l>
+<l>    area_center (SortedRegions, Area1, Row11, Column11)</l>
+<l>    priorChar := ['2','0','1','8','0','9','1','0']</l>
+<l>    smallest_rectangle1 (SortedRegions, Row11, Column11, Row12, Column12)</l>
+<l>    for Index1 := 0 to 7 by 1</l>
+<l>        gen_rectangle1 (Rectangle, Row11[Index1], Column11[Index1], Row12[Index1], Column12[Index1])</l>
+<l>        reduce_domain (rotateImage, Rectangle, ImageReduced)</l>
+<l>        crop_domain (ImageReduced, ImagePart)</l>
+<l>        imgname := 'D:/实习/seg/datasets/gray/pic_0910/'+priorChar[Index1]+'/'+'0910'+BaseName+'_'+Index1+'.png'</l>
+<l>        write_image (ImagePart, 'png', 0, imgname)</l>
+<l>    endfor</l>
+<c>    </c>
+<l>    intersection (RegionIntersection, RectChar2, RegionIntersection4)</l>
+<l>    closing_rectangle1 (RegionIntersection4, RegionClosing4, 1, 12)</l>
+<l>    closing_circle (RegionClosing4, RegionClosing2, 1.5)</l>
+<l>    connection (RegionClosing2, ConnectedRegions2)</l>
+<l>    shape_trans (ConnectedRegions2, RegionTrans1, 'rectangle1')</l>
+<l>    partition_rectangle (RegionTrans1, Partitioned1,19, 29)</l>
+<l>    select_shape (Partitioned1, SelectedRegions4, 'height', 'and', 20, 34)</l>
+<l>    intersection (SelectedRegions4, RegionIntersection4, RegionIntersection2)</l>
+<l>    sort_region (RegionIntersection2, SortedRegions2, 'character', 'true', 'column')</l>
+<l>    count_obj (SortedRegions2, Number2)</l>
+<l>    if (Number2 # 7)</l>
+<l>        continue</l>
+<l>    endif</l>
+<l>    area_center (SortedRegions2, Area12, Row12, Column12)</l>
+<l>    priorChar := ['1','1','5','1','1','3','E']</l>
+<l>    smallest_rectangle1 (SortedRegions2, Row21, Column21, Row22, Column22)</l>
+<l>    for Index2 := 0 to 5 by 1</l>
+<l>        gen_rectangle1 (Rectangle, Row21[Index2], Column21[Index2], Row22[Index2], Column22[Index2])</l>
+<l>        reduce_domain (rotateImage, Rectangle, ImageReduced)</l>
+<l>        crop_domain (ImageReduced, ImagePart)</l>
+<l>        imgname := 'D:/实习/seg/datasets/gray/pic_0910/'+priorChar[Index2]+'/'+'0910'+BaseName+'_'+Index2+Index1+'.png'</l>
+<l>        write_image (ImagePart, 'png', 0, imgname)</l>
+<l>    endfor</l>
+<c>    </c>
+<l>    dev_clear_window ()</l>
+<l>    dev_set_color ('white')</l>
+<l>    dev_display (SortedRegions)</l>
+<l>    dev_display (SortedRegions2)</l>
+<l>endfor</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
