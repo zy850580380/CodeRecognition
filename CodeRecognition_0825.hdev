@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="73241253">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="900266522">
 <procedure name="main">
 <interface/>
 <body>
@@ -7,37 +7,25 @@
 <l>emphasize (Image, ImageEmphasize0, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize0, ImageBinomial0, 9, 9)</l>
 <l>invert_image (ImageBinomial0, ImageInvert0)</l>
-<l>*mean_image (ImageInvert, ImageMean, 5, 5)</l>
-<l>*dyn_threshold (ImageInvert, ImageMean, Region, 80, 'light')</l>
 <l>threshold (ImageInvert0, Region0, 135, 255)</l>
 <l>closing_circle (Region0, RegionClosing0, 10)</l>
 <l>connection (RegionClosing0, ConnectedRegions0)</l>
 <l>select_shape (ConnectedRegions0, SelectedRegions0, ['width','height'], 'and', [90,40], [180,140])</l>
 <l>select_shape_std (SelectedRegions0, SelectedRegionsStd0, 'max_area', 70)</l>
-<l>count_obj (SelectedRegionsStd0, Number0)</l>
-<l>if (Number0 # 1)  </l>
-<l>    return ()</l>
-<l>endif</l>
 <l>intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>*旋转图像</c>
 <l>smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
 <l>tuple_deg (Phi0, Deg0)</l>
-<l>rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
+<l>rotate_image (Image, rotateImage, -Deg0, 'constant')</l>
 <c>*处理旋转后的图像</c>
-<l>emphasize (ImageRotate0, ImageEmphasize01, 7, 7, 5)</l>
+<l>emphasize (rotateImage, ImageEmphasize01, 7, 7, 5)</l>
 <l>binomial_filter (ImageEmphasize01, ImageBinomia0l, 9, 9)</l>
 <l>invert_image (ImageBinomia0l, ImageInvert01)</l>
-<l>*mean_image (ImageRotate, ImageMean, 3, 3)</l>
-<l>*dyn_threshold (ImageInvert, ImageMean, Region, 30, 'light')</l>
 <l>threshold (ImageInvert01, Region01, 135, 255)</l>
 <l>closing_circle (Region01, RegionClosing01, 10)</l>
 <l>opening_circle (RegionClosing01, RegionOpening01, 5)</l>
 <l>connection (RegionOpening01, ConnectedRegions01)</l>
 <l>select_shape (ConnectedRegions01, SelectedRegions01, ['width','height'], 'and', [70,30], [160,110])</l>
-<l>count_obj (SelectedRegions01, Number01)</l>
-<l>if (Number01 # 1)  </l>
-<l>    return ()</l>
-<l>endif</l>
 <l>intersection (SelectedRegions01, Region01, RegionIntersection01)</l>
 <l>smallest_rectangle2 (RegionIntersection01, Row01, Column01, Phi01, Length011, Length012)</l>
 <l>RegionPriorWidth:=74</l>
@@ -46,7 +34,6 @@
 <l>gen_rectangle2 (Rectangle01, Row01-1, Column01+Length011/2-RegionPriorWidth/2, 0, RegionPriorWidth, RegionPriorHeight)</l>
 <c>*缩小区域</c>
 <l>reduce_domain (ImageInvert01, Rectangle01, ImageReduced01)</l>
-<l>*threshold (ImageReduced01, Region02, 110, 255)</l>
 <l>mean_image (ImageReduced01, ImageMean01, 3, 3)</l>
 <l>dyn_threshold (ImageReduced01, ImageMean01, Region02, 8, 'light')</l>
 <l>closing_rectangle1 (Region02, RegionClosing02, 30, 1)</l>
@@ -65,10 +52,10 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
-<l>area_center (SortedRegions1, Area1, Row1, Column1)</l>
+<l>count_obj (SortedRegions1, Number1)</l>
 <l>FontName:='D:/github/CodeRecognition/0825Words.omc'</l>
-<l>read_ocr_class_mlp(FontName, OCRHandle1)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions1, ImageRotate0, OCRHandle1, RecNum1, Confidence1)</l>
+<l>read_ocr_class_mlp(FontName, OCRHandle)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions1, rotateImage, OCRHandle, RecNum1, Confidence1)</l>
 <c>*第二行***********************</c>
 <l>select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,18,Row01], [160,35,Row01+16])</l>
 <l>intersection (SelectedRegions2, Region02, RegionIntersection2)</l>
@@ -82,18 +69,29 @@
 <c>*选中字符</c>
 <c>*排序</c>
 <l>sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
-<l>area_center (SortedRegions2, Area2, Row2, Column2)</l>
+<l>count_obj (SortedRegions2, Number2)</l>
 <c>*识别</c>
-<l>read_ocr_class_mlp(FontName, OCRHandle2)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions2, ImageRotate0, OCRHandle2, RecNum2, Confidence2)</l>
-<c>*显示识别结果</c>
-<l>set_display_font (3600, 27, 'mono', 'true', 'false')</l>
+<l>do_ocr_multi_class_mlp (SortedRegions2, rotateImage, OCRHandle, RecNum2, Confidence2)</l>
+<l> T1 := '' </l>
+<l> T2 := ''</l>
 <l>for i := 0 to |RecNum1| - 1 by 1</l>
-<l>    disp_message (3600, RecNum1[i], 'image', Row1[i],Column1[i], 'white', 'false')</l>
+<l>    T1 := T1 + RecNum1[i]</l>
 <l>endfor</l>
 <l>for i := 0 to |RecNum2| - 1 by 1</l>
-<l>    disp_message (3600, RecNum2[i], 'image', Row2[i],Column2[i], 'white', 'false')</l>
+<l>    T2 := T2 + RecNum2[i]</l>
 <l>endfor</l>
+<l>dev_set_draw ('margin')</l>
+<l>dev_display (rotateImage)</l>
+<l>dev_display (SortedRegions1)</l>
+<l>dev_display (SortedRegions2)</l>
+<l>dev_set_color ('green')</l>
+<l>dev_set_line_width (1)</l>
+<l>dev_set_shape ('rectangle1')</l>
+<l>dev_display (SortedRegions1)</l>
+<l>dev_display (SortedRegions2)</l>
+<c></c>
+<l>clear_ocr_class_mlp (OCRHandle)</l>
+<c></c>
 </body>
 <docu id="main">
 <parameters/>
