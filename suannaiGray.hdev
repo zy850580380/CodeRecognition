@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="953829694">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/suannai/VLG-02M(0776620216)2.bmp')</l>
+<l>emphasize (Image, ImageEmphasize, 7, 7, 3)</l>
+<l>binomial_filter (ImageEmphasize, ImageBinomial, 3, 3)</l>
+<l>threshold (ImageBinomial, Region, 0, 30)</l>
+<l>closing_circle (Region, RegionClosing, 5.5)</l>
+<l>closing_rectangle1 (RegionClosing, RegionClosing1, 20, 5)</l>
+<l>connection (RegionClosing1, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['area','height'], 'and', [5000,50], [9000,100])</l>
+<l>intersection (SelectedRegions, Region, RegionIntersection)</l>
+<l>smallest_rectangle2 (RegionIntersection, Row, Column, Phi, Length1, Length2)</l>
+<l>smallest_rectangle1 (RegionIntersection, Row1, Column1, Row2, Column2)</l>
+<l>region_to_bin (RegionIntersection, BinImage, 255, 0, 640, 480)</l>
+<l>tuple_deg (Phi, Deg)</l>
+<l>rotate_image (BinImage, rotateImage, -Deg, 'constant')</l>
+<c></c>
+<l>dots_image (rotateImage, DotImage, 3, 'light', 2)</l>
+<l>threshold (DotImage, Region1, 30, 255)</l>
+<l>closing_rectangle1 (Region1, RegionClosing2, 50, 1)</l>
+<l>area_center (RegionClosing2, Area, Row3, Column3)</l>
+<l>connection (RegionClosing2, ConnectedRegions1)</l>
+<c></c>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, 'row', 'and', Row3-20, Row3)</l>
+<l>intersection (Region1, SelectedRegions1, RegionIntersection1)</l>
+<l>closing_rectangle1 (RegionIntersection1, RegionClosing5, 2, 20)</l>
+<l>connection (RegionClosing5, ConnectedRegions2)</l>
+<l>shape_trans (ConnectedRegions2, RegionTrans, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans, Partitioned, 25, 20)</l>
+<l>select_shape (Partitioned, SelectedRegions3, 'height', 'and', 15, 30)</l>
+<l>intersection (SelectedRegions3, Region1, RegionIntersection3)</l>
+<l>sort_region (RegionIntersection3, SortedRegions1, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions1, Number1)</l>
+<l>modelName:= 'Industrial_0-9.omc'</l>
+<l>read_ocr_class_mlp (modelName, OCRHandle)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions1, rotateImage, OCRHandle, Class1, Confidence1)</l>
+<c></c>
+<l>select_shape (ConnectedRegions1, SelectedRegions2, 'row', 'and', Row3, Row3+20)</l>
+<l>intersection (Region1, SelectedRegions2, RegionIntersection2)</l>
+<l>closing_rectangle1 (RegionIntersection2, RegionClosing3, 2, 10)</l>
+<l>connection (RegionClosing3, ConnectedRegions3)</l>
+<l>shape_trans (ConnectedRegions3, RegionTrans1, 'rectangle1')</l>
+<l>partition_rectangle (RegionTrans1, Partitioned1, 25, 20)</l>
+<l>select_shape (Partitioned1, SelectedRegions4, 'width', 'and', 10, 30)</l>
+<l>intersection (SelectedRegions4, Region1, RegionIntersection4)</l>
+<l>sort_region (RegionIntersection4, SortedRegions2, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions2, Number2)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions2, rotateImage, OCRHandle, Class2, Confidence2)</l>
+<c></c>
+<l> T1 := '' </l>
+<l> T2 := ''</l>
+<l>for i := 0 to |Class1| - 1 by 1</l>
+<l>    T1 := T1 + Class1[i]</l>
+<l>endfor</l>
+<l>for i := 0 to |Class2| - 1 by 1</l>
+<l>    T2 := T2 + Class2[i]</l>
+<l>endfor</l>
+<l>dev_clear_window ()</l>
+<l>*dev_set_draw ('margin')</l>
+<l>dev_display (SortedRegions1)</l>
+<l>dev_display (SortedRegions2)</l>
+<l>*dev_set_color ('green')</l>
+<l>*dev_set_line_width (1)</l>
+<l>*dev_set_shape ('rectangle1')</l>
+<l>*dev_display (SortedRegions1)</l>
+<l>*dev_display (SortedRegions2)</l>
+<c></c>
+<l>clear_ocr_class_mlp (OCRHandle)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

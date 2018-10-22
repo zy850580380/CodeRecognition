@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="957869357">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="928665552">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image0, 'D:/github/CodeRecognition/ColorSample.jpg')</l>
+<l>read_image (Image0, 'D:/实习/图片/20181017/201806101612F1_6.bmp')</l>
 <l>decompose3 (Image0, ImageB, ImageG, ImageR)</l>
 <l>trans_from_rgb (ImageR, ImageG, ImageB, ImageHSV1, ImageHSV2, ImageHSV3, 'hsv')</l>
-<l>threshold (ImageHSV3, Region0, 0, 70)</l>
+<l>emphasize (ImageHSV3, ImageEmphasize, 7, 7, 3)</l>
+<l>binomial_filter (ImageEmphasize, ImageBinomial, 3, 3)</l>
+<l>threshold (ImageBinomial, Region0, 0, 90)</l>
+<l>closing_circle (Region0, RegionClosing, 3.5)</l>
+<l>closing_rectangle1 (RegionClosing, RegionClosing1, 20, 10)</l>
+<l>connection (RegionClosing1, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 4000, 7000)</l>
+<l>intersection (SelectedRegions, Region0, RegionIntersection)</l>
+<l>smallest_rectangle2 (RegionIntersection, Row, Column, Phi, Length1, Length2)</l>
+<l>tuple_deg (Phi, Deg)</l>
+<l>rotate_image (ImageBinomial, rotateImage, -Deg, 'constant')</l>
+<l>rotate_image (ImageHSV3, rotateImage1, -Deg, 'constant')</l>
+<l>threshold (rotateImage, Region, 0, 90)</l>
+<l>closing_circle (Region, RegionClosing3, 3.5)</l>
+<l>closing_rectangle1 (RegionClosing3, RegionClosing2, 20, 10)</l>
+<l>connection (RegionClosing2, ConnectedRegions1)</l>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, ['area','height'], 'and', [3000,30], [7000,50])</l>
+<l>intersection (SelectedRegions1, Region, RegionIntersection1)</l>
+<l>smallest_rectangle1 (RegionIntersection1, Row1, Column1, Row2, Column2)</l>
+<l>gen_rectangle1 (Rectangle, Row1, Column1, Row2, Column2)</l>
+<l>reduce_domain (rotateImage1, Rectangle, ImageReduced)</l>
+<l>emphasize (ImageReduced, ImageEmphasize1, 7, 7, 3)</l>
+<l>threshold (ImageEmphasize1, Region1, 0, 100)</l>
+<c></c>
 </body>
 <docu id="main">
 <parameters/>

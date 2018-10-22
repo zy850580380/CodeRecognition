@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="634912663">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/20181020/52.bmp')</l>
+<l>rgb1_to_gray (Image, GrayImage)</l>
+<l>illuminate (GrayImage, ImageIlluminate1, 101, 101, 1.5)</l>
+<l>threshold (ImageIlluminate1, Region, 0, 40)</l>
+<l>closing_circle (Region, RegionClosing, 2.5)</l>
+<l>closing_rectangle1 (RegionClosing, RegionClosing2, 5, 5)</l>
+<l>select_characters (RegionClosing2, RegionCharacters, 'false', 'medium', [22,8,35], [30,20,40], 'false', 'false', 'none', 'true', 'medium', 'true', 0, 'completion')</l>
+<l>union1 (RegionCharacters, RegionUnion1)</l>
+<l>smallest_rectangle2 (RegionUnion1, Row, Column, Phi, Length1, Length2)</l>
+<l>tuple_deg (Phi, Deg)</l>
+<c></c>
+<l>rotate_image (GrayImage, rotateImage, -Deg, 'constant')</l>
+<l>illuminate (rotateImage, ImageIlluminate, 101, 101, 1.5)</l>
+<l>binomial_filter (ImageIlluminate, ImageBinomial1, 3, 3)</l>
+<l>mean_image (ImageBinomial1, ImageMean1, 29, 29)</l>
+<l>dyn_threshold (ImageBinomial1, ImageMean1, RegionDynThresh1, 20, 'dark')</l>
+<l>closing_circle (RegionDynThresh1, RegionClosing3, 2.5)</l>
+<l>closing_rectangle1 (RegionClosing3, RegionClosing4, 5, 5)</l>
+<l>select_characters (RegionClosing4, RegionCharacters1, 'false', 'medium', [22,8,35], [30,20,40], 'false', 'false', 'none', 'true', 'medium', 'false', 0, 'completion')</l>
+<l>union1 (RegionCharacters1, RegionUnion2)</l>
+<l>closing_rectangle1 (RegionUnion2, RegionClosing1, 30, 30)</l>
+<l>connection (RegionClosing1, ConnectedRegions1)</l>
+<l>select_shape_std (ConnectedRegions1, SelectedRegions, 'max_area', 70)</l>
+<l>intersection (RegionCharacters1, SelectedRegions, RegionIntersection)</l>
+<l>area_center (SelectedRegions, Area, Row1, Column1)</l>
+<c></c>
+<l>select_shape (RegionIntersection, SelectedRegions1, 'row', 'and', Row1-40, Row1)</l>
+<l>count_obj (SelectedRegions1, Number1)</l>
+<c></c>
+<l>select_shape (RegionIntersection, SelectedRegions2, 'row', 'and', Row1, Row1+50)</l>
+<l>count_obj (SelectedRegions2, Number2)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
