@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="634912663">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="579907076">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/20181020/52.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/20181020/51.bmp')</l>
 <l>rgb1_to_gray (Image, GrayImage)</l>
 <l>illuminate (GrayImage, ImageIlluminate1, 101, 101, 1.5)</l>
-<l>threshold (ImageIlluminate1, Region, 0, 40)</l>
-<l>closing_circle (Region, RegionClosing, 2.5)</l>
+<l>edges_sub_pix (ImageIlluminate1, Edges, 'canny', 2, 20, 40)</l>
+<l>shape_trans_xld (Edges, XLDTrans, 'rectangle1')</l>
+<l>select_shape_xld (XLDTrans, SelectedXLD, ['width','height'], 'and', [8,20], [35,40])</l>
+<l>area_center_xld (SelectedXLD, Area1, Row2, Column2, PointOrder)</l>
+<l>gen_region_points (Region, Row2, Column2)</l>
+<l>dilation_circle (Region, RegionDilation, 7.5)</l>
+<l>hough_lines (RegionDilation, 4, 300, 5, 5, Angle, Dist)</l>
+<l>var_threshold (ImageIlluminate1, Region1, 25, 25, 1.2, 30, 'dark')</l>
+<l>closing_circle (Region1, RegionClosing, 2.5)</l>
 <l>closing_rectangle1 (RegionClosing, RegionClosing2, 5, 5)</l>
 <l>select_characters (RegionClosing2, RegionCharacters, 'false', 'medium', [22,8,35], [30,20,40], 'false', 'false', 'none', 'true', 'medium', 'true', 0, 'completion')</l>
 <l>union1 (RegionCharacters, RegionUnion1)</l>
