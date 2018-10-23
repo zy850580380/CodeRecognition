@@ -1,46 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="579907076">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="230091814">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/20181020/51.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/OPEN/51.bmp')</l>
 <l>rgb1_to_gray (Image, GrayImage)</l>
 <l>illuminate (GrayImage, ImageIlluminate1, 101, 101, 1.5)</l>
-<l>edges_sub_pix (ImageIlluminate1, Edges, 'canny', 2, 20, 40)</l>
-<l>shape_trans_xld (Edges, XLDTrans, 'rectangle1')</l>
+<l>edges_sub_pix (ImageIlluminate1, Edges, 'canny', 2, 10, 40)</l>
+<l>union_adjacent_contours_xld (Edges, UnionContours4, 10, 1, 'attr_keep')</l>
+<l>shape_trans_xld (UnionContours4, XLDTrans, 'rectangle1')</l>
 <l>select_shape_xld (XLDTrans, SelectedXLD, ['width','height'], 'and', [8,20], [35,40])</l>
 <l>area_center_xld (SelectedXLD, Area1, Row2, Column2, PointOrder)</l>
 <l>gen_region_points (Region, Row2, Column2)</l>
 <l>dilation_circle (Region, RegionDilation, 7.5)</l>
-<l>hough_lines (RegionDilation, 4, 300, 5, 5, Angle, Dist)</l>
-<l>var_threshold (ImageIlluminate1, Region1, 25, 25, 1.2, 30, 'dark')</l>
-<l>closing_circle (Region1, RegionClosing, 2.5)</l>
-<l>closing_rectangle1 (RegionClosing, RegionClosing2, 5, 5)</l>
-<l>select_characters (RegionClosing2, RegionCharacters, 'false', 'medium', [22,8,35], [30,20,40], 'false', 'false', 'none', 'true', 'medium', 'true', 0, 'completion')</l>
-<l>union1 (RegionCharacters, RegionUnion1)</l>
-<l>smallest_rectangle2 (RegionUnion1, Row, Column, Phi, Length1, Length2)</l>
-<l>tuple_deg (Phi, Deg)</l>
+<l>hough_lines (RegionDilation, 2, 300, 5, 5, Angle, Dist)</l>
+<l>gen_region_hline (Regions, Angle, Dist)</l>
+<l>tuple_deg (Angle, Deg)</l>
+<l>tuple_mean (Deg, Mean)</l>
 <c></c>
-<l>rotate_image (GrayImage, rotateImage, -Deg, 'constant')</l>
+<l>rotate_image (GrayImage, rotateImage, Mean-90, 'constant')</l>
 <l>illuminate (rotateImage, ImageIlluminate, 101, 101, 1.5)</l>
-<l>binomial_filter (ImageIlluminate, ImageBinomial1, 3, 3)</l>
-<l>mean_image (ImageBinomial1, ImageMean1, 29, 29)</l>
-<l>dyn_threshold (ImageBinomial1, ImageMean1, RegionDynThresh1, 20, 'dark')</l>
-<l>closing_circle (RegionDynThresh1, RegionClosing3, 2.5)</l>
-<l>closing_rectangle1 (RegionClosing3, RegionClosing4, 5, 5)</l>
-<l>select_characters (RegionClosing4, RegionCharacters1, 'false', 'medium', [22,8,35], [30,20,40], 'false', 'false', 'none', 'true', 'medium', 'false', 0, 'completion')</l>
-<l>union1 (RegionCharacters1, RegionUnion2)</l>
-<l>closing_rectangle1 (RegionUnion2, RegionClosing1, 30, 30)</l>
-<l>connection (RegionClosing1, ConnectedRegions1)</l>
+<l>edges_sub_pix (ImageIlluminate, Edges1, 'canny', 2, 20, 40)</l>
+<l>union_adjacent_contours_xld (Edges1, UnionContours, 10, 1, 'attr_keep')</l>
+<l>shape_trans_xld (UnionContours, XLDTrans1, 'rectangle1')</l>
+<l>select_shape_xld (XLDTrans1, SelectedXLD1,['width','height'], 'and', [8,20], [35,40])</l>
+<l>gen_region_contour_xld (SelectedXLD1, Region1, 'filled')</l>
+<l>union1 (Region1, RegionUnion)</l>
+<l>closing_rectangle1 (RegionUnion, RegionClosing, 30, 20)</l>
+<l>connection (RegionClosing, ConnectedRegions1)</l>
 <l>select_shape_std (ConnectedRegions1, SelectedRegions, 'max_area', 70)</l>
-<l>intersection (RegionCharacters1, SelectedRegions, RegionIntersection)</l>
-<l>area_center (SelectedRegions, Area, Row1, Column1)</l>
+<l>intersection (SelectedRegions, Region1, RegionIntersection)</l>
+<l>area_center (RegionIntersection, Area, Row1, Column1)</l>
+<l>connection (RegionIntersection, ConnectedRegions)</l>
 <c></c>
-<l>select_shape (RegionIntersection, SelectedRegions1, 'row', 'and', Row1-40, Row1)</l>
+<l>threshold (ImageIlluminate, Region2, 0, 60)</l>
+<l>FontName:='Industrial_0-9A-Z.omc'</l>
+<l>read_ocr_class_mlp(FontName, OCRHandle)</l>
+<c></c>
+<l>select_shape (ConnectedRegions, SelectedRegions1, 'row', 'and', Row1-40, Row1)</l>
+<l>intersection (SelectedRegions1, Region2, RegionIntersection1)</l>
+<l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>count_obj (SelectedRegions1, Number1)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions1, rotateImage, OCRHandle, RecNum1, Confidence1)</l>
 <c></c>
-<l>select_shape (RegionIntersection, SelectedRegions2, 'row', 'and', Row1, Row1+50)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions2, 'row', 'and', Row1, Row1+40)</l>
+<l>intersection (SelectedRegions2, Region2, RegionIntersection2)</l>
+<l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'column')</l>
 <l>count_obj (SelectedRegions2, Number2)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions2, rotateImage, OCRHandle, RecNum2, Confidence2)</l>
+<c> </c>
+<l>T1 := '' </l>
+<l>T2 := ''</l>
+<l>for i := 0 to |RecNum1| - 1 by 1</l>
+<l>    T1 := T1 + RecNum1[i]</l>
+<l>endfor</l>
+<l>for i := 0 to |RecNum2| - 1 by 1</l>
+<l>    T2 := T2 + RecNum2[i]</l>
+<l>endfor</l>
+<c></c>
+<l>clear_ocr_class_mlp (OCRHandle)</l>
 </body>
 <docu id="main">
 <parameters/>
