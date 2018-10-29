@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="729230843">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/1028/VLG-02C(8794691718)3.bmp')</l>
+<l>rgb1_to_gray (Image, GrayImage)</l>
+<l>dots_image (GrayImage, DotImage, 3, 'dark', 2)</l>
+<l>threshold (DotImage, Region, 110, 255)</l>
+<l>emphasize (GrayImage, ImageEmphasize, 7, 7, 2)</l>
+<l>threshold (ImageEmphasize, Region1, 0, 100)</l>
+<l>closing_rectangle1 (Region1, RegionClosing, 5, 1)</l>
+<l>connection (RegionClosing, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 10, 500)</l>
+<l>intersection (Region, SelectedRegions, RegionIntersection)</l>
+<l>closing_circle (RegionIntersection, RegionClosing1, 5.5)</l>
+<l>closing_rectangle1 (RegionClosing1, RegionClosing2, 10, 10)</l>
+<l>connection (RegionClosing2, ConnectedRegions2)</l>
+<l>select_shape (ConnectedRegions2, SelectedRegions1, 'area', 'and', 1200, 8000)</l>
+<l>intersection (Region, SelectedRegions1, RegionIntersection1)</l>
+<l>gen_rectangle2 (Rectangle2, 10, 10, rad(80), 3, 0)</l>
+<l>closing (RegionIntersection1, Rectangle2, RegionClosing5)</l>
+<l>gen_rectangle2 (Rectangle21, 10, 10, rad(95), 3, 0)</l>
+<l>closing (RegionClosing5, Rectangle21, RegionClosing6)</l>
+<l>connection (RegionClosing6, ConnectedRegions3)</l>
+<l>shape_trans (ConnectedRegions3, RegionTrans, 'convex')</l>
+<l>partition_rectangle (RegionTrans, Partitioned, 22, 50)</l>
+<l>select_shape (Partitioned, SelectedRegions2, 'height', 'and', 40, 60)</l>
+<l>intersection (SelectedRegions2, Region1, RegionIntersection2)</l>
+<l>sort_region (RegionIntersection2, SortedRegions, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions, Number)</l>
+<l>read_ocr_class_mlp ('DotPrint_0-9.omc', OCRHandle)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions, GrayImage, OCRHandle, Class, Confidence)</l>
+<l>clear_ocr_class_mlp (OCRHandle)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
