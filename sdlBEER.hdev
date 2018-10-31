@@ -23,6 +23,7 @@
 <l>gen_rectangle2 (Rectangle21, 10, 10, rad(95), 3, 0)</l>
 <l>closing (RegionClosing5, Rectangle21, RegionClosing6)</l>
 <l>connection (RegionClosing6, ConnectedRegions3)</l>
+<c></c>
 <l>shape_trans (ConnectedRegions3, RegionTrans, 'convex')</l>
 <l>partition_rectangle (RegionTrans, Partitioned, 22, 50)</l>
 <l>select_shape (Partitioned, SelectedRegions2, 'height', 'and', 40, 60)</l>
