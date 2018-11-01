@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="729230843">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="192813799">
 <procedure name="main">
 <interface/>
 <body>
@@ -23,6 +23,13 @@
 <l>gen_rectangle2 (Rectangle21, 10, 10, rad(95), 3, 0)</l>
 <l>closing (RegionClosing5, Rectangle21, RegionClosing6)</l>
 <l>connection (RegionClosing6, ConnectedRegions3)</l>
+<c></c>
+<l>hom_mat2d_identity (HomMat2DIdentity)</l>
+<l>hom_mat2d_rotate (HomMat2DIdentity, 0.15, 0, 0, HomMat2DRotate)</l>
+<l>affine_trans_region (ConnectedRegions3, RegionAffineTrans, HomMat2DRotate, 'false')</l>
+<l>partition_dynamic (RegionAffineTrans, Partitioned1, 20, 1)</l>
+<l>hom_mat2d_rotate (HomMat2DIdentity, -0.15, 0, 0, HomMat2DRotate1)</l>
+<l>affine_trans_region (Partitioned1, RegionAffineTrans1, HomMat2DRotate1, 'false')</l>
 <c></c>
 <l>shape_trans (ConnectedRegions3, RegionTrans, 'convex')</l>
 <l>partition_rectangle (RegionTrans, Partitioned, 22, 50)</l>
