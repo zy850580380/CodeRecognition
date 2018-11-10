@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="359213478">
+<procedure name="main">
+<interface/>
+<body>
+<l>list_files ('D:/实习/图片/C1  20180827', 'files', FilesList)</l>
+<l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
+<c>*|FilesList|</c>
+<l>for Index :=0 to |FilesList| - 1 by 1</l>
+<l>    parse_filename (FilesList[Index], BaseName, Extension, Directory)</l>
+<l>    read_image (Image, FilesList[Index])</l>
+<l>    *read_image (Image, 'D:/实习/图片/C1  20180827/C1_155.bmp')</l>
+<l>    emphasize (Image, ImageEmphasize, 7, 7, 3)</l>
+<c>    *7,7,3</c>
+<l>    binomial_filter (ImageEmphasize, ImageBinomial, 5, 5)</l>
+<l>    mean_image (ImageBinomial, ImageMean, 21, 21)</l>
+<l>    dyn_threshold (ImageBinomial, ImageMean, RegionDynThresh, 20, 'dark')</l>
+<l>    dilation_circle (RegionDynThresh, RegionDilation, 1)</l>
+<l>    dilation_rectangle1 (RegionDilation, RegionDilation1, 2, 3)</l>
+<c>    *3,5</c>
+<l>    connection (RegionDilation1, ConnectedRegions4)</l>
+<l>    select_shape (ConnectedRegions4, SelectedRegions5, 'height', 'and', 25, 42)</l>
+<l>    union1 (SelectedRegions5, RegionUnion2)</l>
+<l>    closing_rectangle1 (RegionUnion2, RegionClosing, 30, 20)</l>
+<l>    connection (RegionClosing, ConnectedRegions)</l>
+<l>    select_shape (ConnectedRegions, SelectedRegions, ['area','height'], 'and', [8000,40], [13000,100])</l>
+<l>    intersection (RegionDynThresh, SelectedRegions, RegionIntersection)</l>
+<c>    </c>
+<l>    smallest_rectangle2 (RegionIntersection, Row, Column, Phi, Length1, Length2)</l>
+<l>    hom_mat2d_identity (HomMat2DIdentity)</l>
+<l>    hom_mat2d_rotate (HomMat2DIdentity, -Phi, 0, 0, HomMat2DRotate)</l>
+<l>    affine_trans_region (RegionIntersection, RegionAffineTrans, HomMat2DRotate, 'false')</l>
+<l>    area_center (RegionAffineTrans, Area, Row1, Column1)</l>
+<l>    connection (RegionAffineTrans, ConnectedRegions1)</l>
+<c>    </c>
+<l>    select_shape (ConnectedRegions1, SelectedRegions1, 'row', 'and', Row1-40, Row1)</l>
+<l>    union1 (SelectedRegions1, RegionUnion)</l>
+<l>    dilation_rectangle1 (RegionUnion, RegionDilation2, 3, 10)</l>
+<l>    connection (RegionDilation2, ConnectedRegions2)</l>
+<l>    shape_trans (ConnectedRegions2, RegionTrans, 'convex')</l>
+<l>    partition_dynamic (RegionTrans, Partitioned, 20, 20)</l>
+<l>    select_shape (Partitioned, SelectedRegions2, 'height', 'and', 25, 42)</l>
+<l>    intersection (SelectedRegions2, RegionUnion, RegionIntersection1)</l>
+<l>    sort_region (RegionIntersection1, SortedRegions, 'first_point', 'true', 'column')</l>
+<l>    count_obj (SortedRegions, Number1)</l>
+<l>    if (Number1 # 8)</l>
+<l>        stop ( )</l>
+<l>    endif</l>
+<l>    skeleton (SortedRegions, Skeleton)</l>
+<l>    area_center (Skeleton, Area2, Row2, Column2)</l>
+<c>    </c>
+<l>    select_shape (ConnectedRegions1, SelectedRegions3, 'row', 'and', Row1, Row1+40)</l>
+<l>    union1 (SelectedRegions3, RegionUnion1)</l>
+<l>    dilation_rectangle1 (RegionUnion1, RegionDilation3, 3, 10)</l>
+<l>    connection (RegionDilation3, ConnectedRegions3)</l>
+<l>    shape_trans (ConnectedRegions3, RegionTrans1, 'convex')</l>
+<l>    partition_dynamic (RegionTrans1, Partitioned1, 20, 20)</l>
+<l>    select_shape (Partitioned1, SelectedRegions4, 'height', 'and', 25, 42)</l>
+<l>    intersection (SelectedRegions4, RegionUnion1, RegionIntersection2)</l>
+<l>    sort_region (RegionIntersection2, SortedRegions1, 'first_point', 'true', 'column')</l>
+<l>    count_obj (SortedRegions1, Number2)</l>
+<l>    if (Number2 # 7)</l>
+<l>        stop ( )</l>
+<l>    endif</l>
+<l>    skeleton (SortedRegions1, Skeleton1)</l>
+<l>    area_center (Skeleton1, Area3, Row3, Column3)</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
