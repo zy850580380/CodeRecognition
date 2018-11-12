@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="359213478">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="155244216">
 <procedure name="main">
 <interface/>
 <body>
-<l>list_files ('D:/实习/图片/C1  20180827', 'files', FilesList)</l>
+<l>list_files ('D:/实习/图片/珠江啤酒/C1', 'files', FilesList)</l>
 <l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
 <c>*|FilesList|</c>
 <l>for Index :=0 to |FilesList| - 1 by 1</l>
 <l>    parse_filename (FilesList[Index], BaseName, Extension, Directory)</l>
 <l>    read_image (Image, FilesList[Index])</l>
-<l>    *read_image (Image, 'D:/实习/图片/C1  20180827/C1_155.bmp')</l>
-<l>    emphasize (Image, ImageEmphasize, 7, 7, 3)</l>
-<c>    *7,7,3</c>
+<l>    *read_image (Image, 'D:/实习/图片/珠江啤酒/defect/C1_3.png')</l>
+<l>    emphasize (Image, ImageEmphasize, 7, 7, 5)</l>
+<c>    *[7,7,3][7,7,5]</c>
 <l>    binomial_filter (ImageEmphasize, ImageBinomial, 5, 5)</l>
 <l>    mean_image (ImageBinomial, ImageMean, 21, 21)</l>
 <l>    dyn_threshold (ImageBinomial, ImageMean, RegionDynThresh, 20, 'dark')</l>
 <l>    dilation_circle (RegionDynThresh, RegionDilation, 1)</l>
-<l>    dilation_rectangle1 (RegionDilation, RegionDilation1, 2, 3)</l>
-<c>    *3,5</c>
+<l>    dilation_rectangle1 (RegionDilation, RegionDilation1, 3, 5)</l>
+<c>    *[2,3][3,5]</c>
 <l>    connection (RegionDilation1, ConnectedRegions4)</l>
 <l>    select_shape (ConnectedRegions4, SelectedRegions5, 'height', 'and', 25, 42)</l>
 <l>    union1 (SelectedRegions5, RegionUnion2)</l>
@@ -46,8 +46,19 @@
 <l>    if (Number1 # 8)</l>
 <l>        stop ( )</l>
 <l>    endif</l>
+<c>    </c>
 <l>    skeleton (SortedRegions, Skeleton)</l>
 <l>    area_center (Skeleton, Area2, Row2, Column2)</l>
+<l>    KnownStr := ['2','0','1','8','0','9','1','0','1','1','5','1','1','3','E']</l>
+<l>    orderChar  := ['0','1','2','3','4','5','6','7','8','9','E']</l>
+<l>    AreaMax    := [57, 28, 46, 44, 50, 45, 57, 37, 63, 54, 55]</l>
+<l>    AreaDelta := 0.3</l>
+<l>    for Index1 := 0 to Number1-1 by 1 </l>
+<l>        tuple_find (orderChar, KnownStr[Index1], Indices)</l>
+<l>        if ((Area2[Index1] &lt; AreaMax[Indices]*(1 - AreaDelta)))</l>
+<l>            stop ()</l>
+<l>        endif</l>
+<l>    endfor</l>
 <c>    </c>
 <l>    select_shape (ConnectedRegions1, SelectedRegions3, 'row', 'and', Row1, Row1+40)</l>
 <l>    union1 (SelectedRegions3, RegionUnion1)</l>
@@ -64,6 +75,13 @@
 <l>    endif</l>
 <l>    skeleton (SortedRegions1, Skeleton1)</l>
 <l>    area_center (Skeleton1, Area3, Row3, Column3)</l>
+<l>    for Index2 := 0 to Number2-1 by 1 </l>
+<l>        tuple_find (orderChar, KnownStr[8+Index2], Indices)</l>
+<l>        if ((Area3[Index2] &lt; AreaMax[Indices]*(1 - AreaDelta)))</l>
+<l>            stop ()</l>
+<l>        endif</l>
+<l>    endfor</l>
+<l>    *stop ( )</l>
 <l>endfor</l>
 </body>
 <docu id="main">

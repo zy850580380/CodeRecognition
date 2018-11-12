@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-824788033">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/1112/新建文件夹1/23.bmp')</l>
+<l>dots_image (Image, DotImage, 5, 'dark', 2)</l>
+<l>threshold (DotImage, Region, 110, 255)</l>
+<l>dilation_circle (Region, RegionDilation, 2.5)</l>
+<l>closing_rectangle1 (RegionDilation, RegionClosing, 3, 3)</l>
+<l>connection (RegionClosing, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['width','height'], 'and', [15,15], [80,80])</l>
+<l>union1 (SelectedRegions, RegionUnion)</l>
+<l>closing_rectangle1 (RegionUnion, RegionClosing2, 30, 20)</l>
+<l>connection (RegionClosing2, ConnectedRegions2)</l>
+<l>select_shape (ConnectedRegions2, SelectedRegions5, 'area', 'and', 10000, 20000)</l>
+<c></c>
+<l>intersection (Region, SelectedRegions5, RegionIntersection)</l>
+<l>smallest_rectangle2 (RegionIntersection, Row, Column, Phi, Length1, Length2)</l>
+<l>hom_mat2d_identity (HomMat2DIdentity)</l>
+<l>hom_mat2d_rotate (HomMat2DIdentity, -Phi, Column, Row, HomMat2DRotate)</l>
+<l>affine_trans_region (RegionIntersection, RegionAffineTrans1, HomMat2DRotate, 'true')</l>
+<l>dilation_circle (RegionAffineTrans1, RegionDilation1, 2.5)</l>
+<l>closing_rectangle1 (RegionDilation1, RegionClosing1, 3, 3)</l>
+<l>opening_circle (RegionClosing1, RegionOpening, 2.5)</l>
+<l>connection (RegionOpening, ConnectedRegions1)</l>
+<l>area_center (RegionAffineTrans1, Area, Row1, Column1)</l>
+<c></c>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, 'row', 'and', Row1-30, Row1)</l>
+<l>shape_trans (SelectedRegions1, RegionTrans, 'rectangle1')</l>
+<l>partition_dynamic (RegionTrans, Partitioned, 30, 20)</l>
+<l>select_shape (Partitioned, SelectedRegions2, 'height', 'and', 25, 48)</l>
+<l>intersection (SelectedRegions2, RegionAffineTrans1, RegionIntersection1)</l>
+<l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
+<c></c>
+<l>select_shape (ConnectedRegions1, SelectedRegions3, 'row', 'and', Row1, Row1+40)</l>
+<l>shape_trans (SelectedRegions3, RegionTrans1, 'rectangle1')</l>
+<l>partition_dynamic (RegionTrans1, Partitioned1, 30, 1)</l>
+<l>select_shape (Partitioned1, SelectedRegions4, 'height', 'and', 25, 48)</l>
+<l>intersection (SelectedRegions4, RegionAffineTrans1, RegionIntersection2)</l>
+<l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'column')</l>
+<c></c>
+<l>dev_clear_window ()</l>
+<l>dev_display (SortedRegions1)</l>
+<l>dev_display (SortedRegions2)</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
