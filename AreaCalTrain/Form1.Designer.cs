@@ -128,7 +128,7 @@
             this.textBoxPriorChar.Name = "textBoxPriorChar";
             this.textBoxPriorChar.Size = new System.Drawing.Size(209, 44);
             this.textBoxPriorChar.TabIndex = 6;
-            this.textBoxPriorChar.Text = "20180910115113E";
+            this.textBoxPriorChar.Text = "2018110T";
             // 
             // labelPriorChar
             // 
@@ -164,7 +164,7 @@
             this.textBoxPriorCharAll.Name = "textBoxPriorCharAll";
             this.textBoxPriorCharAll.Size = new System.Drawing.Size(209, 44);
             this.textBoxPriorCharAll.TabIndex = 11;
-            this.textBoxPriorCharAll.Text = "0123456789E";
+            this.textBoxPriorCharAll.Text = "0123456789adT";
             // 
             // buttonOpenDir
             // 
@@ -212,9 +212,9 @@
             this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.Location = new System.Drawing.Point(96, 280);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 14);
+            this.label1.Size = new System.Drawing.Size(63, 14);
             this.label1.TabIndex = 16;
-            this.label1.Text = "所有喷码最小值";
+            this.label1.Text = "检测结果";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelChar
@@ -333,7 +333,7 @@
             this.Controls.Add(this.hWindowControl1);
             this.Controls.Add(this.buttonProcSingleImg);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "离线喷码检测";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

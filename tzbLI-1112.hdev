@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-824788033">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-247338536">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/1112/新建文件夹1/23.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/1112/新建文件夹1/29.bmp')</l>
 <l>dots_image (Image, DotImage, 5, 'dark', 2)</l>
 <l>threshold (DotImage, Region, 110, 255)</l>
 <l>dilation_circle (Region, RegionDilation, 2.5)</l>
@@ -20,6 +20,7 @@
 <l>hom_mat2d_identity (HomMat2DIdentity)</l>
 <l>hom_mat2d_rotate (HomMat2DIdentity, -Phi, Column, Row, HomMat2DRotate)</l>
 <l>affine_trans_region (RegionIntersection, RegionAffineTrans1, HomMat2DRotate, 'true')</l>
+<l>affine_trans_image (Image, rotateImage, HomMat2DRotate, 'bilinear', 'false')</l>
 <l>dilation_circle (RegionAffineTrans1, RegionDilation1, 2.5)</l>
 <l>closing_rectangle1 (RegionDilation1, RegionClosing1, 3, 3)</l>
 <l>opening_circle (RegionClosing1, RegionOpening, 2.5)</l>
@@ -28,19 +29,44 @@
 <c></c>
 <l>select_shape (ConnectedRegions1, SelectedRegions1, 'row', 'and', Row1-30, Row1)</l>
 <l>shape_trans (SelectedRegions1, RegionTrans, 'rectangle1')</l>
-<l>partition_dynamic (RegionTrans, Partitioned, 30, 20)</l>
+<l>partition_dynamic (RegionTrans, Partitioned, 20, 20)</l>
 <l>select_shape (Partitioned, SelectedRegions2, 'height', 'and', 25, 48)</l>
 <l>intersection (SelectedRegions2, RegionAffineTrans1, RegionIntersection1)</l>
 <l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
+<l>area_center (SortedRegions1, Area11, Row11, Column11)</l>
+<l>count_obj (SortedRegions1, Number1)</l>
+<l>*FontFile:='D:/github/CodeRecognition/tzb1112.omc'</l>
+<l>read_ocr_class_mlp ('C:/Program Files/MVTec/HALCON-10.0/ocr/DotPrint_0-9A-Z.omc', OCRHandle)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions1, rotateImage, OCRHandle, Class, Confidence)</l>
 <c></c>
 <l>select_shape (ConnectedRegions1, SelectedRegions3, 'row', 'and', Row1, Row1+40)</l>
 <l>shape_trans (SelectedRegions3, RegionTrans1, 'rectangle1')</l>
-<l>partition_dynamic (RegionTrans1, Partitioned1, 30, 1)</l>
+<l>partition_dynamic (RegionTrans1, Partitioned1, 20, 1)</l>
 <l>select_shape (Partitioned1, SelectedRegions4, 'height', 'and', 25, 48)</l>
 <l>intersection (SelectedRegions4, RegionAffineTrans1, RegionIntersection2)</l>
 <l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'column')</l>
+<l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
+<l>count_obj (SortedRegions2, Number2)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions2, rotateImage, OCRHandle, Class1, Confidence1)</l>
 <c></c>
+<l>*word:=['d']</l>
+<l>*TrainFile:='D:/github/CodeRecognition/tzb1112.trf'</l>
+<l>*dev_set_check('~give_error') </l>
+<l>*delete_file(TrainFile) </l>
+<l>*dev_set_check('~give_error')</l>
+<l>*for i:=7 to Number2 by 1 </l>
+<l>*    select_obj(SortedRegions2, SingleWord, i) </l>
+<l>*    append_ocr_trainf(SingleWord,rotateImage,word,TrainFile) </l>
+<l>*endfor</l>
+<l>*read_ocr_trainf_names(TrainFile, CharacterNames, CharacterCount)</l>
+<l>*trainf_ocr_class_mlp (OCRHandle, TrainFile, 200, 1, 0.01, Error, ErrorLog)</l>
+<l>*write_ocr_class_mlp (OCRHandle, FontFile)</l>
+<c></c>
+<c>*120, 68, 147, 183, 188, 0, 0, 107, 162, 197, 138, 0, 123</c>
+<c>*120, 68, 147, 183, 146, 202, 0, 107, 162, 197, 138, 169, 123</c>
 <l>dev_clear_window ()</l>
+<l>dev_display (Image)</l>
+<l>dev_set_color ('blue')</l>
 <l>dev_display (SortedRegions1)</l>
 <l>dev_display (SortedRegions2)</l>
 <c></c>
