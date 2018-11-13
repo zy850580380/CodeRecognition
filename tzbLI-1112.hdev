@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-247338536">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-766247589">
 <procedure name="main">
 <interface/>
 <body>
@@ -29,7 +29,7 @@
 <c></c>
 <l>select_shape (ConnectedRegions1, SelectedRegions1, 'row', 'and', Row1-30, Row1)</l>
 <l>shape_trans (SelectedRegions1, RegionTrans, 'rectangle1')</l>
-<l>partition_dynamic (RegionTrans, Partitioned, 20, 20)</l>
+<l>partition_dynamic (RegionTrans, Partitioned, 30, 20)</l>
 <l>select_shape (Partitioned, SelectedRegions2, 'height', 'and', 25, 48)</l>
 <l>intersection (SelectedRegions2, RegionAffineTrans1, RegionIntersection1)</l>
 <l>sort_region (RegionIntersection1, SortedRegions1, 'first_point', 'true', 'column')</l>
@@ -37,17 +37,17 @@
 <l>count_obj (SortedRegions1, Number1)</l>
 <l>*FontFile:='D:/github/CodeRecognition/tzb1112.omc'</l>
 <l>read_ocr_class_mlp ('C:/Program Files/MVTec/HALCON-10.0/ocr/DotPrint_0-9A-Z.omc', OCRHandle)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions1, rotateImage, OCRHandle, Class, Confidence)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions1, rotateImage, OCRHandle, Chars1, Confidence1)</l>
 <c></c>
 <l>select_shape (ConnectedRegions1, SelectedRegions3, 'row', 'and', Row1, Row1+40)</l>
 <l>shape_trans (SelectedRegions3, RegionTrans1, 'rectangle1')</l>
-<l>partition_dynamic (RegionTrans1, Partitioned1, 20, 1)</l>
+<l>partition_dynamic (RegionTrans1, Partitioned1, 30, 1)</l>
 <l>select_shape (Partitioned1, SelectedRegions4, 'height', 'and', 25, 48)</l>
 <l>intersection (SelectedRegions4, RegionAffineTrans1, RegionIntersection2)</l>
 <l>sort_region (RegionIntersection2, SortedRegions2, 'first_point', 'true', 'column')</l>
 <l>area_center (SortedRegions2, Area12, Row12, Column12)</l>
 <l>count_obj (SortedRegions2, Number2)</l>
-<l>do_ocr_multi_class_mlp (SortedRegions2, rotateImage, OCRHandle, Class1, Confidence1)</l>
+<l>do_ocr_multi_class_mlp (SortedRegions2, rotateImage, OCRHandle, Chars2, Confidence2)</l>
 <c></c>
 <l>*word:=['d']</l>
 <l>*TrainFile:='D:/github/CodeRecognition/tzb1112.trf'</l>
