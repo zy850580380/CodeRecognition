@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-220246055">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-777803935">
 <procedure name="main">
 <interface/>
 <body>
-<l>list_files ('D:/实习/seg/pic_0825_', 'files', FilesList)</l>
+<l>list_files ('D:/实习/图片/pic/2017.08.25/C1-08251718', 'files', FilesList)</l>
 <l>tuple_regexp_select (FilesList, ['\\.(tif|tiff|gif|bmp|jpg|jpeg|jp2|png|pcx|pgm|ppm|pbm|xwd|ima)$','ignore_case'], FilesList)</l>
 <c>*|FilesList|</c>
-<l>for Index :=0 to |FilesList| - 1 by 1</l>
+<l>for Index := 12 to |FilesList| - 1 by 1</l>
 <l>    dev_close_window()//关闭窗口的实时更新</l>
 <l>    dev_update_window ('off')</l>
 <c>    </c>
@@ -81,18 +81,18 @@
 <l>    sort_region (RegionIntersection11, SortedRegions1, 'first_point', 'true', 'column')</l>
 <l>    count_obj (SortedRegions1, Number1)</l>
 <l>    if (Number1 # 8)</l>
-<l>        continue</l>
+<l>        *continue</l>
 <l>    endif</l>
 <l>    area_center (SortedRegions1, Area1, Row1, Column1)</l>
 <l>    priorChar := ['2','0','1','7','0','8','2','5']</l>
 <l>    smallest_rectangle1 (SortedRegions1, Row11, Column11, Row12, Column12)</l>
-<l>    for Index1 := 0 to 7 by 1</l>
-<l>        gen_rectangle1 (Rectangle, Row11[Index1], Column11[Index1], Row12[Index1], Column12[Index1])</l>
-<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
-<l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/datasets/gray/pic_0825_/'+priorChar[Index1]+'/'+'0825'+BaseName+'_'+Index1+'.png'</l>
-<l>        write_image (ImagePart, 'png', 0, imgname)</l>
-<l>    endfor</l>
+<l>    *for Index1 := 0 to 7 by 1</l>
+<l>        *gen_rectangle1 (Rectangle, Row11[Index1], Column11[Index1], Row12[Index1], Column12[Index1])</l>
+<l>        *reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
+<l>        *crop_domain (ImageReduced, ImagePart)</l>
+<l>        *imgname := 'D:/实习/seg/datasets/gray/pic_0825_/'+priorChar[Index1]+'/'+'0825'+BaseName+'_'+Index1+'.png'</l>
+<l>        *write_image (ImagePart, 'png', 0, imgname)</l>
+<l>    *endfor</l>
 <c>    </c>
 <c>    *第二行***********************</c>
 <l>    select_shape (ConnectedRegions02, SelectedRegions2, ['width','height','row'], 'and', [40,18,Row01], [160,35,Row01+16])</l>
@@ -109,19 +109,40 @@
 <l>    sort_region (RegionIntersection21, SortedRegions2, 'first_point', 'true', 'column')</l>
 <l>    count_obj (SortedRegions2, Number2)</l>
 <l>    if (Number2 # 7)</l>
-<l>        continue</l>
+<l>        *continue</l>
 <l>    endif</l>
 <l>    area_center (SortedRegions2, Area2, Row2, Column2)</l>
 <c>    </c>
 <l>    priorChar := ['3','6','2','1','7','1','8']</l>
 <l>    smallest_rectangle1 (SortedRegions2, Row21, Column21, Row22, Column22)</l>
-<l>    for Index2 := 0 to 6 by 1</l>
-<l>        gen_rectangle1 (Rectangle, Row21[Index2], Column21[Index2], Row22[Index2], Column22[Index2])</l>
-<l>        reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
-<l>        crop_domain (ImageReduced, ImagePart)</l>
-<l>        imgname := 'D:/实习/seg/datasets/gray/pic_0825_/'+priorChar[Index2]+'/'+'0825'+BaseName+'_'+Index2+Index1+'.png'</l>
-<l>        write_image (ImagePart, 'png', 0, imgname)</l>
+<l>    *for Index2 := 0 to 6 by 1</l>
+<l>        *gen_rectangle1 (Rectangle, Row21[Index2], Column21[Index2], Row22[Index2], Column22[Index2])</l>
+<l>        *reduce_domain (ImageRotate0, Rectangle, ImageReduced)</l>
+<l>        *crop_domain (ImageReduced, ImagePart)</l>
+<l>        *imgname := 'D:/实习/seg/datasets/gray/pic_0825_/'+priorChar[Index2]+'/'+'0825'+BaseName+'_'+Index2+Index1+'.png'</l>
+<l>        *write_image (ImagePart, 'png', 0, imgname)</l>
+<l>    *endfor</l>
+<c>    </c>
+<l>    hom_mat2d_identity (HomMat2DIdentity)</l>
+<l>    hom_mat2d_rotate (HomMat2DIdentity, Phi0, 0, 0, HomMat2DRotate)</l>
+<l>    affine_trans_region (SortedRegions1, RegionAffineTrans, HomMat2DRotate, 'false')</l>
+<l>    affine_trans_region (SortedRegions2, RegionAffineTrans1, HomMat2DRotate, 'false')</l>
+<l>    smallest_rectangle2 (RegionAffineTrans, Row31, Column31, Phi31, Length311, Length312)</l>
+<l>    smallest_rectangle2 (RegionAffineTrans1, Row32, Column32, Phi32, Length321, Length322)</l>
+<l>    open_file ('D:/实习/seg/DL/0825/txt/'+BaseName+'.txt', 'output', FileHandle)</l>
+<l>    for Index1 := 0 to Number1-1 by 1</l>
+<l>        str:=Row31[Index1]+' '+Column31[Index1]+' '+Length311[Index1]+' '+Length312[Index1]+' '+Phi31[Index1]</l>
+<l>        fwrite_string (FileHandle, str)     </l>
+<l>        fnew_line (FileHandle)</l>
 <l>    endfor</l>
+<l>    for Index2 := 0 to Number2-1 by 1</l>
+<l>        str:=Row32[Index2]+' '+Column32[Index2]+' '+Length321[Index2]+' '+Length322[Index2]+' '+Phi32[Index2]</l>
+<l>        fwrite_string (FileHandle, str)     </l>
+<l>        fnew_line (FileHandle)</l>
+<l>    endfor</l>
+<l>    close_file (FileHandle)</l>
+<l>    imgname:='D:/实习/seg/DL/0825/images/'+BaseName+'.png'</l>
+<l>    write_image (Image, 'png', 0, imgname)</l>
 <l>endfor </l>
 </body>
 <docu id="main">
