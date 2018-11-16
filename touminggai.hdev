@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-1018558004">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image2, 'D:/实习/图片/1115/height/23.bmp')</l>
+<l>emphasize (Image2, ImageEmphasize, 7, 7, 5)</l>
+<l>threshold (ImageEmphasize, Region, 80, 255)</l>
+<l>connection (Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['outer_radius','roundness'], 'and', [140,0.5], [170,1])</l>
+<l>smallest_circle (SelectedRegions, Row1, Column1, Radius)</l>
+<l>tuple_max (Radius, Max)</l>
+<l>tuple_find (Radius, Max, Indices)</l>
+<l>select_obj (SelectedRegions, ObjectSelected, Indices+1)</l>
+<c>*高度不足的面积在5000一下，高度足够的面积在20000以上</c>
+<l>area_center (ObjectSelected, Area, Row, Column)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
