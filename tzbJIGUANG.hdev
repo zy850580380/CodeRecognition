@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="395657062">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="31382638">
 <procedure name="main">
 <interface/>
 <body>
-<l>read_image (Image, 'D:/实习/图片/1115/tzb/zi/10.bmp')</l>
+<l>read_image (Image, 'D:/实习/图片/1115/tzb/zi/5.bmp')</l>
 <l>binomial_filter (Image, ImageBinomial, 5, 5)</l>
 <l>emphasize (ImageBinomial, ImageEmphasize, 7, 7, 1)</l>
 <l>mean_image (ImageEmphasize, ImageMean, 15, 15)</l>
@@ -15,7 +15,7 @@
 <l>smallest_rectangle2 (RegionUnion1, Row, Column, Phi, Length1, Length2)</l>
 <l>hom_mat2d_identity (HomMat2DIdentity)</l>
 <l>hom_mat2d_rotate (HomMat2DIdentity, -Phi, 0, 0, HomMat2DRotate)</l>
-<l>affine_trans_region (RegionUnion, RegionAffineTrans, HomMat2DRotate, 'false')</l>
+<l>affine_trans_region (RegionDynThresh, RegionAffineTrans, HomMat2DRotate, 'false')</l>
 <l>closing_rectangle1 (RegionAffineTrans, RegionClosing5, 3, 5)</l>
 <l>select_characters (RegionClosing5, RegionCharacters1, 'false', 'medium', 20, 40, 'false', 'false', 'none', 'false', 'medium', 'false', 200, 'completion')</l>
 <l>union1 (RegionCharacters1, RegionUnion2)</l>
@@ -26,7 +26,7 @@
 <l>connection (RegionIntersection, ConnectedRegions4)</l>
 <l>partition_dynamic (ConnectedRegions4, Partitioned1, 22, 20)</l>
 <c></c>
-<l>select_shape (Partitioned1, SelectedRegions4, ['height','width'], 'and', [25,10], [45,32])</l>
+<l>select_shape (Partitioned1, SelectedRegions4, ['height','width'], 'and', [25,10], [48,35])</l>
 <l>count_obj (SelectedRegions4, Number)</l>
 </body>
 <docu id="main">
