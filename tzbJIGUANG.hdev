@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="719934506">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/1115/tzb/zi/3.bmp')</l>
+<l>binomial_filter (Image, ImageBinomial, 5, 5)</l>
+<l>emphasize (ImageBinomial, ImageEmphasize, 7, 7, 1)</l>
+<l>mean_image (ImageEmphasize, ImageMean, 15, 15)</l>
+<l>dyn_threshold (ImageEmphasize, ImageMean, RegionDynThresh, 10, 'light')</l>
+<l>closing_rectangle1 (RegionDynThresh, RegionClosing, 3, 5)</l>
+<l>connection (RegionClosing, ConnectedRegions)</l>
+<c></c>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['height','width'], 'and', [10,4], [45,40])</l>
+<l>union1 (SelectedRegions, RegionUnion)</l>
+<l>closing_circle (RegionUnion, RegionClosing3, 7.5)</l>
+<l>connection (RegionClosing3, ConnectedRegions1)</l>
+<c></c>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, 'height', 'and', 22, 50)</l>
+<l>union1 (SelectedRegions1, RegionUnion1)</l>
+<l>closing_rectangle1 (RegionUnion1, RegionClosing1, 30, 20)</l>
+<l>connection (RegionClosing1, ConnectedRegions2)</l>
+<c></c>
+<l>select_shape (ConnectedRegions2, SelectedRegions2, 'area', 'and', 500, 9000)</l>
+<l>intersection (RegionUnion, SelectedRegions2, RegionIntersection)</l>
+<l>smallest_rectangle2 (RegionIntersection, Row, Column, Phi, Length1, Length2)</l>
+<l>hom_mat2d_identity (HomMat2DIdentity)</l>
+<l>hom_mat2d_rotate (HomMat2DIdentity, -Phi, 0, 0, HomMat2DRotate)</l>
+<l>affine_trans_region (RegionUnion, RegionAffineTrans, HomMat2DRotate, 'false')</l>
+<l>dilation_circle (RegionAffineTrans, RegionDilation, 1.5)</l>
+<l>closing_rectangle1 (RegionDilation, RegionClosing2, 20, 10)</l>
+<l>connection (RegionClosing2, ConnectedRegions3)</l>
+<c></c>
+<l>select_shape (ConnectedRegions3, SelectedRegions3, 'area', 'and', 500, 9000)</l>
+<l>intersection (RegionAffineTrans, SelectedRegions3, RegionIntersection1)</l>
+<l>closing_rectangle1 (RegionIntersection1, RegionClosing5, 3, 5)</l>
+<l>connection (RegionClosing5, ConnectedRegions4)</l>
+<l>partition_dynamic (ConnectedRegions4, Partitioned1, 22, 20)</l>
+<c></c>
+<l>select_shape (Partitioned1, SelectedRegions4, ['height','width'], 'and', [25,10], [45,32])</l>
+<l>count_obj (SelectedRegions4, Number)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
