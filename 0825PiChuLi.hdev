@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-777803935">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-481941343">
 <procedure name="main">
 <interface/>
 <body>
@@ -11,6 +11,7 @@
 <l>    dev_update_window ('off')</l>
 <c>    </c>
 <l>    read_image (Image, FilesList[Index])</l>
+<l>    *read_image (Image, 'D:/实习/图片/pic/2017.08.25/C1-08251718/C1_2.bmp')</l>
 <c>    </c>
 <l>    parse_filename(FilesList[Index], BaseName, Extension, Directory)</l>
 <l>    get_image_size (Image, Width, Height)</l>
@@ -125,6 +126,7 @@
 <c>    </c>
 <l>    hom_mat2d_identity (HomMat2DIdentity)</l>
 <l>    hom_mat2d_rotate (HomMat2DIdentity, Phi0, 0, 0, HomMat2DRotate)</l>
+<l>    affine_trans_image (ImageRotate0, ImageAffinTrans, HomMat2DRotate, 'bilinear', 'false')</l>
 <l>    affine_trans_region (SortedRegions1, RegionAffineTrans, HomMat2DRotate, 'false')</l>
 <l>    affine_trans_region (SortedRegions2, RegionAffineTrans1, HomMat2DRotate, 'false')</l>
 <l>    smallest_rectangle2 (RegionAffineTrans, Row31, Column31, Phi31, Length311, Length312)</l>
@@ -142,7 +144,7 @@
 <l>    endfor</l>
 <l>    close_file (FileHandle)</l>
 <l>    imgname:='D:/实习/seg/DL/0825/images/'+BaseName+'.png'</l>
-<l>    write_image (Image, 'png', 0, imgname)</l>
+<l>    write_image (ImageAffinTrans, 'png', 0, imgname)</l>
 <l>endfor </l>
 </body>
 <docu id="main">

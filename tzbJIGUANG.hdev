@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="1012762270">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/1115/tzb/zi/4.bmp')</l>
+<l>binomial_filter (Image, ImageBinomial, 5, 5)</l>
+<l>emphasize (ImageBinomial, ImageEmphasize, 7, 7, 1)</l>
+<l>mean_image (ImageEmphasize, ImageMean, 15, 15)</l>
+<l>dyn_threshold (ImageEmphasize, ImageMean, RegionDynThresh, 10, 'light')</l>
+<l>closing_rectangle1 (RegionDynThresh, RegionClosing, 3, 5)</l>
+<l>select_characters (RegionClosing, RegionCharacters, 'false', 'medium', 25, 45, 'false', 'false', 'none', 'false', 'medium', 'false', 200, 'completion')</l>
+<l>union1 (RegionCharacters, RegionUnion1)</l>
+<c></c>
+<l>smallest_rectangle2 (RegionUnion1, Row, Column, Phi, Length1, Length2)</l>
+<l>hom_mat2d_identity (HomMat2DIdentity)</l>
+<l>hom_mat2d_rotate (HomMat2DIdentity, -Phi, 327, 244, HomMat2DRotate)</l>
+<l>affine_trans_image (Image, rotatedImage, HomMat2DRotate, 'nearest_neighbor', 'false')</l>
+<l>affine_trans_region (RegionDynThresh, RegionAffineTrans, HomMat2DRotate, 'false')</l>
+<l>closing_rectangle1 (RegionAffineTrans, RegionClosing5, 3, 5)</l>
+<l>select_characters (RegionClosing5, RegionCharacters1, 'false', 'medium', 20, 40, 'false', 'false', 'none', 'false', 'medium', 'false', 200, 'completion')</l>
+<l>union1 (RegionCharacters1, RegionUnion2)</l>
+<l>smallest_rectangle1 (RegionUnion2, Row1, Column1, Row2, Column2)</l>
+<l>gen_rectangle1 (Rectangle, Row1, Column1, Row2, Column2)</l>
+<l>intersection (Rectangle, RegionClosing5, RegionIntersection)</l>
+<l>area_center (RegionIntersection, Area, Row3, Column3)</l>
+<c></c>
+<l>connection (RegionIntersection, ConnectedRegions4)</l>
+<l>partition_dynamic (ConnectedRegions4, Partitioned1, 22, 20)</l>
+<c></c>
+<l>select_shape (Partitioned1, SelectedRegions4, ['height','width','row'], 'and', [25,10,Row3-55], [48,30,Row3])</l>
+<l>sort_region (SelectedRegions4, SortedRegions4, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions4, Number1)</l>
+<c></c>
+<l>select_shape (Partitioned1, SelectedRegions5, ['height','width','row'], 'and', [25,10,Row3], [48,30,Row3+55])</l>
+<l>sort_region (SelectedRegions5, SortedRegions5, 'first_point', 'true', 'column')</l>
+<l>count_obj (SortedRegions5, Number2)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

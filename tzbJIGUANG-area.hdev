@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="163158009">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Image, 'D:/实习/图片/1115/tzb/zi/4.bmp')</l>
+<l>binomial_filter (Image, ImageBinomial, 5, 5)</l>
+<l>emphasize (ImageBinomial, ImageEmphasize, 7, 7, 1)</l>
+<l>mean_image (ImageEmphasize, ImageMean, 15, 15)</l>
+<l>dyn_threshold (ImageEmphasize, ImageMean, RegionDynThresh, 10, 'light')</l>
+<l>closing_rectangle1 (RegionDynThresh, RegionClosing, 3, 5)</l>
+<l>select_characters (RegionClosing, RegionCharacters, 'false', 'medium', 25, 45, 'false', 'false', 'none', 'false', 'medium', 'false', 200, 'completion')</l>
+<l>union1 (RegionCharacters, RegionUnion1)</l>
+<c></c>
+<l>smallest_rectangle2 (RegionUnion1, Row, Column, Phi, Length1, Length2)</l>
+<l>gen_rectangle2 (Rectangle, Row, Column, Phi, Length1, Length2)</l>
+<l>intersection (Rectangle, RegionClosing, RegionIntersection)</l>
+<l>area_center (RegionIntersection, Area, Row1, Column1)</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
