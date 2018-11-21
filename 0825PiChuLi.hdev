@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="-481941343">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-9670953">
 <procedure name="main">
 <interface/>
 <body>
@@ -35,6 +35,15 @@
 <l>    intersection (SelectedRegionsStd0, Region0, RegionIntersection0)</l>
 <c>    *旋转图像</c>
 <l>    smallest_rectangle2 (RegionIntersection0, Row0, Column0, Phi0, Length01, Length02)</l>
+<c>    </c>
+<l>    open_file ('D:/实习/seg/DL/0825_zt/txt/'+BaseName+'.txt', 'output', FileHandle)</l>
+<l>    str:=Row0+' '+Column0+' '+Length01+' '+Length02+' '+Phi0</l>
+<l>    fwrite_string (FileHandle, str)</l>
+<l>    imgname:='D:/实习/seg/DL/0825_zt/images/'+BaseName+'.png'</l>
+<l>    write_image (Image, 'png', 0, imgname)</l>
+<l>    close_file (FileHandle)</l>
+<l>    continue</l>
+<c>    </c>
 <l>    tuple_deg (Phi0, Deg0)</l>
 <l>    rotate_image (Image, ImageRotate0, -Deg0, 'constant')</l>
 <c>    *处理旋转后的图像</c>
@@ -143,7 +152,7 @@
 <l>        fnew_line (FileHandle)</l>
 <l>    endfor</l>
 <l>    close_file (FileHandle)</l>
-<l>    imgname:='D:/实习/seg/DL/0825/images/'+BaseName+'.png'</l>
+<l>    imgname:='D:/实习/seg/DL/0825_zt/images/'+BaseName+'.png'</l>
 <l>    write_image (ImageAffinTrans, 'png', 0, imgname)</l>
 <l>endfor </l>
 </body>
